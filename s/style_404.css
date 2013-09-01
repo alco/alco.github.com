@@ -1,0 +1,32 @@
+body {
+    background-color: black;
+    text-align: center;
+    font-family: 'Geostar', cursive;
+    color: red;
+}
+
+.yello {
+    background-color: red;
+    color: white;
+}
+
+.hidden {
+    background-color: red;
+    color: red;
+}
+
+.back-to-future {
+    padding-top: 20px;
+    font-family: 'Chau Philomene One', sans-serif;
+    font-size: 20pt;
+}
+
+.home-link {
+    background-color: #00bcee;
+    color: black;
+}
+.home-link-hover {
+    color: #00bcee;
+}
+
+a { text-decoration: none; }

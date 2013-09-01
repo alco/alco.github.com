@@ -1,0 +1,612 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Introducing Elixir</title>
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+
+    <style>
+        li {
+            font-size: 40px;
+            line-height: 70px;
+        }
+
+        li.thin {
+            font-size: 30px;
+            line-height: 40px;
+        }
+    </style>
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Introducing Elixir</h1>
+	</header>
+
+	<section class="slide cover" id="Cover"><div>
+        <h2 style="font-size: 140px">Introducing Elixir</h2>
+
+        <p style="margin: 0; padding: 0; font-size: 40px">Alexei Sholik</p>
+
+        <pre><code>August 3, 2013 @ <a href="http://kievfprog.net">kievfprog.net</a></code></pre>
+
+        <!--<p class="note" style="position: absolute; bottom: 0">This presentation's URL: <a href="http://alexeisholik.com/elixir-talk">alexeisholik.com/elixir-talk</a></p>-->
+
+        <style>
+            #Cover {
+                background-color: #fff;
+            }
+        </style>
+
+	</div></section>
+
+	<section class="slide shout"><div>
+        <h2>What is Elixir?</h2>
+	</div></section>
+
+	<section class="slide shout"><div>
+        <h1>What is Elixir?</h2>
+        <h2>Erlang VM</h2>
+	</div></section>
+
+	<section class="slide shout"><div>
+        <h1>What is Elixir?</h2>
+        <h2>Less code</h2>
+	</div></section>
+
+	<section class="slide shout"><div>
+        <h1>What is Elixir?</h2>
+        <h2>More fun</h2>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>In a nutshell</h2>
+
+        <ul>
+            <li>Immutable data
+            <li>Built-in concurrency
+            <li>Pattern matching
+            <li>Runtime polymorphism
+            <li>Metaprogramming
+        </ul>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>Erlang VM</h2>
+
+        <pre><code style="line-height: 26px">
+             +--------+   +--------+
+             | Erlang |   | Elixir |
+             +--------+   +--------+
+                 ||           ||
+                 \/           \/
+               +-----------------+
+               | .beam byte code |
+               +-----------------+
+                       ||
+                       \/
+          +---------------------------+
+          | BEAM emulator (Erlang VM) |
+          +---------------------------+
+        </code>
+        </pre>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>Erlang VM</h2>
+
+        <ul>
+            <li>Same byte code
+            <li>Same VM
+            <li>Same runtime environment
+            <li>Seamless interoperability
+            <li>OTP, <a href="http://elixir-lang.org/blog/2013/05/02/elixir-on-xen/">Elixir on Xen</a>, and more
+        </ul>
+
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>Why Elixir?</h2>
+	</div></section>
+
+    <section class="slide"><div>
+        <ul><li>No repetitive boilerplate
+
+        <img src="pictures/codecmp.png" height="400">
+
+        </li></ul>
+
+	</div></section>
+
+    <section class="slide"><div>
+        <ul><li>No repetitive boilerplate
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 31px;">
+<span style="color:#234a97">@doc</span> <span style="color:#0b6125">"Bright (increased intensity) or Bold"</span>
+defsequence <span style="color:#811f24;font-weight:700">:bright</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">1</span>
+
+lc font_n inlist [<span style="color:#811f24;font-weight:700">1</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">2</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">3</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">4</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">5</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">6</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">7</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">8</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">9</span>] <span style="color:#794938">do</span>
+  <span style="color:#234a97">@doc</span> <span style="color:#0b6125">"Sets alternative font <span style="background:rgba(111,139,186,0.15);color:#080808">#{font_n}</span>"</span>
+  defsequence <span style="color:#811f24;font-weight:700">:"font_#{font_n}"</span><span style="color:#794938">,</span> font_n <span style="color:#794938">+</span> <span style="color:#811f24;font-weight:700">10</span>
+<span style="color:#794938">end</span>
+</code></pre>
+        </li></ul>
+
+	</div></section>
+
+    <section class="slide"><div>
+        <ul><li>Simple APIs
+                <pre style="margin-bottom: 0px"><code style="font-size: 26px; line-height: 31px;">
+<mark class="comment">%% Erlang</mark>
+<span style="color:#794938">lists</span>:map(<span style="font-weight: 900">fun</span> A -> ... <span style="font-weight: 900">end</span>, List).
+<span style="color:#794938">dict</span>:map(<span style="font-weight: 900">fun</span> K, V -> ... <span style="font-weight: 900">end</span>, Dict).
+<span style="color:#794938">gb_trees</span>:map(<span style="font-weight: 900">fun</span> K, V -> ... <span style="font-weight: 900">end</span>, Tree).
+<span style="color:#794938">lists</span>:map(<span style="font-weight: 900">fun</span> A -> ... <span style="font-weight: 900">end</span>, <span style="color:#794938">sets</span>:to_list(Set)).</code></pre>
+                <pre><code style="font-size: 26px; line-height: 31px;"><mark class="comment">
+## Elixir</mark>
+<span style="color:#691c97">Enum</span>.map list, <span style="font-weight: 900">fn</span> x -> ... <span style="font-weight: 900">end</span>
+<span style="color:#691c97">Enum</span>.map dict, <span style="font-weight: 900">fn</span> {k, v} -> ... <span style="font-weight: 900">end</span>
+<span style="color:#691c97">Enum</span>.map set, <span style="font-weight: 900">fn</span> x -> ... <span style="font-weight: 900">end</span>
+<span style="color:#691c97">Enum</span>.map 1..10, <span style="font-weight: 900">fn</span> x -> ... <span style="font-weight: 900">end</span>
+<span style="color:#691c97">Enum</span>.map <span style="color:#691c97">File</span>.stream!(<span style="color:#0b6125">"notes.txt"</span>), <span style="font-weight: 900">fn</span> x -> ... <span style="font-weight: 900">end</span></code></pre>
+            </li></ul>
+
+	</div></section>
+
+    <section class="slide"><div>
+        <ul><li>More simple APIs
+        <pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;">
+<span style="color:#794938">use</span> <span style="color:#691c97">ExUnit</span><span style="color:#794938">.</span><span style="color:#234a97">Case</span>
+
+test <span style="color:#0b6125">"boolean"</span> <span style="color:#794938">do</span>
+  assert <span style="color:#794938">!</span><span style="color:#811f24;font-weight:700">:atoms_are_truthy</span>
+<span style="color:#794938">end</span>
+
+test <span style="color:#0b6125">"comparison"</span> <span style="color:#794938">do</span>
+  assert <span style="color:#811f24;font-weight:700">1</span> <span style="color:#794938">==</span> <span style="color:#811f24;font-weight:700">2</span>
+<span style="color:#794938">end</span>
+</code></pre>
+</li></ul>
+	</div></section>
+
+    <section class="slide"><div>
+        <ul><li>More simple APIs
+        <pre><code style="font-size: 26px; line-height: 30px;">
+1) test boolean (AssertTest)
+        <span style="color:#811f24;font-weight:700">expected</span>: !:atoms_are_truthy
+           <span style="color:#811f24;font-weight:700">to be</span>: true
+     <span style="color:#811f24;font-weight:700">instead got</span>: false
+
+2) test comparison (AssertTest)
+                <span style="color:#811f24;font-weight:700">expected</span>: 1
+     <span style="color:#811f24;font-weight:700">to be equal to (==)</span>: 2
+      </code></pre>
+      </li></ul>
+	</div></section>
+
+    <section class="slide"><div>
+        <ul><li>DSLs
+        <pre style="color:#080808"><code style="font-size: 30px; line-height: 34px;">
+<span style="color:#234a97">@prepare</span> <span style="color:#811f24;font-weight:700">:authenticate_user</span>
+get <span style="color:#0b6125">"/users/:user_id"</span> <span style="color:#794938">do</span>
+<span style="color:#5a525f;font-style:italic">  # ...</span>
+<span style="color:#794938">end</span>
+
+<span style="color:#794938">defp</span> authenticate_user(conn) <span style="color:#794938">do</span>
+  <span style="color:#794938">unless</span> conn<span style="color:#794938">.</span>session[<span style="color:#811f24;font-weight:700">:user_id</span>] <span style="color:#794938">do</span>
+    halt! conn<span style="color:#794938">.</span>status(<span style="color:#811f24;font-weight:700">401</span>)
+  <span style="color:#794938">end</span>
+<span style="color:#794938">end</span>
+</code></pre>
+</li></ul>
+	</div></section>
+
+    <section class="slide"><div>
+        <ul><li>More DSLs
+        <pre style="color:#080808"><code style="font-size: 30px; line-height: 34px;">
+<span style="color:#794938">import</span> <span style="color:#691c97">Ecto</span><span style="color:#794938">.</span><span style="color:#234a97">Query</span>
+
+<span style="color:#5a525f;font-style:italic"># A query that will fetch the ten first
+# post titles</span>
+query <span style="color:#794938">=</span> from p <span style="color:#794938">in</span> <span style="color:#234a97">Post</span><span style="color:#794938">,</span>
+      <span style="color:#811f24;font-weight:700">where:</span> p<span style="color:#794938">.</span>id <span style="color:#794938">&lt;=</span> <span style="color:#811f24;font-weight:700">10</span><span style="color:#794938">,</span>
+     <span style="color:#811f24;font-weight:700">select:</span> p<span style="color:#794938">.</span>title
+
+<span style="color:#5a525f;font-style:italic"># Run the query against the database</span>
+titles <span style="color:#794938">=</span> <span style="color:#691c97">MyRepo</span><span style="color:#794938">.</span>fetch(query)
+</code></pre>
+        </li></ul>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>Elixir<br>==<br>PRODUCTIVITY</h2>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>Why Elixir?</h2>
+
+        <ul>
+            <li>Practical (code reuse, meta)
+            <li>User friendly (syntax; exceptions; REPL)
+            <li>Tools (mix, ExUnit, EEx)
+            <li>New, consistent stdlib
+            <li>Enthusiastic community
+        </ul>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>Elixir<br>==<br>FUN</h2>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>Demo time!</h2>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>Demo<br>recap</h2>
+	</div></section>
+
+
+    <section class="slide"><div>
+        <h2>Mix: your new project manager</h2>
+
+<pre style="color:#080808"><code style="font-size: 25px; line-height: 26px;"><span style="color:#794938">defmodule</span> <span style="color:#691c97">Fprog</span><span style="color:#794938">.</span><span style="color:#234a97">Mixfile</span> <span style="color:#794938">do</span>
+  <span style="color:#794938">use</span> <span style="color:#691c97">Mix</span><span style="color:#794938">.</span><span style="color:#234a97">Project</span>
+
+  <span style="color:#794938">def</span> project <span style="color:#234a97"><span style="color:#794938">do</span></span>
+    [<span style="color:#811f24;font-weight:700">app:</span> <span style="color:#811f24;font-weight:700">:fprog</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">deps:</span> deps<span style="color:#794938">,</span> <span style="color:#794938">.</span><span style="color:#794938">.</span><span style="color:#794938">.</span>]
+  <span style="color:#794938">end</span>
+
+  <span style="color:#794938">def</span> application <span style="color:#234a97"><span style="color:#794938">do</span></span>
+    [<span style="color:#811f24;font-weight:700">applications:</span> [<span style="color:#811f24;font-weight:700">:httpotion</span>]]
+  <span style="color:#794938">end</span>
+
+  <span style="color:#794938">defp</span> deps <span style="color:#794938">do</span>
+    [{ <span style="color:#811f24;font-weight:700">:httpotion</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">github:</span> <span style="color:#0b6125">"myfreeweb/httpotion"</span> }<span style="color:#794938">,</span>
+     { <span style="color:#811f24;font-weight:700">:jazz</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">github:</span> <span style="color:#0b6125">"meh/jazz"</span> }]
+  <span style="color:#794938">end</span>
+<span style="color:#794938">end</span>
+</code></pre>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2><a href="https://github.com/meh/jazz">jazz</a>: simple API</h2>
+
+<pre><code style="font-size: 30px; line-height: 36px"><span style="font-weight: 900">defprotocol</span> JSON.Decoder <span style="font-weight: 900">do</span>
+  <span style="font-weight: 900">def</span> from_json(data)
+<span style="font-weight: 900">end</span>
+
+<span style="font-weight: 900">defprotocol</span> JSON.Encoder <span style="font-weight: 900">do</span>
+  <span style="font-weight: 900">def</span> to_json(self, options)
+<span style="font-weight: 900">end</span>
+
+JSON.encode!(<mark>dict / list / record</mark>)
+JSON.decode!(json)
+        </code></pre>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2><a href="https://github.com/meh/jazz">jazz</a>: extensible API</h2>
+
+<pre><code style="font-size: 30px; line-height: 36px"><span style="font-weight: 900">defimpl</span> JSON.Encoder, <span style="font-weight: 900">for</span>: <mark>anything</mark> <span style="font-weight: 900">do</span>
+  <span style="font-weight: 900">def</span> to_json(...), <span style="font-weight: 900">do</span>: ...
+<span style="font-weight: 900">end</span>
+
+<span style="font-weight: 900">defimpl</span> JSON.Decoder, <span style="font-weight: 900">for</span>: <mark>anything</mark> <span style="font-weight: 900">do</span>
+  <span style="font-weight: 900">def</span> from_json(...), <span style="font-weight: 900">do</span>: ...
+<span style="font-weight: 900">end</span>
+
+JSON.encode!(<mark>anything</mark>)
+JSON.decode!(json, as: <mark>anything</mark>)
+        </code></pre>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>What is Elixir<br>good for?</h2>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h1>What is Elixir good for?</h1>
+        <h2>Web apps</h2>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h1>What is Elixir good for?</h1>
+        <h2>DSLs</h2>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>...and more</h1>
+        <ul>
+            <li>Distributed computing
+            <li>Data transformation
+            <li>Scripting
+            <li>Compilers
+            <li>[here could be your use case]
+        </ul>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>Everything Erlang can do, Elixir can do too</h2>
+
+        <ul>
+            <li>Concurrency
+            <li>Robustness
+            <li>Low latency
+            <li>Scalability
+            <li>High availability
+        </ul>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>Who is using Elixir?</h2>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>Who is using Elixir?</h2>
+
+        <ul>
+            <li><a href="http://genomu.com">Genomu</a>
+            <li class="next"><a href="https://github.com/sasa1977/con_cache">con_cache</a> by Saša Jurić
+            <li class="next">SoundCloud
+            <li class="next">Five9, Inc
+            <li class="next">~100 people in <span style="font-family: monospace; font-size: 32px">#elixir-lang</a>
+        </ul>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>Development status</h2>
+
+        <ul>
+            <li>The project is still young
+                <ul>
+                <li>version 0.10
+                <li>not too many pure Elixir libraries
+                <li>missing advanced documentation
+                <li>some tools are still WIP
+                </ul>
+        </ul>
+	</div></section>
+
+    <section class="slide"><div>
+        <h2>Development status</h2>
+
+        <ul>
+            <li>But it is quite stable
+                <ul>
+                <li>easy to start with
+                <li>used in production
+                <li>few user-level changes expected (so your code won't break)
+                </ul>
+        </ul>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Getting started</h2>
+
+        <ul>
+            <li>Getting Started guide / <a href="http://elixir-lang.org/getting_started/1.html">elixir-lang.org</a>
+            <li><em>Programming Elixir</em> / <a href="http://pragprog.com/book/elixir/programming-elixir">pragprog.com</a>
+            <li><em>Introducing Elixir</em> / <a href="http://shop.oreilly.com/product/0636920030584.do">oreilly.com</a>
+            <li><em>Meet Elixir</em> / <a href="https://peepcode.com/products/elixir">peepcode.com</a>
+            <li>Wiki / <a href="https://github.com/elixir-lang/elixir/wiki">github.com</a>
+        </ul>
+	</div></section>
+
+	<section class="slide" style="text-align: center"><div>
+        <h2>Thank you!</h2>
+
+        <p style="margin: 0; padding: 0; font-size: 40px">Alexei Sholik
+<pre style="font-size: 20px; margin: 0; padding: 0"><code style="margin: 0; padding: 0; line-height: 40px"><a href="https://twitter.com/true_droid">@true_droid</a>
+<a href="https://github.com/alco">github.com/alco</a>
+        </code></pre>
+
+        <br>
+
+        <p style="margin: 0; padding: 0"><img src="logo.png" alt=""></p>
+        <pre style="margin: 0; padding: 0"><code style="margin: 0; padding: 0"><a href="http://elixir-lang.org/">elixir-lang.org</a> | <a href="http://tryelixir.org/">tryelixir.org</a></code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Random stuff</h2>
+
+        <ul>
+            <li class="thin"><a href="#37">Pipe operator</a>
+            <li class="thin"><a href="#38">Enum and Stream</a>
+            <li class="thin"><a href="#39">Pattern matching</a>
+            <li class="thin"><a href="#42">Docstrings</a>
+            <li class="thin"><a href="#43">Sigils</a>
+            <li class="thin"><a href="#44">Function currying</a>
+            <!--<li class="thin"><a href="#45">Records and record access</a>-->
+            <li class="thin"><a href="#45">REPL</a>
+            <li class="thin"><a href="#46">Nodes and binaries</a>
+        </ul>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Pipe operator</h2>
+
+        <img src="pictures/pipeline.png">
+
+        <div class="note">From <a href="http://pragprog.com/book/elixir/programming-elixir">Programming Elixir</a> by Dave Thomas</div>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Enum and Stream</h2>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;"><span style="color:#794938">alias</span> <span style="color:#234a97">Stream</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">as:</span> <span style="color:#234a97">S</span> <span style="color:#794938">;</span>  <span style="color:#794938">alias</span> <span style="color:#234a97">Enum</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">as:</span> <span style="color:#234a97">E</span>
+
+<span style="color:#811f24;font-weight:700">1</span><span style="color:#794938">.</span><span style="color:#794938">.</span><span style="color:#811f24;font-weight:700">10</span> <span style="color:#794938">|</span><span style="color:#794938">></span> <span style="color:#691c97">S</span><span style="color:#794938">.</span>map(to_binary <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span>) <span style="color:#794938">|</span><span style="color:#794938">></span> <span style="color:#691c97">E</span><span style="color:#794938">.</span>each(<span style="color:#691c97">IO</span><span style="color:#794938">.</span>puts <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span>)
+<span style="color:#5a525f;font-style:italic">#=> prints numbers from 1 to 10</span>
+
+<span style="color:#691c97">S</span><span style="color:#794938">.</span>cycle([<span style="color:#811f24;font-weight:700">1</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">2</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">3</span>]) <span style="color:#794938">|</span><span style="color:#794938">></span> <span style="color:#691c97">S</span><span style="color:#794938">.</span>map(<span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span> <span style="color:#794938">*</span> <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span>) <span style="color:#794938">|</span><span style="color:#794938">></span> <span style="color:#691c97">E</span><span style="color:#794938">.</span>take(<span style="color:#811f24;font-weight:700">10</span>)
+<span style="color:#5a525f;font-style:italic">#=> [1, 4, 9, 1, 4, 9, 1, 4, 9, 1]</span>
+
+{<span style="color:#811f24;font-weight:700">0</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">1</span>}
+<span style="color:#794938">|</span><span style="color:#794938">></span> <span style="color:#691c97">S</span><span style="color:#794938">.</span>iterate(<span style="font-weight: 900">fn</span> {a<span style="color:#794938">,</span> b} <span style="color:#794938">-</span><span style="color:#794938">></span> {b<span style="color:#794938">,</span> a <span style="color:#794938">+</span> b} <span style="font-weight: 900">end</span>)
+<span style="color:#794938">|</span><span style="color:#794938">></span> <span style="color:#691c97">S</span><span style="color:#794938">.</span>map(elem <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">0</span>)
+<span style="color:#794938">|</span><span style="color:#794938">></span> <span style="color:#691c97">E</span><span style="color:#794938">.</span>take(<span style="color:#811f24;font-weight:700">10</span>)
+<span style="color:#5a525f;font-style:italic">#=> [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</span>
+</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Pattern matching (1)</h2>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;">a <span style="color:#794938">=</span> <span style="color:#811f24;font-weight:700">1</span>  <span style="color:#5a525f;font-style:italic">#=> 1</span>
+<span style="color:#811f24;font-weight:700">1</span> <span style="color:#794938">=</span> a  <span style="color:#5a525f;font-style:italic">#=> 1</span>
+
+[a <span style="color:#794938">|</span> b] <span style="color:#794938">=</span> [<span style="color:#811f24;font-weight:700">1</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">2</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">3</span>]
+<span style="color:#5a525f;font-style:italic"># a == 1</span>
+<span style="color:#5a525f;font-style:italic"># b == [2, 3]</span>
+
+{ <span style="color:#811f24;font-weight:700">:event</span><span style="color:#794938">,</span> _ } <span style="color:#794938">=</span> { <span style="color:#811f24;font-weight:700">:event</span><span style="color:#794938">,</span> <span style="color:#0b6125">"kievfprog"</span> }  <span style="color:#5a525f;font-style:italic"># OK</span>
+{ <span style="color:#811f24;font-weight:700">:event</span><span style="color:#794938">,</span> _ } <span style="color:#794938">=</span> { <span style="color:#811f24;font-weight:700">:error</span><span style="color:#794938">,</span> <span style="color:#0b6125">"no event"</span> }
+<span style="color:#5a525f;font-style:italic">#=> ** (MatchError) no match of right hand side</span>
+<span style="color:#5a525f;font-style:italic">#                   value: {:error, "no event"}</span>
+
+</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Pattern matching (2)</h2>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;"><span style="color:#794938">&lt;&lt;</span> a<span style="color:#794938">:</span><span style="color:#794938">:</span>utf8<span style="color:#794938">,</span> _<span style="color:#794938">:</span><span style="color:#794938">:</span>binary <span style="color:#794938">>></span> <span style="color:#794938">=</span> <span style="color:#0b6125">"ßtring"</span>
+<span style="color:#5a525f;font-style:italic"># a == 223</span>
+<span style="color:#5a525f;font-style:italic"># &lt;&lt;a>> == &lt;&lt;223>></span>
+
+{ <span style="color:#794938">&lt;&lt;</span>a<span style="color:#794938">:</span><span style="color:#794938">:</span>utf8<span style="color:#794938">>></span><span style="color:#794938">,</span> <span style="color:#0b6125">"<span style="color:#696969;font-weight:700">\x</span>{df}"</span> }  <span style="color:#5a525f;font-style:italic"># 0xDF == 223</span>
+<span style="color:#5a525f;font-style:italic">#=> {"ß", "ß"}</span>
+
+binary_to_list <span style="color:#0b6125">"ß"</span>
+<span style="color:#5a525f;font-style:italic">#=> [195, 159]</span>
+</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Pattern matching (3)</h2>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;"><span style="color:#794938">defmodule</span> <span style="color:#234a97">M</span> <span style="color:#794938">do</span>
+  <span style="color:#794938">def</span> <span style="color:#bf4f24">test</span>(<span style="color:#234a97">[_<span style="color:#794938">|</span>_]</span>)<span style="color:#794938">,</span> <span style="color:#794938">do</span><span style="color:#794938">:</span> <span style="color:#0b6125">"list"</span>
+  <span style="color:#794938">def</span> <span style="color:#bf4f24">test</span>(<span style="color:#234a97">[]</span>)<span style="color:#794938">,</span>    <span style="color:#794938">do</span><span style="color:#794938">:</span> <span style="color:#0b6125">"empty list"</span>
+
+  <span style="color:#794938">def</span> <span style="color:#bf4f24">test</span>(<span style="color:#234a97">{ _<span style="color:#794938">,</span> _ }</span>)<span style="color:#794938">,</span> <span style="color:#794938">do</span><span style="color:#794938">:</span> <span style="color:#0b6125">"a pair"</span>
+
+  <span style="color:#794938">def</span> <span style="color:#bf4f24">test</span>(<span style="color:#234a97"><span style="color:#811f24;font-weight:700">1234</span></span>)<span style="color:#794938">,</span>  <span style="color:#794938">do</span><span style="color:#794938">:</span> <span style="color:#0b6125">"one two three four"</span>
+  <span style="color:#794938">def</span> <span style="color:#bf4f24">test</span>(<span style="color:#234a97">x</span>) <span style="color:#794938">when</span> is_number(x)<span style="color:#794938">,</span>
+                   <span style="color:#794938">do</span><span style="color:#794938">:</span> <span style="color:#0b6125">"some other number"</span>
+
+  <span style="color:#794938">def</span> <span style="color:#bf4f24">test</span>(<span style="color:#234a97">_</span>)<span style="color:#794938">,</span>     <span style="color:#794938">do</span><span style="color:#794938">:</span> <span style="color:#0b6125">"something else"</span>
+<span style="color:#794938">end</span>
+</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Docstrings</h2>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;"><span style="color:#234a97">@moduledoc</span> <span style="color:#794938">%</span><span style="color:#234a97">B</span><span style="color:#0b6125">""</span><span style="color:#0b6125">"
+## String and binary operations
+
+The functions in this module act according to the
+Unicode Standard, version 6.2.0.
+"</span><span style="color:#0b6125">""</span>
+
+<span style="color:#234a97">@doc</span> <span style="color:#0b6125">""</span><span style="color:#0b6125">"
+Convert all characters in the string to uppercase.
+"</span><span style="color:#0b6125">""</span>
+<span style="color:#234a97">@spec</span> upcase(t) <span style="color:#794938">:</span><span style="color:#794938">:</span> t
+defdelegate upcase(binary)<span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">to:</span> <span style="color:#691c97">String</span><span style="color:#794938">.</span><span style="color:#234a97">Unicode</span>
+
+</code></pre>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;"><span style="color:#234a97">@doc</span> <span style="color:#0b6125">""</span><span style="color:#0b6125">"
+Convert all characters in the given string
+to uppercase.
+
+## Examples
+
+    iex> String.upcase("</span>abcd<span style="color:#0b6125">")
+    "</span><span style="color:#234a97">ABCD</span><span style="color:#0b6125">"
+
+"</span><span style="color:#0b6125">""</span>
+<span style="color:#234a97">@spec</span> upcase(t) <span style="color:#794938">:</span><span style="color:#794938">:</span> t
+<span style="color:#794938">defdelegate</span> upcase(binary)<span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">to:</span> <span style="color:#691c97">String</span><span style="color:#794938">.</span><span style="color:#234a97">Unicode</span>
+
+</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Sigils</h2>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 30px;"><span style="color:#5a525f;font-style:italic"># %b, %B -- strings</span>
+<span style="color:#691c97">IO</span><span style="color:#794938">.</span>puts <span style="color:#794938">%</span><span style="color:#234a97">B</span><span style="color:#0b6125">"hello <span style="color:#696969;font-weight:700">\"</span>name<span style="color:#696969;font-weight:700">\"</span>"</span>
+<span style="color:#5a525f;font-style:italic">#=> hello \"name\"</span>
+
+<span style="color:#691c97">IO</span><span style="color:#794938">.</span>puts <span style="color:#794938">%</span>b<span style="color:#794938">/</span>hello <span style="color:#0b6125">"name"</span><span style="color:#794938">/</span>
+<span style="color:#5a525f;font-style:italic">#=> hello "name"</span>
+
+<span style="color:#5a525f;font-style:italic"># %r, %R -- regular expressions</span>
+<span style="color:#0b6125">"aaab"</span> <span style="color:#794938">=~</span> <span style="color:#cf5628">%r"a+b"</span>  <span style="color:#5a525f;font-style:italic">#=> true</span>
+
+<span style="color:#5a525f;font-style:italic"># in the shell</span>
+iex<span style="color:#794938">></span> h <span style="color:#691c97">Kernel</span><span style="color:#794938">.</span>sigil_r
+</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Function currying</h2>
+
+<pre style="color:#080808"><code style="font-size: 26px; line-height: 32px;"><span style="color:#691c97">Enum</span><span style="color:#794938">.</span>all? [<span style="color:#811f24;font-weight:700">:a</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">:b</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">:c</span>]<span style="color:#794938">,</span> <span style="color:#794938">&amp;</span>is_atom(<span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span>)
+<span style="color:#5a525f;font-style:italic">#=> true</span>
+
+<span style="color:#691c97">Enum</span><span style="color:#794938">.</span>map  [<span style="color:#0b6125">"a"</span><span style="color:#794938">,</span> <span style="color:#0b6125">"B"</span><span style="color:#794938">,</span> <span style="color:#0b6125">"c"</span>]<span style="color:#794938">,</span> <span style="color:#794938">&amp;</span><span style="color:#691c97">String</span><span style="color:#794938">.</span>upcase <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span>
+<span style="color:#5a525f;font-style:italic">#=> ["A", "B", "C"]</span>
+
+<span style="color:#691c97">Enum</span><span style="color:#794938">.</span>sort [<span style="color:#811f24;font-weight:700">1</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">2</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">3</span>]<span style="color:#794938">,</span> <span style="color:#794938">&amp;</span>( <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">2</span> <span style="color:#794938">&lt;</span> <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span> )
+<span style="color:#5a525f;font-style:italic">#=> [3, 2, 1]</span>
+
+fun <span style="color:#794938">=</span> <span style="color:#794938">&amp;</span>(<span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">1</span> <span style="color:#794938">+</span> <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">2</span> <span style="color:#794938">+</span> <span style="color:#794938">&amp;</span><span style="color:#811f24;font-weight:700">3</span>)
+fun<span style="color:#794938">.</span>(<span style="color:#811f24;font-weight:700">1</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">2</span><span style="color:#794938">,</span> <span style="color:#811f24;font-weight:700">3</span>)
+<span style="color:#5a525f;font-style:italic">#=> 6</span>
+</code></pre>
+	</div></section>
+
+	<!--<section class="slide"><div>-->
+        <!--<h2>Records and record access</h2>-->
+	<!--</div></section>-->
+
+	<section class="slide"><div>
+        <h2>REPL</h2>
+
+        <ul>
+            <li>IEx.Helpers.&lt;TAB&gt;
+            <li>h()
+            <li>c()
+            <li>r()
+            <li>v()
+        </ul>
+	</div></section>
+
+	<section class="slide"><div>
+        <h2>Nodes and binaries</h2>
+
+        <pre><code style="font-size: 26px; line-height: 32px;">
+# Node.list
+# Node.connect
+# a = "Hello, b!"
+# Node.spawn :"...", fn -> ... end
+#    IO.puts a <> " My name is #{Node.self}"
+
+# :code.load_binary M, 'file', code
+        </code></pre>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<!--<div class="progress"><div></div></div>-->
+	<script src="shower/shower.min.js"></script>
+</body>
+</html>

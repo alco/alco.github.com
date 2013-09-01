@@ -1,0 +1,15 @@
+<div id="header">
+  <a href="/"><img id="home-icon" src="i/home.png"></a>
+  <br>
+  {% for p in site.spages %}
+    <br>
+    {% if page.title == p.title %}
+      <span class="offs">{{ p.title | downcase }}</span>
+    {% else %}
+      {% capture down_title %}{{ p.title | downcase }}{% endcapture  %}
+      <a class="nav offs" href="{% if p.path %}{{ p.path }}{% else %}{{ down_title }}.html{% endif %}">
+        {{ down_title }}
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>

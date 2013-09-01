@@ -1,0 +1,114 @@
+/* Common */
+
+body {
+    background-color: #f0f0f6;
+    font-family: 'Verdana', sans-serif;
+    font-size: 14pt;
+    margin: auto;
+    width: 1000px;
+}
+
+body.alt-font1 {
+    font-family: 'Fjord One', serif;
+}
+
+body.alt-font2 {
+    font-family: 'Imprima', sans-serif;
+}
+
+h2 {
+    padding-top: 20pt;
+    border-bottom: 1px solid #ccc;
+}
+
+h3 { 
+    padding-top: 20pt; 
+    margin-bottom: 1pt;
+}
+
+h4 {
+    margin-top: 0;
+    color: #444;
+}
+
+a {
+    text-decoration: none;
+    color: #00b;
+}
+a:hover { text-decoration: underline; }
+
+li {
+    list-style-type: circle;
+    padding-bottom: 10px;
+}
+
+.container { margin-bottom: 20px; }
+
+
+/* Landing page */
+
+#home-body { width: 900px; }
+
+#preface-container { margin: 100px 0 80px; }
+#preface {
+    margin: 30px 48px 40px;
+    font-size: 20pt;
+}
+
+#nav-links { float: left; }
+#networks { float: right; }
+#spec { font-size: x-small; }
+
+
+/* Navigation */
+
+a.nav {
+    color: #555;
+    text-decoration: underline;
+}
+
+.offs { margin-left: 8px; }
+
+#home-icon {
+    position: relative;
+    top: 3px;
+    left: 4px;
+}
+
+#header {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+
+
+/* Projects */
+
+.proj-container {
+}
+
+.proj-name {
+    font-size: larger;
+    font-weight: bold;
+}
+
+a.black {
+    color: black;
+}
+
+.detail-descr { background-color: #eee; }
+
+
+/* Resume */
+
+.work-tags {
+    /*font-family: 'Fjord One', serif;*/
+    margin-top: -10px;
+    padding-bottom: 10px;
+    text-align: left;
+    font-size: smaller;
+    font-style: italic;
+    color: #444;
+}
+
+.lib-list { font-size: smaller; }

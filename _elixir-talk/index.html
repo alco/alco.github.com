@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>Introducing Elixir</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700' rel='stylesheet' type='text/css'>
+
+    <style type="text/css">
+      body {
+        font-family: "Verdana", sans-serif; /*'Libre Baskerville', serif;*/
+        font-size: 16pt;
+      }
+
+      p, ul, ol {
+        font-size: 20pt;
+      }
+
+      .small {
+        font-size: 16pt;
+      }
+
+      .block {
+        line-height: 160%;
+      }
+
+      li {
+        line-height: 140%;
+      }
+
+      .remark-slide .remark-slide-content {
+        padding: 0pt 60pt 0pt 60pt;
+      }
+
+      .invisible {
+        color: white;
+      }
+
+      .code-bg {
+        background: #f0f0f0;
+        padding: 10px;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      a:visited {
+        color: #00e;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <textarea id="source" readonly>
+
+class: center, middle
+
+![img](data/logo.png)
+
+---
+
+class: center, middle
+
+# Introducing Elixir
+
+<big>
+Alexei Sholik
+</big>
+
+<small>
+  <pre>August 3, 2013 @ [kievfprog.net](http://kievfprog.net)</pre>
+</small>
+
+???
+
+This presentation's url: http://alexeisholik.com/elixir-talk
+
+---
+
+# Agenda
+
+1. What is Elixir?
+
+2. A brief history
+
+3. The basics
+ * modules
+ * pattern matching
+
+4. Going deeper
+ * macros
+ * interesting projects
+
+5. How to get started
+
+---
+
+# A glimpse of Elixir
+
+```
+defmodule Helloer do
+  @doc "Waits for a messages and sends back a reply"
+  def hola do
+    receive do
+      {sender, msg} ->
+        sender <- { :ok, "Received: '#{msg}'. Thank you!" }
+    end
+  end
+end
+
+helloer_pid = spawn(Helloer, :hola, [])
+
+helloer_pid <- {self, "Here's a message for you!"}
+receive do
+  { :ok, msg } -> IO.puts msg
+end
+```
+
+<pre class="code-bg">
+$ elixir hello.ex
+Received: 'Here's a message for you!'. Thank you!
+</pre>
+
+???
+
+Code sample from http://benjamintanweihao.github.io/blog/2013/07/04/elixir-for-the-lazy-impatient-and-busy-part-3-processes-101
+
+---
+
+class: middle
+
+# What is Elixir?
+
+---
+
+# What is Elixir?
+
+.block[Elixir is a functional programming language built on top of the Erlang VM with focus on writing simple, readable, maintainable, and programmable code.]
+
+---
+
+# What is Elixir?
+
+.block[Elixir is a functional programming language built on top of the Erlang VM with focus on writing simple, readable, maintainable, and programmable code.]
+
+.block[Elixir is not a replacement for Erlang.]
+
+---
+
+# What is Elixir?
+
+.block[Elixir is a functional programming language built on top of the Erlang VM with focus on writing simple, readable, maintainable, and programmable code.]
+
+.block[Elixir is not a replacement for Erlang.]
+
+.block[Elixir is a new approach to programming the Erlang VM.]
+
+---
+
+# What's inside
+
+.block[Elixir compiles to the same BEAM byte code as Erlang.]
+
+---
+
+# What's inside
+
+.block[Elixir compiles to the same BEAM byte code as Erlang.]
+
+<pre>
+   +--------+   +--------+
+   | Erlang |   | Elixir |
+   +--------+   +--------+
+       ||           ||
+       \/           \/
+     +-----------------+
+     | .beam byte code |
+     +-----------------+
+             ||
+             \/
++---------------------------+
+| BEAM emulator (Erlang VM) |
++---------------------------+
+</pre>
+
+---
+
+# Elixir ⟺ Erlang
+
+---
+
+# Elixir ⟺ Erlang
+
+* Same byte code
+
+---
+# Elixir ⟺ Erlang
+
+* Same byte code
+
+* Same VM
+
+
+---
+
+# Elixir ⟺ Erlang
+
+* Same byte code
+
+* Same VM
+
+* Same runtime environment
+
+---
+
+# Elixir ⟺ Erlang
+
+* Same byte code
+
+* Same VM
+
+* Same runtime environment
+
+* Same libraries
+
+---
+
+# Elixir ⟺ Erlang
+
+* Same byte code
+
+* Same VM
+
+* Same runtime environment
+
+* Same libraries
+
+* Seamless interoperability
+
+---
+
+# Elixir ⟺ Erlang
+
+* Same byte code
+
+* Same VM
+
+* Same runtime environment
+
+* Same libraries
+
+* Seamless interoperability
+
+```
+iex(1)> :erlang.list_to_integer '123'
+123
+```
+
+---
+
+# Elixir ⟺ Erlang
+
+* Same byte code
+
+* Same VM
+
+* Same runtime environment
+
+* Same libraries
+
+* Seamless interoperability
+
+```
+iex(1)> :erlang.list_to_integer '123'
+123
+```
+
+```
+1> 'Elixir.Enum':map([1,2,3], fun(X) -> X * X end).
+[1,4,9]
+```
+
+---
+
+# Elixir ⟺ Erlang
+
+.block[Let's play together.]
+
+![sandbox](data/sandbox.jpg)
+
+???
+
+Image originally from http://upload.wikimedia.org/wikipedia/commons/d/df/Our_Community_Place_Sandbox.jpg.
+
+---
+
+class: middle
+
+# Why Elixir?
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+* improved semantics (protocols, everything is an expression, lexically scoped aliases)
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+* improved semantics (protocols, everything is an expression, lexically scoped aliases)
+
+* user friendly (remember `badmatch`?)
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+* improved semantics (protocols, everything is an expression, lexically scoped aliases)
+
+* user friendly (remember `badmatch`?)
+
+* consistent standard library
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+* improved semantics (protocols, everything is an expression, lexically scoped aliases)
+
+* user friendly (remember `badmatch`?)
+
+* consistent standard library
+
+* less boilerplate (via macros)
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+* improved semantics (protocols, everything is an expression, lexically scoped aliases)
+
+* user friendly (remember `badmatch`?)
+
+* consistent standard library
+
+* less boilerplate (via macros)
+
+* better code maintainability
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+* improved semantics (protocols, everything is an expression, lexically scoped aliases)
+
+* user friendly (remember `badmatch`?)
+
+* consistent standard library
+
+* less boilerplate (via macros)
+
+* better code maintainability
+
+* a whole new community of enthusiasts
+
+---
+
+# Why Elixir?
+
+* modern syntax (less clunky than Erlang)
+
+* improved semantics (protocols, everything is an expression, lexically scoped aliases)
+
+* user friendly (remember `badmatch`?)
+
+* consistent standard library
+
+* less boilerplate (via macros)
+
+* better code maintainability
+
+* a whole new community of enthusiasts
+
+* it is fun!
+
+---
+
+class: middle
+
+# A brief history of Elixir
+
+---
+
+# A brief history of Elixir (1)
+
+.block[Elixir started as a learning exercise by José Valim – a well-known contributor to Ruby on Rails.]
+
+---
+
+# A brief history of Elixir (1)
+
+.block[Elixir started as a learning exercise by José Valim – a well-known contributor to Ruby on Rails.]
+
+## March 2011
+
+* Initial prototype. Goal: Ruby on Erlang, with objects and stuff
+* Didn't work out as expected
+
+---
+
+# A brief history of Elixir (1)
+
+.block[Elixir started as a learning exercise by José Valim – a well-known contributor to Ruby on Rails.]
+
+## March 2011
+
+* Initial prototype. Goal: Ruby on Erlang, with objects and stuff
+* Didn't work out as expected
+
+## Early 2012
+
+* A new attempt
+  * stay close to the host VM's semantics
+  * no: OOP; yes: runtime polymorphism
+  * minimum overhead
+
+---
+
+# A brief history of Elixir (2)
+
+## Spring 2012
+
+* Active language growth
+* 2-3 active contributors
+* ~20 people in #elixir-lang IRC room
+* mailing list with ~1 post per week
+
+---
+
+# A brief history of Elixir (2)
+
+## Spring 2012
+
+* Active language growth
+* 2-3 active contributors
+* ~20 people in #elixir-lang IRC room
+* mailing list with ~1 post per week
+
+## 2013
+
+* The language has grown a lot (15K SLOC vs 6K in 2012)
+* ~10 active contributors + many casual PRs
+* ~110 people in #elixir-lang
+* for comparison: ~350 in #erlang, ~250 in #rust, ~750 in #go-nuts
+
+---
+
+# My involvement
+
+* First came to Elixir in March 2012 (via [@darkproger](https://twitter.com/darkproger))
+
+* Was actively contributing for a few months, then stopped
+
+* Resumed my contributions one year later (this spring)
+
+* Have a pretty good grasp of how it works and where it's headed
+
+---
+
+# Shameless
+
+![contributors graph](data/shameless.png)
+
+---
+
+# Elixir development status (1)
+
+* Overview
+
+![commits summary](data/commits.png)
+
+---
+
+# Elixir development status (1)
+
+* Overview
+
+![commits summary](data/commits.png)
+
+* If you're really curious
+
+![language summary](data/langs.png)
+
+---
+
+# Elixir development status (2)
+
+* The project is still young
+
+  * version 0.10
+  * not too many pure Elixir libraries
+  * missing advanced documentation
+  * some tools are still WIP
+
+---
+
+# Elixir development status (2)
+
+* The project is still young
+  * version 0.10
+  * not too many pure Elixir libraries
+  * missing advanced documentation
+  * some tools are still WIP
+
+* But it is quite stable
+  * easy to start with
+  * seamless interop with Erlang libs and tools
+  * people already use it in production
+  * very few user-level changes in the language expected (so your code won't break)
+  * though the internals are still actively evolving
+
+---
+
+class: middle
+
+# Elixir: the basics
+
+---
+
+# A taste of Elixir (1)
+
+```
+defmodule Demo do
+  @event "kievfprog"
+
+  def greet_people([]) do
+    IO.puts "The room is empty"
+  end
+
+  def greet_people([person]) do
+    IO.puts "Hi #{person}. Welcome to #{@event}"
+  end
+
+  def greet_people(list) when is_list(list) do
+    list
+    |> Enum.map(fn(x) -> String.capitalize(x) end)
+    |> Enum.reduce("", fn(person, acc) ->
+      IO.puts "Hi #{person}#{acc}."
+      " too"
+    end)
+    :ok
+  end
+end
+```
+
+---
+
+# A taste of Elixir (2)
+
+```javascript
+iex(1)> Demo.greet_people []
+The room is empty
+:ok
+```
+```
+def greet_people([]) do
+  IO.puts "The room is empty"
+end
+```
+<hr/>
+```javascript
+iex(2)> Demo.greet_people ["Alex"]
+Hi Alex. Welcome to kievfprog
+:ok
+```
+```
+@event "kievfprog"
+def greet_people([person]) do
+  IO.puts "Hi #{person}. Welcome to #{@event}"
+end
+```
+
+---
+
+# A taste of Elixir (3)
+
+```javascript
+iex(3)> Demo.greet_people ["nick", "mary", "peter"]
+Hi Nick.
+Hi Mary too.
+Hi Peter too.
+:ok
+```
+```
+def greet_people(list) when is_list(list) do
+  list
+  |> Enum.map(fn(x) -> String.capitalize(x) end)
+  |> Enum.reduce("", fn(person, acc) ->
+    IO.puts "Hi #{person}#{acc}."
+    " too"
+  end)
+  :ok
+end
+```
+
+---
+
+# Pipe breakdown (1)
+
+```
+def greet_people(list) when is_list(list) do
+  alias String, as: S
+
+  list
+  |> Enum.map(fn(x) -> S.capitalize(x) end)
+  |> Enum.map(fn(x) -> S.slice(x, 0, S.length(x)-1) end)
+  |> Enum.reduce("", fn(person, acc) ->
+    IO.puts "Hi #{person}#{acc}."
+    " too"
+  end)
+  :ok
+end
+```
+
+---
+
+# Pipe breakdown (2)
+
+```
+def greet_people(list) when is_list(list) do
+  alias String, as: S
+
+  list = Enum.map list, fn(x) -> S.capitalize(x) end
+  list
+  |> Enum.map(fn(x) -> S.slice(x, 0, S.length(x)-1) end)
+  |> Enum.reduce("", fn(person, acc) ->
+    IO.puts "Hi #{person}#{acc}."
+    " too"
+  end)
+  :ok
+end
+```
+
+---
+
+# Pipe breakdown (3)
+
+```
+def greet_people(list) when is_list(list) do
+  alias String, as: S
+
+  list = Enum.map list, fn(x) -> S.capitalize(x) end
+  list = Enum.map list, fn(x) -> S.slice(x, 0, S.length(x)-1) end
+  list
+  |> Enum.reduce("", fn(person, acc) ->
+    IO.puts "Hi #{person}#{acc}."
+    " too"
+  end)
+  :ok
+end
+```
+
+---
+
+# Pipe breakdown (4)
+
+```
+def greet_people(list) when is_list(list) do
+  alias String, as: S
+
+  list = Enum.map list, fn(x) -> S.capitalize(x) end
+  list = Enum.map list, fn(x) -> S.slice(x, 0, S.length(x)-1) end
+
+  Enum.reduce list, "", fn(person, acc) ->
+    IO.puts "Hi #{person}#{acc}."
+    " too"
+  end
+  :ok
+end
+```
+
+---
+
+# Pipe breakdown (5)
+
+```
+def greet_people(list) when is_list(list) do
+  alias String, as: S
+
+  list = Enum.map list, S.capitalize(&1)
+  list = Enum.map list, fn(x) -> S.slice(x, 0, S.length(x)-1) end
+
+  Enum.reduce list, "", fn(person, acc) ->
+    IO.puts "Hi #{person}#{acc}."
+    " too"
+  end
+  :ok
+end
+```
+
+---
+
+# No "variable ladder"
+
+* Erlang
+
+```
+X1 = some_func(X),
+X2 = another_func(X1),
+X_final = final_func(X2).
+```
+
+* Elixir
+
+```
+x = some_func(x)
+x = another_func(x)
+x = final_func(x)
+```
+or
+```
+x = x
+|> some_func
+|> another_func
+|> final_func
+```
+
+---
+
+# The "curry" operator (1)
+
+```
+iex(1)> &1 + &2      # == fn(x, y) -> x + y end
+function(Kernel.+/2)
+
+iex(2)> &1 + &2 + &3
+** (SyntaxError) iex:2: partial variable &3 cannot
+                        be defined without &1
+```
+
+---
+
+# The "curry" operator (2)
+
+```
+iex(1)> &1 + &2      # == fn(x, y) -> x + y end
+function(Kernel.+/2)
+
+iex(2)> (&1 + &2) + &3
+** (SyntaxError) iex:2: partial variable &3 cannot
+                        be defined without &1
+```
+
+---
+
+# The "curry" operator (2)
+
+```
+iex(1)> &1 + &2      # == fn(x, y) -> x + y end
+function(Kernel.+/2)
+
+iex(2)> (&1 + &2) + &3
+** (SyntaxError) iex:2: partial variable &3 cannot
+                        be defined without &1
+```
+
+There is a pending proposal for making it more flexible (and hopefully less confusing).
+
+```
+iex(1)> f = &( &1 + &2 + &3)
+#Function<erl_eval.6.17052888>
+iex(2)> f.(10, 20, 30)
+60
+
+iex(3)> &Enum.map(&1, some_func)
+#Function<erl_eval.6.17052888>
+```
+
+Still not clear if it'll come through.
+
+---
+
+# The "curry" operator (3)
+
+```
+iex(1)> fn(x) -> IO.puts x end
+#Function<erl_eval.6.17052888>
+
+iex(2)> f = IO.puts &1
+function(IO.puts/1)
+
+iex(3)> f.("hello")
+hello
+:ok
+
+iex(4)> IO.puts "hello"
+hello
+:ok
+```
+
+---
+
+# Anonymous function optimization
+
+```
+iex(1)> puts = fn(x) -> IO.puts String.upcase(x) end
+#Function<erl_eval.6.17052888>
+
+iex(2)> import IO
+nil
+
+iex(3)> puts "hello"
+hello
+:ok
+
+iex(4)> puts.("hello")
+HELLO
+:ok
+
+iex(5)> f = function(IO.puts/1)
+function(IO.puts/1)
+
+iex(6)> f.("hello")
+hello
+:ok
+```
+
+---
+
+# Macros lurking (1)
+
+```
+iex(1)> function(IO.puts/1)
+function(IO.puts/1)
+
+iex(2)> IO.puts/1
+** (UndefinedFunctionError) undefined function: IO.puts/0
+```
+
+---
+
+# Macros lurking (2)
+
+```
+iex(1)> function(IO.puts/1)
+function(IO.puts/1)
+
+iex(2)> IO.puts() / 1
+** (UndefinedFunctionError) undefined function: IO.puts/0
+```
+
+---
+
+# Macros lurking (3)
+
+```
+iex(1)> function(IO.puts/1)
+function(IO.puts/1)
+
+iex(2)> IO.puts() / 1
+** (UndefinedFunctionError) undefined function: IO.puts/0
+
+iex(3)> h function
+* defmacro function(args)
+
+Construct an anonymous function based on the given expression
+or retrieve an existing one.
+...
+```
+
+---
+
+class: middle
+
+# Modules
+
+---
+
+# Modules (1)
+
+.block[Modules are the building blocks of Elixir applications.]
+
+---
+
+# Modules (1)
+
+.block[Modules are the building blocks of Elixir applications.]
+
+Modules contain functions and module attributes (no state).
+
+---
+
+# Modules (1)
+
+.block[Modules are the building blocks of Elixir applications.]
+
+Modules contain functions and module attributes (no state).
+
+.block[A module is a minimum unit of compiled code.]
+
+---
+
+# Modules (2)
+
+```
+defmodule Math do
+  @moduledoc "A few math functions"
+
+  def square(num) when is_number(num) do
+    num * num
+  end
+
+  def square(nums) when is_list(nums) do
+    Enum.map nums, square &1
+  end
+end
+```
+
+---
+
+# Modules (2)
+
+```
+defmodule Math do
+  @moduledoc "A few math functions"
+
+  def square(num) when is_number(num) do
+    num * num
+  end
+
+  def square(nums) when is_list(nums) do
+    Enum.map nums, square &1
+  end
+end
+```
+
+```
+$ elixirc math.ex
+Compiled math.ex
+
+$ ls
+Elixir.Math.beam     math.ex
+```
+
+---
+
+# Modules (3)
+
+.block[Now let's fire up the interactive shell.]
+
+---
+
+# Modules (3)
+
+.block[Now let's fire up the interactive shell.]
+
+```
+iex(1)> Math.square 4
+16
+
+iex(2)> Math.square [4, 5, 6]
+[16, 25, 36]
+
+iex(3)> h Math
+# Math
+
+A few math functions
+:ok
+
+iex(4)> Math.__info__ :moduledoc
+{1, "A few math functions"}
+
+iex(5)> Math.__info__ :functions
+[square: 1]
+```
+
+---
+
+# Modules (4)
+
+.block[A .ex file is a script that is fed to the compiler.]
+
+.block[The compiler evaluates each expression in the script.]
+
+.block[`defmodule` evaluates to a new compiled module which is written into the corresponding .beam file.]
+
+---
+
+# Modules (5)
+
+```
+# mod.ex
+defmodule M do
+  IO.puts "compiling M"
+  def foo, do: "foo"
+
+  defmodule M do
+    IO.puts "compiling #{inspect __MODULE__}"
+    def bar, do: "bar"
+  end
+end
+
+IO.puts "Hello"
+```
+
+---
+
+# Modules (5)
+
+```
+# mod.ex
+defmodule M do
+  IO.puts "compiling M"
+  def foo, do: "foo"
+
+  defmodule M do
+    IO.puts "compiling #{inspect __MODULE__}"
+    def bar, do: "bar"
+  end
+end
+
+IO.puts "Hello"
+```
+
+```
+λ elixirc mod.ex
+compiling M
+compiling M.M
+Hello
+Compiled mod.ex
+```
+
+---
+
+# Modules (6)
+
+The module namespace if flat. Nested modules are just a syntactic convenience.
+
+```
+iex(1)> M.foo
+"foo"
+
+iex(2)> M.M.bar
+"bar"
+```
+
+---
+
+# Modules (6)
+
+The module namespace if flat. Nested modules are just a syntactic convenience.
+
+```
+iex(1)> M.foo
+"foo"
+
+iex(2)> M.M.bar
+"bar"
+```
+
+Modules are loaded dynamically.
+
+```
+iex(3)> M.foo
+# 1. The VM loads M from Elixir.M.beam if not already
+# 2. Checks if M defines foo/0
+# 3. Invokes M.foo/0
+"foo"
+```
+---
+
+# Functions (1)
+
+Functions are identified by their _name_ and _arity_.
+
+```
+defmodule Math do
+  def square do
+    x = :random.uniform(20)
+    square(x)
+  end
+
+  def square(x) do
+    x * x
+  end
+end
+```
+
+---
+
+# Functions (1)
+
+Functions are identified by their _name_ and _arity_.
+
+```
+defmodule Math do
+  def square do
+    x = :random.uniform(20)
+    square(x)
+  end
+
+  def square(x) do
+    x * x
+  end
+end
+```
+
+```
+iex(1)> Math.__info__ :functions
+[square: 0, square: 1]
+
+iex(2)> Math.square
+121
+
+iex(3)> Math.square 5
+25
+```
+
+---
+
+# Functions (2)
+
+Anonymous functions can have multiple clauses, but only single arity.
+
+```
+iex(1)> f = fn
+...(1)> lst when is_list(lst) -> Enum.map lst, -&1
+...(1)> [] -> 0
+...(1)> x -> -x
+...(1)> end
+#Function<erl_eval.6.17052888>
+
+iex(2)> f.(1)
+-1
+
+iex(3)> f.([1,2,3])
+[-1, -2, -3]
+
+# Remember
+function(Math.square/0).()  # 81
+function(Math.square/1).(5) # 25
+```
+
+---
+
+class: middle
+
+# Pattern matching
+
+---
+
+class: middle
+
+# Macros
+
+---
+
+class: middle
+
+# Interesting projects
+
+---
+
+class: middle
+
+# Values in Elixir (terms)
+
+---
+
+# Built-in types (1)
+
+## Number
+
+```
+1 + 2     # 3
+1 / 2     # 0.5
+0xF       # 15
+010       # 8
+0b1010    # 10
+```
+
+## Atom
+
+```
+:atom
+:hello == :"hello"   # true
+:hello == :bye       # false
+:"M@dnés$"           # :"M@dnés$"
+```
+
+---
+
+# Built-in types (2)
+
+## Special atoms
+
+```
+# these expressions are all `true`
+false == :false
+true == :true
+nil == :nil
+is_boolean(:true)
+is_boolean(:false)
+
+# only nil and false are "falsey"
+!nil    # == true
+!false  # == true
+!5      # == false
+```
+
+---
+
+# Built-in types (3)
+
+## List
+
+```
+[]
+[1 | [2 | []]]  # same as [1, 2]
+[:a, 11, [true, []]]
+```
+
+## Tuple
+
+```
+{}
+{ :ok, [1, 2, 3] }
+{ :tagged, :tuple, { :with, [:some, :payload] } }
+[{:a, 1}, {:b, 2}, {:c, 3}]
+```
+
+---
+
+# Built-in types (4)
+
+## Keyword list
+
+These are just lists of tuples:
+
+```
+iex(1)> [{:a, 1}, {:b, 2}]
+[a: 1, b: 2]
+
+iex(2)> [hello: :world]
+[hello: :world]
+
+iex(3)> inspect([hello: :world], raw: true)
+"[{:hello, :world}]"
+
+iex(4)> inspect(key: :value)
+"[key: :value]"
+```
+
+---
+
+# Built-in types (5)
+
+## String (binary)
+
+```
+"elixir"
+<<"elixir">>   # same thing
+
+<<1,2,3,4,5>>  # 5 bytes
+
+<<1::size(1), 2::size(2), 3::size(2)>>
+# == <<27::size(5)>> (5 bits)
+# because 0b11011 == 27
+```
+
+`<<"Binaries">>` in Erlang are UTF-8 encoded `"strings"` in Elixir.
+
+---
+
+# Built-in types (6)
+
+* `pid`
+```
+iex(1)> pid = spawn fn -> IO.puts "Hello world" end
+#PID<0.41.0>
+Hello world
+```
+* `reference`
+```
+iex(2)> ref = make_ref()
+#Reference<0.0.0.58>
+```
+* `port`
+
+<br/>
+We'll look at `pid` later.
+
+---
+
+# Built-in types (recap)
+
+1. number
+1. atom
+1. list
+1. tuple
+1. binary
+1. pid
+1. reference
+1. port
+
+Everything else is built on top of those.
+
+---
+
+class: middle
+
+## Every term is automatically serializable.
+
+## .invisible[Can store any term in a database.]
+
+## .invisible[Can send any term on the wire.]
+
+---
+
+class: middle
+
+## Every term is automatically serializable.
+
+## Can store any term in a database.
+
+## .invisible[Can send any term on the wire.]
+
+---
+
+class: middle
+
+## Every term is automatically serializable.
+
+## Can store any term in a database.
+
+## Can send any term on the wire.
+
+---
+
+class: middle
+
+# Expressions
+
+---
+
+# Basic expressions (1)
+
+## Boolean operations
+
+```
+true and false  # false
+true or false   # true
+not true        # false
+
+1 && 2          # 2
+false || nil    # nil
+!:atom          # false
+```
+
+---
+
+# Basic expressions (2)
+
+## Comparisons
+
+```
+1 < 2        # true
+3 >= 4       # false
+3 == 3.0     # true
+3 === 3.0    # false
+:a != :b     # true
+
+"b" < "a"    # false (string comparison)
+:a < 2       # false
+```
+
+All types are comparable (as in Erlang):
+
+```
+number < atom < reference < functions < port < pid
+       < tuple < list < binary
+```
+
+---
+
+# Basic expressions (3)
+
+## Variables
+
+```
+iex(1)> a = 1
+1
+
+iex(2)> b = 2
+2
+
+iex(3)> c = a + b
+3
+```
+
+---
+
+# Pattern matching (1)
+
+```
+iex(1)> a = 1
+1
+iex(2)> 1 = a
+1
+iex(3)> 2 = a
+** (MatchError) no match of right hand side value: 1
+    :erl_eval.expr/3
+
+iex(3)> [a | b] = [1, 2, 3]
+[1, 2, 3]
+iex(4)> a
+1
+iex(5)> b
+[2, 3]
+```
+
+---
+
+# Pattern matching (2)
+
+```
+iex(1)> a = 1
+1
+iex(2)> [^a | _] = [:a, :b]
+** (MatchError) no match of right hand side value:
+                [:a, :b]
+    :erl_eval.expr/3
+
+iex(3)> [a | _] = [:a, :b]
+[:a, :b]
+iex(4)> a
+:a
+```
+
+---
+
+# Pattern matching (3)
+
+```
+iex(1)> a = :a
+:a
+iex(2)> :a = a
+:a
+iex(3)> :b = a
+** (MatchError) no match of right hand side value:
+                :a
+    :erl_eval.expr/3
+
+iex(4)> ^a = :b
+** (MatchError) no match of right hand side value:
+                :b
+    :erl_eval.expr/3
+
+iex(5)> a = :b
+:b
+```
+
+---
+
+# Pattern matching (4)
+
+```
+iex(1)> a = "ßtring" <> "concat"
+"ßtringconcat"
+iex(2)> "ßtr" <> b = a
+"ßtringconcat"
+iex(3)> b
+"ingconcat"
+
+iex(4)> << a::utf8, _::binary >> = a
+"ßtringconcat"
+iex(5)> a
+223
+iex(6)> <<a>>
+<<223>>
+iex(7)> <<a::utf8>>
+"ß"
+```
+
+---
+
+class: middle
+
+# Using functions and modules
+
+---
+
+# Built-in functions (1)
+
+## Strings
+
+```
+iex(1)> a = "ß"
+"ß"
+iex(2)> byte_size a   # same as byte_size(a)
+2
+iex(3)> binary_to_list a
+[195, 159]
+iex(4)> << a, b >> = a
+"ß"
+iex(5)> a
+195
+iex(6)> b
+159
+```
+
+---
+
+# Built-in functions (2)
+
+## Modules
+
+```
+iex(1)> String.codepoints "straße"
+["s", "t", "r", "a", "ß", "e"]
+iex(2)> String.slice "straße", 3, 3
+"aße"
+
+iex(3)> length [1, 2, 3]
+3
+iex(4)> Kernel.length([1, 2, 3])
+3
+
+iex(5)> Record. # <TAB>
+deffunctions/2    defmacros/4       deftypes/3
+extract/2         import/2
+```
+
+---
+
+class: middle
+
+# How to get started
+
+---
+
+class: middle
+
+# IEx – interactive shell
+
+---
+
+# Using IEx
+
+```
+λ iex
+Erlang R16B (erts-5.10.1) [source] [64-bit] ...
+Interactive Elixir (0.10.1-dev) - press Ctrl+C ...
+iex(1)> "Hello world!"
+"Hello world!"
+
+iex(2)> 1 == 2
+false
+
+iex(3)> Enum.each 1..5, fn(x) ->
+...(3)>   IO.puts "I got #{x}"
+...(3)> end
+I got 1
+I got 2
+I got 3
+:ok
+```
+
+---
+
+# Inspecting (1)
+
+```
+iex(1)> IEx.Helpers. # <TAB>
+c/2              cd/1             flush/0          h/0
+h/1              import_file/1    l/1              ls/1
+m/0              pwd/0            r/0              r/1
+s/1              t/1              v/0              v/1
+
+iex(2)> pwd
+/Users/alco/Dropbox/home/projects/elixir-talk
+:ok
+
+iex(3)> h m
+* def m()
+
+Prints the list of all loaded modules with paths
+to their corresponding .beam files.
+
+:ok
+```
+
+---
+
+# Inspecting (2)
+
+```
+iex(1)> h String
+#  String
+
+A String in Elixir is a UTF-8 encoded binary.
+[...]
+
+iex(2)> h List.wrap/1
+* def wrap(list)
+
+Wraps the argument in a list.
+If the argument is already a list, returns the list.
+If the argument is nil, returns an empty list.
+
+## Examples
+[...]
+:ok
+```
+
+---
+
+# Inspecting (3)
+
+## Macros lurking
+
+```
+iex(1)> String.split/1
+** (UndefinedFunctionError) undefined function:
+                            String.split/0
+
+iex(2)> String.split() / 1
+** (UndefinedFunctionError) undefined function:
+                            String.split/0
+
+iex(3)> h h/1
+* defmacro h(other)
+
+Prints the documentation for the given module
+or for the given function/arity pair.
+```
+
+---
+
+class: middle
+
+# The future
+
+---
+
+# The future
+
+The future looks bright for Elixir, but I'm more interested in the present.
+
+Join the community and start hacking!
+
+Everyone can contribute!
+
+---
+
+class: center, middle
+
+# Thanks!
+
+<br/>
+
+<big>Alexei Sholik</big>
+<pre>[@true_droid](https://twitter.com/true_droid)</pre>
+<pre>[github.com/alco](https://github.com/alco)</pre>
+
+<br/><br/><br/>
+
+![img](data/logo.png)
+<pre>[elixir-lang.org](http://elixir-lang.org) | [tryelixir.org](http://tryelixir.org/)</pre>
+
+    </textarea>
+
+    <div style="font-size: 0; z-index: 10; position: fixed">
+      <button id="but-font-larger">+</button>
+      <button id="but-font-smaller">-</button>
+    </div>
+
+    <script src="data/remark.js" type="text/javascript"></script>
+    <script src="data/ui.js" type="text/javascript"></script>
+  </body>
+</html>
