@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EEx.AssignsEngine</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="EEx.html">EEx</a> &rarr; <a href="EEx.AssignsEngine.html">AssignsEngine</a></div>
+
+      <h1>
+        EEx.AssignsEngine
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>An abstract engine that, when used with the
+<code>TransformerEngine</code>, allows a developer to access
+assigns using <code>@</code> as syntax.</p>
+
+<p>This engine is included by default on the SmartEngine.</p>
+
+<h2>Examples</h2>
+
+<pre><code>defmodule MyEngine do
+  use EEx.TransformerEngine
+  use EEx.AssignsEngine
+end
+
+iex&gt; EEx.eval_string(&quot;&lt;%= @foo %&gt;&quot;, assigns: [foo: 1])
+&quot;1&quot;
+</code></pre>
+
+<p>In the example above, we can access the value <code>foo</code> under
+the binding <code>assigns</code> using <code>@foo</code>. This is useful when
+a template, after compiled, may receive different assigns
+and the developer don&#39;t want to recompile it for each
+variable set.</p>
+
+<p>Assigns can also be used when compiled to a function:</p>
+
+<pre><code># sample.eex
+&lt;%= @a + @b %&gt;
+
+# sample.ex
+defmodule Sample do
+  require EEx
+  EEx.function_from_file :def, :sample, &quot;sample.eex&quot;, [:assigns]
+end
+
+# iex
+Sample.sample(a: 1, b: 2) #=&gt; &quot;3&quot;
+</code></pre>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/eex/lib/eex/smart_engine.ex#L51" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

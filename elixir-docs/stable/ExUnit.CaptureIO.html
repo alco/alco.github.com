@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ExUnit.CaptureIO</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="ExUnit.html">ExUnit</a> &rarr; <a href="ExUnit.CaptureIO.html">CaptureIO</a></div>
+
+      <h1>
+        ExUnit.CaptureIO
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Functionality to capture IO for testing.</p>
+
+<h2>Examples</h2>
+
+<pre><code>defmodule AssertionTest do
+  use ExUnit.Case
+
+  import ExUnit.CaptureIO
+
+  test :example do
+    assert capture_io(fn -&gt;
+      IO.puts &quot;a&quot;
+    end) == &quot;a\n&quot;
+  end
+end
+</code></pre>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/capture_io.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#capture_io/1">capture_io(fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Captures IO generated when evaluating <code>fun</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#capture_io/2">capture_io(device, fun)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#capture_io/3">capture_io(device, input, fun)</a></td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="capture_io/1">
+    <span class="signature"><strong>capture_io(fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#capture_io/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Captures IO generated when evaluating <code>fun</code>.</p>
+
+<p>Returns the binary which is the captured output.</p>
+
+<p>By default, <code>capture_io</code> replaces the <code>group_leader</code> (<code>:stdio</code>)
+for the current process. However, the capturing of any other
+named device, such as <code>:stderr</code>, is also possible globally by
+giving the registered device name explicitly as an argument.</p>
+
+<p>Note that when capturing something other than <code>:stdio</code>,
+the test should run with async false.</p>
+
+<p>When capturing <code>:stdio</code>, if the <code>:capture_prompt</code> option is <code>false</code>,
+prompts (specified as arguments to <code>IO.get*</code> functions) are not
+captured.</p>
+
+<p>A developer can set a string as an input. The default
+input is <code>:eof</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; capture_io(fn -&gt; IO.write &quot;josé&quot; end) == &quot;josé&quot;
+true
+
+iex&gt; capture_io(:stderr, fn -&gt; IO.write(:stderr, &quot;josé&quot;) end) == &quot;josé&quot;
+true
+
+iex&gt; capture_io(&quot;this is input&quot;, fn -&gt;
+...&gt;   input = IO.gets &quot;&gt;&quot;
+...&gt;   IO.write input
+...&gt; end) == &quot;&gt;this is input&quot;
+true
+
+iex&gt; capture_io([input: &quot;this is input&quot;, capture_prompt: false], fn -&gt;
+...&gt;   input = IO.gets &quot;&gt;&quot;
+...&gt;   IO.write input
+...&gt; end) == &quot;this is input&quot;
+true
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/capture_io.ex#L62" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="capture_io/2">
+    <span class="signature"><strong>capture_io(device, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#capture_io/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"></div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/capture_io.ex#L66" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="capture_io/3">
+    <span class="signature"><strong>capture_io(device, input, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#capture_io/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"></div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/capture_io.ex#L78" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

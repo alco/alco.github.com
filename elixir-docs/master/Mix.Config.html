@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix.Config</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a> &rarr; <a href="Mix.Config.html">Config</a></div>
+
+      <h1>
+        Mix.Config
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Module for reading and merging app configurations.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/config.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#merge/2">merge(config1, config2)</a></td>
+  
+    <td class="summary_synopsis"><p>Merges two configurations</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#merge/3">merge(config1, config2, callback)</a></td>
+  
+    <td class="summary_synopsis"><p>Merges two configurations</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#persist/1">persist(config)</a></td>
+  
+    <td class="summary_synopsis"><p>Persists the given configuration by modifying
+the configured applications environment</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#read/1">read(file)</a></td>
+  
+    <td class="summary_synopsis"><p>Reads a configuration file</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#validate!/1">validate!(config)</a></td>
+  
+    <td class="summary_synopsis"><p>Validates a configuration</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="merge/2">
+    <span class="signature"><strong>merge(config1, config2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#merge/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Merges two configurations.</p>
+
+<p>The configuration of each application is merged together
+with the values in the second one having higher preference
+than the first in case of conflicts.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Mix.Config.merge([app: [k: :v1]], [app: [k: :v2]])
+[app: [k: :v2]]
+
+iex&gt; Mix.Config.merge([app1: []], [app2: []])
+[app1: [], app2: []]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/config.ex#L67" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="merge/3">
+    <span class="signature"><strong>merge(config1, config2, callback)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#merge/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Merges two configurations.</p>
+
+<p>The configuration of each application is merged together
+and a callback is invoked in case of conflicts receiving
+the app, the conflicting key and both values. It must return
+a value that will be used as part of the conflict resolution.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Mix.Config.merge([app: [k: :v1]], [app: [k: :v2]],
+...&gt;   fn app, k, v1, v2 -&gt; {app, k, v1, v2} end)
+[app: [k: {:app, :k, :v1, :v2}]]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/config.ex#L88" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="persist/1">
+    <span class="signature"><strong>persist(config)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#persist/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Persists the given configuration by modifying
+the configured applications environment.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/config.ex#L22" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="read/1">
+    <span class="signature"><strong>read(file)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#read/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Reads a configuration file.</p>
+
+<p>It returns the read configuration and a list of
+dependencies this configuration may have on.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/config.ex#L12" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="validate!/1">
+    <span class="signature"><strong>validate!(config)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#validate!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Validates a configuration.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/config.ex#L32" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

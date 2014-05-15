@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OptionParser</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="OptionParser.html">OptionParser</a></div>
+
+      <h1>
+        OptionParser
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>This module contains functions to parse command line arguments.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/option_parser.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#parse/2">parse(argv, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Parses <code>argv</code> into a keywords list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#parse_head/2">parse_head(argv, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Similar to <a href="#parse/2"><code>parse/2</code></a> but only parses the head of <code>argv</code>;
+as soon as it finds a non-switch, it stops parsing</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="parse/2">
+    <span class="signature"><strong>parse(argv, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#parse/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Parses <code>argv</code> into a keywords list.</p>
+
+<p>It returns the parsed values, remaining arguments and the
+invalid options.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; OptionParser.parse([&quot;--debug&quot;])
+{[debug: true], [], []}
+
+iex&gt; OptionParser.parse([&quot;--source&quot;, &quot;lib&quot;])
+{[source: &quot;lib&quot;], [], []}
+
+iex&gt; OptionParser.parse([&quot;--source-path&quot;, &quot;lib&quot;, &quot;test/enum_test.exs&quot;, &quot;--verbose&quot;])
+{[source_path: &quot;lib&quot;, verbose: true], [&quot;test/enum_test.exs&quot;], []}
+</code></pre>
+
+<p>By default, Elixir will try to automatically parse switches.
+Switches without an argument, like <code>--debug</code> will automatically
+be set to true. Switches followed by a value will be assigned
+to the value, always as strings.</p>
+
+<p>Note Elixir also converts the switches to underscore atoms, as
+<code>--source-path</code> becomes <code>:source_path</code>, to better suit Elixir
+conventions.</p>
+
+<h2>Switches</h2>
+
+<p>Many times though, it is better to explicitly list the available
+switches and their formats. The following types are supported:</p>
+
+<ul>
+<li><code>:boolean</code> - Marks the given switch as a boolean. Boolean switches
+           never consume the following value unless it is
+           <code>true</code> or <code>false</code>;</li>
+<li><code>:integer</code> - Parses the switch as an integer;</li>
+<li><code>:float</code>   - Parses the switch as a float;</li>
+<li><code>:string</code>  - Returns the switch as a string;</li>
+</ul>
+
+<p>If a switch can&#39;t be parsed, the option is returned in the invalid
+options list (third element of the returned tuple).</p>
+
+<p>The following extra &quot;types&quot; are supported:</p>
+
+<ul>
+<li><code>:keep</code> - Keeps duplicated items in the list instead of overriding;</li>
+</ul>
+
+<p>Examples:</p>
+
+<pre><code>iex&gt; OptionParser.parse([&quot;--unlock&quot;, &quot;path/to/file&quot;], switches: [unlock: :boolean])
+{[unlock: true], [&quot;path/to/file&quot;], []}
+
+iex&gt; OptionParser.parse([&quot;--unlock&quot;, &quot;--limit&quot;, &quot;0&quot;, &quot;path/to/file&quot;],
+...&gt;                    switches: [unlock: :boolean, limit: :integer])
+{[unlock: true, limit: 0], [&quot;path/to/file&quot;], []}
+
+iex&gt; OptionParser.parse([&quot;--limit&quot;, &quot;3&quot;], switches: [limit: :integer])
+{[limit: 3], [], []}
+
+iex&gt; OptionParser.parse([&quot;--limit&quot;, &quot;yyz&quot;], switches: [limit: :integer])
+{[], [], [limit: &quot;yyz&quot;]}
+</code></pre>
+
+<h2>Negation switches</h2>
+
+<p>All switches starting with <code>--no-</code> are considered to be booleans and never
+parse the next value:</p>
+
+<pre><code>iex&gt; OptionParser.parse([&quot;--no-op&quot;, &quot;path/to/file&quot;])
+{[no_op: true], [&quot;path/to/file&quot;], []}
+</code></pre>
+
+<p>However, in case the base switch exists, it sets that particular switch to
+false:</p>
+
+<pre><code>iex&gt; OptionParser.parse([&quot;--no-op&quot;, &quot;path/to/file&quot;], switches: [op: :boolean])
+{[op: false], [&quot;path/to/file&quot;], []}
+</code></pre>
+
+<h2>Aliases</h2>
+
+<p>A set of aliases can be given as options too:</p>
+
+<pre><code>iex&gt; OptionParser.parse([&quot;-d&quot;], aliases: [d: :debug])
+{[debug: true], [], []}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/option_parser.ex#L88" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="parse_head/2">
+    <span class="signature"><strong>parse_head(argv, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#parse_head/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Similar to <a href="#parse/2"><code>parse/2</code></a> but only parses the head of <code>argv</code>;
+as soon as it finds a non-switch, it stops parsing.</p>
+
+<p>See <a href="#parse/2"><code>parse/2</code></a> for more information.</p>
+
+<h2>Example</h2>
+
+<pre><code>iex&gt; OptionParser.parse_head([&quot;--source&quot;, &quot;lib&quot;, &quot;test/enum_test.exs&quot;, &quot;--verbose&quot;])
+{[source: &quot;lib&quot;], [&quot;test/enum_test.exs&quot;, &quot;--verbose&quot;], []}
+
+iex&gt; OptionParser.parse_head([&quot;--verbose&quot;, &quot;--source&quot;, &quot;lib&quot;, &quot;test/enum_test.exs&quot;, &quot;--unlock&quot;])
+{[verbose: true, source: &quot;lib&quot;], [&quot;test/enum_test.exs&quot;, &quot;--unlock&quot;], []}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/option_parser.ex#L107" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

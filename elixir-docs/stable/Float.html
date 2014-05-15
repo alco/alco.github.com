@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Float</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Float.html">Float</a></div>
+
+      <h1>
+        Float
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Functions for working with floating point numbers.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/float.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#ceil/1">ceil(num)</a></td>
+  
+    <td class="summary_synopsis"><p>Rounds a float to the largest integer greater than or equal to <code>num</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#floor/1">floor(num)</a></td>
+  
+    <td class="summary_synopsis"><p>Rounds a float to the largest integer less than or equal to <code>num</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#parse/1">parse(binary)</a></td>
+  
+    <td class="summary_synopsis"><p>Parses a binary into a float</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#round/2">round(number, precision)</a></td>
+  
+    <td class="summary_synopsis"><p>Rounds a floating point value to an arbitrary number of fractional digits
+(between 0 and 15)</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="ceil/1">
+    <span class="signature"><strong>ceil(num)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ceil/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>ceil(float | integer) :: integer</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Rounds a float to the largest integer greater than or equal to <code>num</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Float.ceil(34)
+34
+
+iex&gt; Float.ceil(34.25)
+35
+
+iex&gt; Float.ceil(-56.5)
+-56
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/float.ex#L140" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="floor/1">
+    <span class="signature"><strong>floor(num)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#floor/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>floor(float | integer) :: integer</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Rounds a float to the largest integer less than or equal to <code>num</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Float.floor(34)
+34
+
+iex&gt; Float.floor(34.25)
+34
+
+iex&gt; Float.floor(-56.5)
+-57
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/float.ex#L115" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="parse/1">
+    <span class="signature"><strong>parse(binary)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#parse/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>parse(binary) :: {float, binary} | :error</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Parses a binary into a float.</p>
+
+<p>If successful, returns a tuple of the form <code>{float, remainder_of_binary}</code>.
+Otherwise <code>:error</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Float.parse(&quot;34&quot;)
+{34.0,&quot;&quot;}
+
+iex&gt; Float.parse(&quot;34.25&quot;)
+{34.25,&quot;&quot;}
+
+iex&gt; Float.parse(&quot;56.5xyz&quot;)
+{56.5,&quot;xyz&quot;}
+
+iex&gt; Float.parse(&quot;pi&quot;)
+:error
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/float.ex#L28" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="round/2">
+    <span class="signature"><strong>round(number, precision)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#round/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>round(float, integer) :: float</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Rounds a floating point value to an arbitrary number of fractional digits
+(between 0 and 15).</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Float.round(5.5674, 3)
+5.567
+
+iex&gt; Float.round(5.5675, 3)
+5.568
+
+iex&gt; Float.round(-5.5674, 3)
+-5.567
+
+iex&gt; Float.round(-5.5675, 3)
+-5.568
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/float.ex#L169" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

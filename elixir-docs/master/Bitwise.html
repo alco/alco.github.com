@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bitwise</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Bitwise.html">Bitwise</a></div>
+
+      <h1>
+        Bitwise
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#macros_details">Macros</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>This module provides macros and operators for bitwise operators.
+These macros can be used in guards.</p>
+
+<p>The easiest way to use is to simply import them into
+your module:</p>
+
+<pre><code>iex&gt; use Bitwise
+iex&gt; bnot 1
+-2
+iex&gt; 1 &amp;&amp;&amp; 1
+1
+</code></pre>
+
+<p>You can select to include only or skip operators by passing options:</p>
+
+<pre><code>iex&gt; use Bitwise, only_operators: true
+iex&gt; 1 &amp;&amp;&amp; 1
+1
+</code></pre>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#&amp;&amp;&amp;/2">left &amp;&amp;&amp; right</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise and as operator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#&lt;&lt;&lt;/2">left &lt;&lt;&lt; right</a></td>
+  
+    <td class="summary_synopsis"><p>Arithmetic bitshift left as operator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#&gt;&gt;&gt;/2">left &gt;&gt;&gt; right</a></td>
+  
+    <td class="summary_synopsis"><p>Arithmetic bitshift right as operator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#^^^/2">left ^^^ right</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise xor as operator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#__using__/1">__using__(options)</a></td>
+  
+    <td class="summary_synopsis"><p>Allow a developer to use this module in their programs with
+the following options:</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#band/2">band(left, right)</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise and</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#bnot/1">bnot(expr)</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise not</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#bor/2">bor(left, right)</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise or</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#bsl/2">bsl(left, right)</a></td>
+  
+    <td class="summary_synopsis"><p>Arithmetic bitshift left</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#bsr/2">bsr(left, right)</a></td>
+  
+    <td class="summary_synopsis"><p>Arithmetic bitshift right</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#bxor/2">bxor(left, right)</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise xor</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#|||/2">left ||| right</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise or as operator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#~~~/1">~~~expr</a></td>
+  
+    <td class="summary_synopsis"><p>Bitwise not as operator</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+
+      
+        <div id="macros_details" class="details_list">
+          <h2>Macros</h2>
+          <div class="detail">
+  <div class="detail_header" id="&amp;&amp;&amp;/2">
+    <span class="signature"><strong>left &amp;&amp;&amp; right</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#&amp;&amp;&amp;/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise and as operator.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L69" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="&lt;&lt;&lt;/2">
+    <span class="signature"><strong>left &lt;&lt;&lt; right</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#&lt;&lt;&lt;/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Arithmetic bitshift left as operator.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L111" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="&gt;&gt;&gt;/2">
+    <span class="signature"><strong>left &gt;&gt;&gt; right</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#&gt;&gt;&gt;/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Arithmetic bitshift right as operator.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L125" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="^^^/2">
+    <span class="signature"><strong>left ^^^ right</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#^^^/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise xor as operator.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L97" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="__using__/1">
+    <span class="signature"><strong>__using__(options)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#__using__/1" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Allow a developer to use this module in their programs with
+the following options:</p>
+
+<ul>
+<li><code>:only_operators</code> - Include only operators;</li>
+<li><code>:skip_operators</code> - Skip operators;</li>
+</ul>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L31" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="band/2">
+    <span class="signature"><strong>band(left, right)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#band/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise and.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L62" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="bnot/1">
+    <span class="signature"><strong>bnot(expr)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#bnot/1" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise not.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L48" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="bor/2">
+    <span class="signature"><strong>bor(left, right)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#bor/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise or.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L76" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="bsl/2">
+    <span class="signature"><strong>bsl(left, right)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#bsl/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Arithmetic bitshift left.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L104" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="bsr/2">
+    <span class="signature"><strong>bsr(left, right)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#bsr/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Arithmetic bitshift right.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L118" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="bxor/2">
+    <span class="signature"><strong>bxor(left, right)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#bxor/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise xor.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L90" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="|||/2">
+    <span class="signature"><strong>left ||| right</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#|||/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise or as operator.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L83" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="~~~/1">
+    <span class="signature"><strong>~~~expr</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#~~~/1" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bitwise not as operator.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/bitwise.ex#L55" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+    </div>
+  </body>
+</html>

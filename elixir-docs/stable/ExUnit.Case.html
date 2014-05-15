@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ExUnit.Case</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="ExUnit.html">ExUnit</a> &rarr; <a href="ExUnit.Case.html">Case</a></div>
+
+      <h1>
+        ExUnit.Case
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#macros_details">Macros</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Sets up an ExUnit test case.</p>
+
+<p>This module must be used in other modules as a way to configure
+and prepare them for testing.</p>
+
+<p>When used, it accepts the following options:</p>
+
+<ul>
+<li>:async - configure Elixir to run that specific test case
+       in parallel with others. Must be used for performance
+       when your test cases do not change any global state;</li>
+</ul>
+
+<p>This module automatically includes all callbacks defined in
+<a href="ExUnit.Callbacks.html"><code>ExUnit.Callbacks</code></a>. See that module&#39;s documentation for more
+information.</p>
+
+<h2>Examples</h2>
+
+<pre><code> defmodule AssertionTest do
+   # Use the module
+   use ExUnit.Case, async: true
+
+   # The `test` macro is imported by ExUnit.Case
+   test &quot;always pass&quot; do
+     assert true
+   end
+ end
+</code></pre>
+
+<h2>Context</h2>
+
+<p>All tests receive a context as an argument. The context is particularly
+useful for sharing information between callbacks and tests:</p>
+
+<pre><code>defmodule KVTest do
+  use ExUnit.Case
+
+  setup do
+    {:ok, pid} = KV.start_link
+    {:ok, [pid: pid]}
+  end
+
+  test &quot;stores key-values&quot;, context do
+    assert KV.put(context[:pid], :hello, :world) == :ok
+    assert KV.get(context[:pid], :hello) == :world
+  end
+end
+</code></pre>
+
+<p>As the context is a map, it can be pattern matched on to extract
+information:</p>
+
+<pre><code>test &quot;stores key-values&quot;, %{pid: pid} do
+  assert KV.put(pid, :hello, :world) == :ok
+  assert KV.get(pid, :hello) == :world
+end
+</code></pre>
+
+<h2>Tags</h2>
+
+<p>The context is used to pass information from the callbacks to
+the test. In order to pass information from the test to the
+callback, ExUnit provides tags.</p>
+
+<p>By tagging a test, the tag value can be accessed in the context,
+allowing the developer to customize the test. Let&#39;s see an
+example:</p>
+
+<pre><code>defmodule FileTest do
+  # Changing directory cannot be async
+  use ExUnit.Case, async: false
+
+  setup context do
+    # Read the :cd tag value
+    if cd = context[:cd] do
+      prev_cd = File.cwd!
+      File.cd!(cd)
+      {:ok, [prev_cd: prev_cd]}
+    else
+      :ok
+    end
+  end
+
+  teardown context do
+    # Revert to the previous working directory
+    if cd = context[:prev_cd] do
+      File.cd!(cd)
+    end
+  end
+
+  @tag cd: &quot;fixtures&quot;
+  test &quot;reads utf-8 fixtures&quot; do
+    File.read(&quot;hello&quot;)
+  end
+end
+</code></pre>
+
+<p>In the example above, we have defined a tag called <code>:cd</code> that is
+read in the setup callback to configure the working directory the test is
+going to run on. We then use the same context to store the
+previous working directory that is reverted to after the test
+in the teardown callback.</p>
+
+<p>Tags are also very effective when used with case templates
+(<a href="ExUnit.CaseTemplate.html"><code>ExUnit.CaseTemplate</code></a>) allowing callbacks in the case template
+to customize the test behaviour.</p>
+
+<p>Note a tag can be set in two different ways:</p>
+
+<pre><code>@tag key: value
+@tag :key       # equivalent to setting @tag key: true
+</code></pre>
+
+<p>If a tag is given more than once, the last value wins.</p>
+
+<h3>Module tags</h3>
+
+<p>A tag can be set for all tests in a module by setting <code>@moduletag</code>:</p>
+
+<pre><code>@moduletag :external
+</code></pre>
+
+<p>If the same key is set via <code>@tag</code>, the <code>@tag</code> value has higher
+precedence.</p>
+
+<h3>Reserved tags</h3>
+
+<p>The following tags are set automatically by ExUnit and are
+therefore reserved:</p>
+
+<ul>
+<li><code>:case</code> - the test case module</li>
+<li><code>:test</code> - the test name</li>
+<li><code>:line</code> - the line on which the test was defined</li>
+<li><code>:file</code> - the file on which the test was defined</li>
+</ul>
+
+<h2>Filters</h2>
+
+<p>Tags can also be used to identify specific tests, which can then
+be included or excluded using filters. The most common functionality
+is to exclude some particular tests from running, which can be done
+via <a href="ExUnit.html#configure/1"><code>ExUnit.configure/1</code></a>:</p>
+
+<pre><code># Exclude all external tests from running
+ExUnit.configure exclude: [external: true]
+</code></pre>
+
+<p>From now on, ExUnit will not run any test that has the <code>external</code> flag
+set to true. This behaviour can be reversed with the <code>:include</code> option
+which is usually passed through the command line:</p>
+
+<pre><code>mix test --include external:true
+</code></pre>
+
+<p>Run <code>mix help test</code> for more information on how to run filters via Mix.</p>
+
+<p>Another use case for tags and filters is to exclude all tests that have
+a particular tag by default, regardless of its value, and include only
+a certain subset:</p>
+
+<pre><code>ExUnit.configure exclude: :os, include: [os: :unix]
+</code></pre>
+
+<p>Keep in mind that all tests are included by default, so unless they are
+excluded first, the <code>include</code> option has no effect.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/case.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#test/3">test(message, var \\ {:_, [], ExUnit.Case}, contents)</a></td>
+  
+    <td class="summary_synopsis"><p>Define a test with a string</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+
+      
+        <div id="macros_details" class="details_list">
+          <h2>Macros</h2>
+          <div class="detail">
+  <div class="detail_header" id="test/3">
+    <span class="signature"><strong>test(message, var \\ {:_, [], ExUnit.Case}, contents)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#test/3" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Define a test with a string.</p>
+
+<p>Provides a convenient macro that allows a test to be
+defined with a string. This macro automatically inserts
+the atom <code>:ok</code> as the last line of the test. That said,
+a passing test always returns <code>:ok</code>, but, more importantly,
+it forces Elixir to not tail call optimize the test and
+therefore avoids hiding lines from the backtrace.</p>
+
+<h2>Examples</h2>
+
+<pre><code>test &quot;true is equal to true&quot; do
+  assert true == true
+end
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/case.ex#L207" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+    </div>
+  </body>
+</html>

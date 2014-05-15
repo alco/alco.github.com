@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Enumerable</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Enumerable.html">Enumerable</a></div>
+
+      <h1>
+        Enumerable
+        
+          <small>protocol</small>
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Enumerable protocol used by <a href="Enum.html"><code>Enum</code></a> and <a href="Stream.html"><code>Stream</code></a> modules.</p>
+
+<p>When you invoke a function in the <a href="Enum.html"><code>Enum</code></a> module, the first argument
+is usually a collection that must implement this protocol. For example,
+the expression</p>
+
+<pre><code>Enum.map([1, 2, 3], &amp;(&amp;1 * 2))
+</code></pre>
+
+<p>invokes underneath <a href="Enumerable.html#reduce/3"><code>Enumerable.reduce/3</code></a> to perform the reducing
+operation that builds a mapped list by calling the mapping function
+<code>&amp;(&amp;1 * 2)</code> on every element in the collection and cons&#39;ing the
+element with an accumulated list.</p>
+
+<p>Internally, <a href="Enum.html#map/2"><code>Enum.map/2</code></a> is implemented as follows:</p>
+
+<pre><code>def map(enum, fun) do
+  reducer = fn x, acc -&gt; {:cont, [fun.(x)|acc]} end
+  Enumerable.reduce(enum, {:cont, []}, reducer) |&gt; elem(1) |&gt; :lists.reverse()
+end
+</code></pre>
+
+<p>Notice the user given function is wrapped into a <code>reducer</code> function.
+The <code>reducer</code> function must return a tagged tuple after each step,
+as described in the <code>acc/0</code> type.</p>
+
+<p>The reason the accumulator requires a tagged tuple is to allow the
+reducer function to communicate to the underlying enumerable the end
+of enumeration, allowing any open resource to be properly closed. It
+also allows suspension of the enumeration, which is useful when
+interleaving between many enumerables is required (as in zip).</p>
+
+<p>Finally, <a href="Enumerable.html#reduce/3"><code>Enumerable.reduce/3</code></a> will return another tagged tuple,
+as represented by the <code>result/0</code> type.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/enum.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#count/1">count(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Retrieves the collection&#39;s size</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#impl_for!/1">impl_for!(data)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#impl_for/1">impl_for(arg)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#member?/2">member?(collection, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Checks if a value exists within the collection</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reduce/3">reduce(collection, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Reduces the collection into a value</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:acc/0">
+    <a href="#t:acc/0">acc</a> :: {:cont, term} | {:halt, term} | {:suspend, term}
+  </p>
+  
+      <div class="typespec_doc"><p>The accumulator value for each step.</p>
+
+<p>It must be a tagged tuple with one of the following &quot;tags&quot;:</p>
+
+<ul>
+<li><code>:cont</code>    - the enumeration should continue</li>
+<li><code>:halt</code>    - the enumeration should halt immediately</li>
+<li><code>:suspend</code> - the enumeration should be suspended immediately</li>
+</ul>
+
+<p>Depending on the accumulator value, the result returned by
+<a href="Enumerable.html#reduce/3"><code>Enumerable.reduce/3</code></a> will change. Please check the <code>result</code>
+type docs for more information.</p>
+
+<p>In case a reducer function returns a <code>:suspend</code> accumulator,
+it must be explicitly handled by the caller and never leak.</p>
+</div>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:reducer/0">
+    <a href="#t:reducer/0">reducer</a> :: (term, term -> <a href="#t:acc/0">acc</a>)
+  </p>
+  
+      <div class="typespec_doc"><p>The reducer function.</p>
+
+<p>Should be called with the collection element and the
+accumulator contents. Returns the accumulator for
+the next enumeration step.</p>
+</div>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:result/0">
+    <a href="#t:result/0">result</a> :: {:done, term} | {:halted, term} | {:suspended, term, <a href="#t:continuation/0">continuation</a>}
+  </p>
+  
+      <div class="typespec_doc"><p>The result of the reduce operation.</p>
+
+<p>It may be <em>done</em> when the enumeration is finished by reaching
+its end, or <em>halted</em>/<em>suspended</em> when the enumeration was halted
+or suspended by the reducer function.</p>
+
+<p>In case a reducer function returns the <code>:suspend</code> accumulator, the
+<code>:suspended</code> tuple must be explicitly handled by the caller and
+never leak. In practice, this means regular enumeration functions
+just need to be concerned about <code>:done</code> and <code>:halted</code> results.</p>
+
+<p>Furthermore, a <code>:suspend</code> call must always be followed by another call,
+eventually halting or continuing until the end.</p>
+</div>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:continuation/0">
+    <a href="#t:continuation/0">continuation</a> :: (<a href="#t:acc/0">acc</a> -> <a href="#t:result/0">result</a>)
+  </p>
+  
+      <div class="typespec_doc"><p>A partially applied reduce function.</p>
+
+<p>The continuation is the closure returned as a result when
+the enumeration is suspended. When invoked, it expects
+a new accumulator and it returns the result.</p>
+
+<p>A continuation is easily implemented as long as the reduce
+function is defined in a tail recursive fashion. If the function
+is tail recursive, all the state is passed as arguments, so
+the continuation would simply be the reducing function partially
+applied.</p>
+</div>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: term
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="count/1">
+    <span class="signature"><strong>count(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#count/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>count(<a href="#t:t/0">t</a>) :: {:ok, non_neg_integer} | {:error, module}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Retrieves the collection&#39;s size.</p>
+
+<p>It should return <code>{:ok, size}</code>.</p>
+
+<p>If <code>{:error, __MODULE__}</code> is returned a default algorithm using <code>reduce</code> and
+the match (<code>===</code>) operator is used. This algorithm runs in linear time.</p>
+
+<p>Please force use of the default algorithm unless you can implement an
+algorithm that is significantly faster.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/enum.ex#L140" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="impl_for/1">
+    <span class="signature"><strong>impl_for(arg)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#impl_for/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>impl_for(term) :: module | nil</li>
+      
+    </ul>
+  
+  <div class="docstring"></div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/enum.ex#L1" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="impl_for!/1">
+    <span class="signature"><strong>impl_for!(data)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#impl_for!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>impl_for!(term) :: module | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"></div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/enum.ex#L1" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="member?/2">
+    <span class="signature"><strong>member?(collection, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#member?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>member?(<a href="#t:t/0">t</a>, term) :: {:ok, boolean} | {:error, module}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Checks if a value exists within the collection.</p>
+
+<p>It should return <code>{:ok, boolean}</code>.</p>
+
+<p>If <code>{:error, __MODULE__}</code> is returned a default algorithm using <code>reduce</code> and
+the match (<code>===</code>) operator is used. This algorithm runs in linear time.</p>
+
+<p>Please force use of the default algorithm unless you can implement an
+algorithm that is significantly faster.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/enum.ex#L126" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reduce/3">
+    <span class="signature"><strong>reduce(collection, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reduce/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>reduce(<a href="#t:t/0">t</a>, <a href="#t:acc/0">acc</a>, <a href="#t:reducer/0">reducer</a>) :: <a href="#t:result/0">result</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Reduces the collection into a value.</p>
+
+<p>Most of the operations in <a href="Enum.html"><code>Enum</code></a> are implemented in terms of reduce.
+This function should apply the given <code>reducer</code> function to each
+item in the collection and proceed as expected by the returned accumulator.</p>
+
+<p>As an example, here is the implementation of <code>reduce</code> for lists:</p>
+
+<pre><code>def reduce(_,     {:halt, acc}, _fun),   do: {:halted, acc}
+def reduce(list,  {:suspend, acc}, fun), do: {:suspended, acc, &amp;reduce(list, &amp;1, fun)}
+def reduce([],    {:cont, acc}, _fun),   do: {:done, acc}
+def reduce([h|t], {:cont, acc}, fun),    do: reduce(t, fun.(h, acc), fun)
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/enum.ex#L112" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

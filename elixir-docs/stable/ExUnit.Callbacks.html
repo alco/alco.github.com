@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ExUnit.Callbacks</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="ExUnit.html">ExUnit</a> &rarr; <a href="ExUnit.Callbacks.html">Callbacks</a></div>
+
+      <h1>
+        ExUnit.Callbacks
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#macros_details">Macros</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Defines ExUnit Callbacks.</p>
+
+<p>This module defines four callbacks: <code>setup_all</code>, <code>teardown_all</code>,
+<code>setup</code> and <code>teardown</code>.</p>
+
+<p>These callbacks are defined via macros and each one can optionally receive
+a map with metadata, usually referred to as <code>context</code>. The callback
+may optionally put extra data into <code>context</code> to be used in the tests.</p>
+
+<p>If you return <code>{:ok, &lt;dict&gt;}</code> from <code>setup</code> or <code>teardown</code>, the keyword
+list will be merged into the context that will be available in all
+subsequent <code>setup</code>, <code>test</code> or <code>teardown</code> calls.</p>
+
+<p>Similarly, returning <code>{:ok, &lt;dict&gt;}</code> from <code>setup_all</code> or
+<code>teardown_all</code> will merge the keyword list into the context that will be
+available in all subsequent <code>setup_all</code> or <code>teardown_all</code> calls.</p>
+
+<p>Returning <code>:ok</code> leaves the context unchanged in both cases.</p>
+
+<p>Returning anything else from <code>setup</code> or <code>teardown</code> will force the current
+test to fail, and subsequent <code>setup</code>, <code>test</code> and <code>teardown</code> callbacks won&#39;t
+be called for it.</p>
+
+<p>Returning anything else from <code>setup_all</code> or <code>teardown_all</code> will force the
+whole case to fail, and no other callback will be called.</p>
+
+<p>It is possible to define multiple <code>setup</code> and <code>teardown</code> callbacks and they will
+be called sequentially. In the case of <code>setup_all</code> and <code>teardown_all</code> callbacks,
+each <code>setup_all</code> will be called only once before the first test&#39;s <code>setup</code> and each
+<code>teardown_all</code> will be called once after the last test. No callback runs if the
+test case has no tests or all tests were filtered out via <code>include</code>/<code>exclude</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>defmodule AssertionTest do
+  use ExUnit.Case, async: true
+
+  # `setup` is called before each test is run
+  setup do
+    IO.puts &quot;This is a setup callback&quot;
+
+    # Return extra metadata, it must be a keyword list / map
+    {:ok, hello: &quot;world&quot;}
+  end
+
+  # Same as `setup`, but receives the context for the current test
+  setup context do
+    # We can access the current test in the context
+    IO.puts &quot;Setting up: #{context[:test]}&quot;
+
+    # We can also access the data returned from `setup/0`
+    assert context[:hello] == &quot;world&quot;
+
+    # No metadata
+    :ok
+  end
+
+  # This is called after each test finishes
+  teardown context do
+    assert context[:hello] == &quot;world&quot;
+    :ok
+  end
+
+  test &quot;always pass&quot; do
+    assert true
+  end
+
+  test &quot;another one&quot;, context do
+    assert context[:hello] == &quot;world&quot;
+  end
+end
+</code></pre>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/callbacks.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#setup/2">setup(var \\ {:_, [], ExUnit.Callbacks}, block)</a></td>
+  
+    <td class="summary_synopsis"><p>Called before the start of each test</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#setup_all/2">setup_all(var \\ {:_, [], ExUnit.Callbacks}, block)</a></td>
+  
+    <td class="summary_synopsis"><p>Called before the start of a case, i.e. called once before the first test in
+the current module and before any <code>setup</code> callbacks</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#teardown/2">teardown(var \\ {:_, [], ExUnit.Callbacks}, block)</a></td>
+  
+    <td class="summary_synopsis"><p>Called after the completion of each test</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#teardown_all/2">teardown_all(var \\ {:_, [], ExUnit.Callbacks}, block)</a></td>
+  
+    <td class="summary_synopsis"><p>Called once after the last test finishes without emitting an <code>:exit</code> message</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+
+      
+        <div id="macros_details" class="details_list">
+          <h2>Macros</h2>
+          <div class="detail">
+  <div class="detail_header" id="setup/2">
+    <span class="signature"><strong>setup(var \\ {:_, [], ExUnit.Callbacks}, block)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#setup/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Called before the start of each test.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/callbacks.ex#L101" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="setup_all/2">
+    <span class="signature"><strong>setup_all(var \\ {:_, [], ExUnit.Callbacks}, block)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#setup_all/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Called before the start of a case, i.e. called once before the first test in
+the current module and before any <code>setup</code> callbacks.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/callbacks.ex#L127" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="teardown/2">
+    <span class="signature"><strong>teardown(var \\ {:_, [], ExUnit.Callbacks}, block)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#teardown/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Called after the completion of each test. </p>
+
+<p>Note that if the test crashed with an <code>:exit</code>
+message, <code>teardown</code> will not be run.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/callbacks.ex#L115" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="teardown_all/2">
+    <span class="signature"><strong>teardown_all(var \\ {:_, [], ExUnit.Callbacks}, block)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#teardown_all/2" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Called once after the last test finishes without emitting an <code>:exit</code> message.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/ex_unit/lib/ex_unit/callbacks.ex#L138" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+    </div>
+  </body>
+</html>

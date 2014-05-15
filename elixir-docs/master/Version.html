@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Version</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Version.html">Version</a></div>
+
+      <h1>
+        Version
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Functions for parsing and matching versions against requirements.</p>
+
+<p>A version is a string in a specific format or a <a href="Version.html"><code>Version</code></a>
+generated after parsing via <a href="Version.html#parse/1"><code>Version.parse/1</code></a>.</p>
+
+<p><a href="Version.html"><code>Version</code></a> parsing and requirements follow
+<a href="http://semver.org/">SemVer 2.0 schema</a>.</p>
+
+<h2>Versions</h2>
+
+<p>In a nutshell, a version is given by three numbers:</p>
+
+<pre><code>MAJOR.MINOR.PATCH
+</code></pre>
+
+<p>Pre-releases are supported by appending <code>-[0-9A-Za-z-\.]</code>:</p>
+
+<pre><code>&quot;1.0.0-alpha.3&quot;
+</code></pre>
+
+<p>Build information can be added by appending <code>+[0-9A-Za-z-\.]</code>:</p>
+
+<pre><code>&quot;1.0.0-alpha.3+20130417140000&quot;
+</code></pre>
+
+<h2>Struct</h2>
+
+<p>The version is represented by the Version struct and it has its
+fields named according to Semver: <code>:major</code>, <code>:minor</code>, <code>:patch</code>,
+<code>:pre</code> and <code>:build</code>.</p>
+
+<h2>Requirements</h2>
+
+<p>Requirements allow you to specify which versions of a given
+dependency you are willing to work against. It supports common
+operators like <code>&gt;=</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>==</code> and friends that
+work as one would expect:</p>
+
+<pre><code># Only version 2.0.0
+&quot;== 2.0.0&quot;
+
+# Anything later than 2.0.0
+&quot;&gt; 2.0.0&quot;
+</code></pre>
+
+<p>Requirements also support <code>and</code> and <code>or</code> for complex conditions:</p>
+
+<pre><code># 2.0.0 and later until 2.1.0
+&quot;&gt;= 2.0.0 and &lt; 2.1.0&quot;
+</code></pre>
+
+<p>Since the example above is such a common requirement, it can
+be expressed as:</p>
+
+<pre><code>&quot;~&gt; 2.0.0&quot;
+</code></pre>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/version.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#compare/2">compare(vsn1, vsn2)</a></td>
+  
+    <td class="summary_synopsis"><p>Compares two versions. Returns <code>:gt</code> if first version is greater than
+the second and <code>:lt</code> for vice versa. If the two versions are equal <code>:eq</code>
+is returned</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#match?/2">match?(vsn, req)</a></td>
+  
+    <td class="summary_synopsis"><p>Check if the given version matches the specification</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#parse/1">parse(string)</a></td>
+  
+    <td class="summary_synopsis"><p>Parse a version string into a <a href="Version.html"><code>Version</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#parse_requirement/1">parse_requirement(string)</a></td>
+  
+    <td class="summary_synopsis"><p>Parse a version requirement string into a <code>Version.Requirement</code></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: %Version{major: term, minor: term, patch: term, pre: term, build: term}
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:version/0">
+    <a href="#t:version/0">version</a> :: <a href="String.html#t:t/0">String.t</a> | <a href="#t:t/0">t</a>
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:requirement/0">
+    <a href="#t:requirement/0">requirement</a> :: <a href="String.html#t:t/0">String.t</a> | <a href="http://elixir-lang.org/docs/master/Version.Requirement.html#t:t/0">Version.Requirement.t</a>
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:matchable/0">
+    <a href="#t:matchable/0">matchable</a> :: {major :: <a href="String.html#t:t/0">String.t</a> | non_neg_integer, minor :: non_neg_integer | nil, patch :: non_neg_integer | nil, pre :: [<a href="String.html#t:t/0">String.t</a>]}
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="compare/2">
+    <span class="signature"><strong>compare(vsn1, vsn2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compare/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>compare(<a href="#t:version/0">version</a>, <a href="#t:version/0">version</a>) :: :gt | :eq | :lt</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Compares two versions. Returns <code>:gt</code> if first version is greater than
+the second and <code>:lt</code> for vice versa. If the two versions are equal <code>:eq</code>
+is returned</p>
+
+<p>Raises a <a href="Version.InvalidVersion.html"><code>Version.InvalidVersion</code></a> exception if <code>version</code> is not parseable.
+If given an already parsed version this function won&#39;t raise.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Version.compare(&quot;2.0.1-alpha1&quot;, &quot;2.0.0&quot;)
+:gt
+
+iex&gt; Version.compare(&quot;2.0.1+build0&quot;, &quot;2.0.1&quot;)
+:eq
+
+iex&gt; Version.compare(&quot;invalid&quot;, &quot;2.0.1&quot;)
+** (Version.InvalidVersion) invalid
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/version.ex#L134" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="match?/2">
+    <span class="signature"><strong>match?(vsn, req)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#match?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>match?(<a href="#t:version/0">version</a>, <a href="#t:requirement/0">requirement</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Check if the given version matches the specification.</p>
+
+<p>Returns <code>true</code> if <code>version</code> satisfies <code>requirement</code>, <code>false</code> otherwise.
+Raises a <a href="Version.InvalidRequirement.html"><code>Version.InvalidRequirement</code></a> exception if <code>requirement</code> is not
+parseable, or <a href="Version.InvalidVersion.html"><code>Version.InvalidVersion</code></a> if <code>version</code> is not parseable.
+If given an already parsed version and requirement this function won&#39;t
+raise.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Version.match?(&quot;2.0.0&quot;, &quot;&gt;1.0.0&quot;)
+true
+
+iex&gt; Version.match?(&quot;2.0.0&quot;, &quot;==1.0.0&quot;)
+false
+
+iex&gt; Version.match?(&quot;foo&quot;, &quot;==1.0.0&quot;)
+** (Version.InvalidVersion) foo
+
+iex&gt; Version.match?(&quot;2.0.0&quot;, &quot;== ==1.0.0&quot;)
+** (Version.InvalidRequirement) == ==1.0.0
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/version.ex#L99" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="parse/1">
+    <span class="signature"><strong>parse(string)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#parse/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>parse(<a href="String.html#t:t/0">String.t</a>) :: {:ok, <a href="#t:t/0">t</a>} | :error</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Parse a version string into a <a href="Version.html"><code>Version</code></a>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Version.parse(&quot;2.0.1-alpha1&quot;) |&gt; elem(1)
+#Version&lt;2.0.1-alpha1&gt;
+
+iex&gt; Version.parse(&quot;2.0-alpha1&quot;)
+:error
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/version.ex#L163" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="parse_requirement/1">
+    <span class="signature"><strong>parse_requirement(string)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#parse_requirement/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>parse_requirement(<a href="String.html#t:t/0">String.t</a>) :: {:ok, <a href="http://elixir-lang.org/docs/master/Version.Requirement.html#t:t/0">Version.Requirement.t</a>} | :error</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Parse a version requirement string into a <code>Version.Requirement</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Version.parse_requirement(&quot;== 2.0.1&quot;) |&gt; elem(1)
+#Version.Requirement&lt;== 2.0.1&gt;
+
+iex&gt; Version.parse_requirement(&quot;== == 2.0.1&quot;)
+:error
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/version.ex#L187" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix.Shell.IO</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a> &rarr; <a href="Mix.Shell.html">Shell</a> &rarr; <a href="Mix.Shell.IO.html">IO</a></div>
+
+      <h1>
+        Mix.Shell.IO
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>This is Mix&#39;s default shell.
+It simply prints messages to stdio and stderr.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/shell/io.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#cmd/1">cmd(command)</a></td>
+  
+    <td class="summary_synopsis"><p>Executes the given command and prints its output
+to stdout as it comes</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#error/1">error(message)</a></td>
+  
+    <td class="summary_synopsis"><p>Writes an error message to the shell followed by new line</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#info/1">info(message)</a></td>
+  
+    <td class="summary_synopsis"><p>Writes a message to the shell followed by new line</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#prompt/1">prompt(message)</a></td>
+  
+    <td class="summary_synopsis"><p>Writes a message shell followed by prompting the user for
+input. Input will be consumed until enter is pressed</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#yes?/1">yes?(message)</a></td>
+  
+    <td class="summary_synopsis"><p>Receives a message and asks the user if he wants to proceed.
+He must press enter or type anything that matches the a &quot;yes&quot;
+regex <code>~r/^Y(es)?$/i</code></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="cmd/1">
+    <span class="signature"><strong>cmd(command)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#cmd/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Executes the given command and prints its output
+to stdout as it comes.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/shell/io.ex#L13" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="error/1">
+    <span class="signature"><strong>error(message)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#error/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Writes an error message to the shell followed by new line.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/shell/io.ex#L29" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="info/1">
+    <span class="signature"><strong>info(message)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#info/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Writes a message to the shell followed by new line.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/shell/io.ex#L21" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="prompt/1">
+    <span class="signature"><strong>prompt(message)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#prompt/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Writes a message shell followed by prompting the user for
+input. Input will be consumed until enter is pressed.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/shell/io.ex#L38" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="yes?/1">
+    <span class="signature"><strong>yes?(message)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#yes?/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Receives a message and asks the user if he wants to proceed.
+He must press enter or type anything that matches the a &quot;yes&quot;
+regex <code>~r/^Y(es)?$/i</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/shell/io.ex#L48" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GenEvent.Behaviour</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; GenEvent &rarr; <a href="GenEvent.Behaviour.html">Behaviour</a></div>
+
+      <h1>
+        GenEvent.Behaviour
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>This module is a convenience for defining GenEvent callbacks in Elixir.</p>
+
+<p>GenEvent is an OTP behaviour that encapsulates event handling functionality.</p>
+
+<h2>Example</h2>
+
+<p>Below is an example of a GenEvent that stores notifications
+until they are fetched:</p>
+
+<pre><code>defmodule MyEventHandler do
+  use GenEvent.Behaviour
+
+  # Callbacks
+
+  def init(_) do
+    {:ok, []}
+  end
+
+  def handle_event({:notification, x}, notifications) do
+    {:ok, [x|notifications]}
+  end
+
+  def handle_call(:notifications, notifications) do
+    {:ok, Enum.reverse(notifications), []}
+  end
+end
+
+{:ok, pid} = :gen_event.start_link
+#=&gt; {:ok,#PID&lt;0.42.0&gt;}
+
+:gen_event.add_handler(pid, MyEventHandler, [])
+#=&gt; :ok
+
+:gen_event.notify(pid, {:notification, 1})
+#=&gt; :ok
+
+:gen_event.notify(pid, {:notification, 2})
+#=&gt; :ok
+
+:gen_event.call(pid, MyEventHandler, :notifications)
+#=&gt; [1, 2]
+
+:gen_event.call(pid, MyEventHandler, :notifications)
+#=&gt; []
+</code></pre>
+
+<p>Notice we never call the server callbacks directly, they are called
+by OTP whenever we interact with the server. </p>
+
+<p>Starting and sending messages to the GenEvent is done
+via Erlang&#39;s <code>:gen_event</code> module. For more information,
+please refer to the following:</p>
+
+<ul>
+<li><a href="http://www.erlang.org/doc/man/gen_event.html">http://www.erlang.org/doc/man/gen_event.html</a></li>
+<li><a href="http://learnyousomeerlang.com/event-handlers">http://learnyousomeerlang.com/event-handlers</a></li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/gen_event/behaviour.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

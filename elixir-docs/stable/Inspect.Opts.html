@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Inspect.Opts</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Inspect.html">Inspect</a> &rarr; <a href="Inspect.Opts.html">Opts</a></div>
+
+      <h1>
+        Inspect.Opts
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Defines the Inspect.Opts used by the Inspect protocol.</p>
+
+<p>The following fields are available:</p>
+
+<ul>
+<li><p><code>:structs</code> - when false, structs are not formatted by the inspect protocol,
+           they are instead printed as maps, defaults to true;</p></li>
+<li><p><code>:binaries</code> - when <code>:as_strings</code> all binaries will be printed as strings,
+            non-printable bytes will be escaped; when <code>:as_binaries</code> all
+            binaries will be printed in bit syntax; when the default
+            <code>:infer</code>, the binary will be printed as a string if it is
+            printable, otherwise in bit syntax;</p></li>
+<li><p><code>:char_lists</code> - when <code>:as_char_lists</code> all lists will be printed as char lists,
+              non-printable elements will be escaped; when <code>:as_lists</code> all
+              lists will be printed as lists; when the default <code>:infer</code>, the
+              list will be printed as a char list if it is printable,
+              otherwise as list;</p></li>
+<li><p><code>:limit</code> - limits the number of items that are printed for tuples, bitstrings,
+         and lists, does not apply to strings nor char lists, defaults to 50;</p></li>
+<li><p><code>:pretty</code> - if set to true enables pretty printing, defaults to false;</p></li>
+<li><p><code>:width</code> - defaults to the 80 characters;</p></li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/inspect/algebra.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: %Inspect.Opts{structs: boolean, binaries: :infer | :as_binaries | :as_strings, char_lists: :infer | :as_lists | :as_char_lists, limit: pos_integer, width: pos_integer | :infinity, pretty: boolean, records: boolean}
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix.Tasks.Test</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a> &rarr; Tasks &rarr; <a href="Mix.Tasks.Test.html">Test</a></div>
+
+      <h1>
+        Mix.Tasks.Test
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Run the tests for a project.</p>
+
+<p>This task starts the current application, loads up
+<code>test/test_helper.exs</code> and then requires all files matching the
+<code>test/**/_test.exs</code> pattern in parallel.</p>
+
+<p>A list of files can be given after the task name in order to select
+the files to compile:</p>
+
+<pre><code>mix test test/some/particular/file_test.exs
+</code></pre>
+
+<h2>Command line options</h2>
+
+<ul>
+<li><code>--trace</code> - run tests with detailed reporting. Automatically sets <code>--max-cases</code> to 1</li>
+<li><code>--max-cases</code> - set the maximum number of cases running async</li>
+<li><code>--cover</code> - the directory to include coverage results</li>
+<li><code>--force</code> - forces compilation regardless of modification times</li>
+<li><code>--no-compile</code> - do not compile, even if files require compilation</li>
+<li><code>--no-start</code> - do not start applications after compilation</li>
+<li><code>--no-color</code> - disable color in the output</li>
+<li><code>--include</code> - include tests that match the filter</li>
+<li><code>--exclude</code> - exclude tests that match the filter</li>
+<li><code>--only</code> - run only tests that match the filter</li>
+</ul>
+
+<h2>Filters</h2>
+
+<p>ExUnit provides tags and filtering functionality that allows developers
+to select which tests to run. The most common functionality is to exclude
+some particular tests from running by default in your test helper file:</p>
+
+<pre><code># Exclude all external tests from running
+ExUnit.configure exclude: [external: true]
+</code></pre>
+
+<p>Then, whenever desired, those tests could be included in the run via the
+<code>--include</code> flag:</p>
+
+<pre><code>mix test --include external:true
+</code></pre>
+
+<p>The example above will run all tests that have the external flag set to
+true. It is also possible to include all examples that have a given tag,
+regardless of its value:</p>
+
+<pre><code>mix test --include external
+</code></pre>
+
+<p>Note that all tests are included by default, so unless they are excluded
+first (either in the test helper or via the <code>--exclude</code> option), the
+<code>--include</code> flag has no effect.</p>
+
+<p>For this reason, mix also provides an <code>--only</code> option that excludes all
+tests and includes only the given ones:</p>
+
+<pre><code>mix test --only external
+</code></pre>
+
+<p>Which is equivalent to:</p>
+
+<pre><code>mix test --include external --exclude test
+</code></pre>
+
+<p>When filtering tests by line number the following styles are equivalent:</p>
+
+<pre><code>mix test test/some/particular/file_test.exs:12
+mix test --only line:12 test/some/particular/file_test.exs
+</code></pre>
+
+<h2>Configuration</h2>
+
+<ul>
+<li><p><code>:test_paths</code> - list of paths containing test files, defaults to <code>[&quot;test&quot;]</code>.
+              it is expected all test paths to contain a <code>test_helper.exs</code> file</p></li>
+<li><p><code>:test_pattern</code> - a pattern to load test files, defaults to <code>*_test.exs</code></p></li>
+<li><p><code>:test_coverage</code> - a set of options to be passed down to the coverage mechanism</p></li>
+</ul>
+
+<h2>Coverage</h2>
+
+<p>The <code>:test_coverage</code> configuration accepts the following options:</p>
+
+<ul>
+<li><code>:output</code> - the output for cover results, defaults to <code>&quot;cover&quot;</code></li>
+<li><code>:tool</code>   - the coverage tool</li>
+</ul>
+
+<p>By default, a very simple wrapper around OTP&#39;s <code>cover</code> is used as a tool,
+but it can be overridden as follows:</p>
+
+<pre><code>test_coverage: [tool: CoverModule]
+</code></pre>
+
+<p><code>CoverModule</code> can be any module that exports <code>start/2</code>, receiving the
+compilation path and the <code>test_coverage</code> options as arguments. It must
+return an anonymous function of zero arity that will be run after the
+test suite is done or nil.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/tasks/test.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#run/1">run(args)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Mix.Task.html#run/1"><code>Mix.Task.run/1</code></a></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="run/1">
+    <span class="signature"><strong>run(args)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#run/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Mix.Task.html#run/1"><code>Mix.Task.run/1</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/tasks/test.ex#L122" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

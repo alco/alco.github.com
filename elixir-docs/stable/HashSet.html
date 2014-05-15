@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HashSet</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="HashSet.html">HashSet</a></div>
+
+      <h1>
+        HashSet
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>A set store.</p>
+
+<p>The <a href="HashSet.html"><code>HashSet</code></a> is represented internally as a struct, therefore
+<code>%HashSet{}</code> can be used whenever there is a need to match
+on any <a href="HashSet.html"><code>HashSet</code></a>. Note though the struct fields are private and
+must not be accessed directly. Instead, use the functions on this
+or in the <a href="Set.html"><code>Set</code></a> module.</p>
+
+<p>The <a href="HashSet.html"><code>HashSet</code></a> is implemented using tries, which grows in
+space as the number of keys grows, working well with both
+small and large set of keys. For more information about the
+functions and their APIs, please consult the <a href="Set.html"><code>Set</code></a> module.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#delete/2">delete(set, term)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#delete/2"><code>Set.delete/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#difference/2">difference(set1, set2)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#difference/2"><code>Set.difference/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#disjoint?/2">disjoint?(set1, set2)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#disjoint?/2"><code>Set.disjoint?/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#equal?/2">equal?(set1, set2)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#equal?/2"><code>Set.equal?/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#intersection/2">intersection(set1, set2)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#intersection/2"><code>Set.intersection/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#member?/2">member?(hashset, term)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#member?/2"><code>Set.member?/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/0">new()</a></td>
+  
+    <td class="summary_synopsis"><p>Creates a new empty set</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/2">put(hashset, term)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#put/2"><code>Set.put/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#size/1">size(hashset)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#size/1"><code>Set.size/1</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#subset?/2">subset?(set1, set2)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#subset?/2"><code>Set.subset?/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#to_list/1">to_list(set)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#to_list/1"><code>Set.to_list/1</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#union/2">union(set1, set2)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Set.html#union/2"><code>Set.union/2</code></a></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a>
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="delete/2">
+    <span class="signature"><strong>delete(set, term)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#delete/2"><code>Set.delete/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L95" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="difference/2">
+    <span class="signature"><strong>difference(set1, set2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#difference/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#difference/2"><code>Set.difference/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L53" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="disjoint?/2">
+    <span class="signature"><strong>disjoint?(set1, set2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#disjoint?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#disjoint?/2"><code>Set.disjoint?/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L77" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="equal?/2">
+    <span class="signature"><strong>equal?(set1, set2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#equal?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#equal?/2"><code>Set.equal?/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L61" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="intersection/2">
+    <span class="signature"><strong>intersection(set1, set2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#intersection/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#intersection/2"><code>Set.intersection/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L47" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="member?/2">
+    <span class="signature"><strong>member?(hashset, term)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#member?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#member?/2"><code>Set.member?/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L86" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="new/0">
+    <span class="signature"><strong>new()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>new :: <a href="Set.html#t:t/0">Set.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Creates a new empty set.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L35" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="put/2">
+    <span class="signature"><strong>put(hashset, term)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#put/2"><code>Set.put/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L90" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="size/1">
+    <span class="signature"><strong>size(hashset)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#size/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#size/1"><code>Set.size/1</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L111" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="subset?/2">
+    <span class="signature"><strong>subset?(set1, set2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#subset?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#subset?/2"><code>Set.subset?/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L68" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="to_list/1">
+    <span class="signature"><strong>to_list(set)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#to_list/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#to_list/1"><code>Set.to_list/1</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L57" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="union/2">
+    <span class="signature"><strong>union(set1, set2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#union/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Set.html#union/2"><code>Set.union/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/hash_set.ex#L39" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

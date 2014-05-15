@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Regex</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Regex.html">Regex</a></div>
+
+      <h1>
+        Regex
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Regular expressions for Elixir built on top of Erlang&#39;s <code>re</code> module.</p>
+
+<p>As the <code>re</code> module, Regex is based on PCRE
+(Perl Compatible Regular Expressions). More information can be
+found in the <a href="http://www.erlang.org/doc/man/re.html"><code>re</code> documentation</a>.</p>
+
+<p>Regular expressions in Elixir can be created using <a href="Regex.html#compile!/2"><code>Regex.compile!/2</code></a>
+or using the special form with <a href="Kernel.html#sigil_r/2"><code>~r</code></a>:</p>
+
+<pre><code># A simple regular expressions that matches foo anywhere in the string
+~r/foo/
+
+# A regular expression with case insensitive and unicode options
+~r/foo/iu
+</code></pre>
+
+<p>A Regex is represented internally as the <a href="Regex.html"><code>Regex</code></a> struct. Therefore,
+<code>%Regex{}</code> can be used whenever there is a need to match on them.</p>
+
+<h2>Modifiers</h2>
+
+<p>The modifiers available when creating a Regex are:</p>
+
+<ul>
+<li><code>unicode</code> (u) - enables unicode specific patterns like \p. it expects valid unicode
+strings to be given on match</li>
+<li><code>caseless</code> (i) - add case insensitivity</li>
+<li><code>dotall</code> (s) - causes dot to match newlines and also set newline to anycrlf.
+The new line setting can be overridden by setting <code>(*CR)</code> or <code>(*LF)</code> or
+<code>(*CRLF)</code> or <code>(*ANY)</code> according to re documentation</li>
+<li><code>multiline</code> (m) - causes <code>^</code> and <code>$</code> to mark the beginning and end of each line.
+Use <code>\A</code> and <code>\z</code> to match the end or beginning of the string</li>
+<li><code>extended</code> (x) - whitespace characters are ignored except when escaped and
+allow <code>#</code> to delimit comments</li>
+<li><code>firstline</code> (f) - forces the unanchored pattern to match before or at the first
+newline, though the matched text may continue over the newline</li>
+<li><code>ungreedy</code> (r) - inverts the &quot;greediness&quot; of the regexp</li>
+</ul>
+
+<p>The options not available are:</p>
+
+<ul>
+<li><code>anchored</code> - not available, use <code>^</code> or <code>\A</code> instead</li>
+<li><code>dollar_endonly</code> - not available, use <code>\z</code> instead</li>
+<li><code>no_auto_capture</code> - not available, use <code>?:</code> instead</li>
+<li><code>newline</code> - not available, use <code>(*CR)</code> or <code>(*LF)</code> or <code>(*CRLF)</code> or <code>(*ANYCRLF)</code>
+or <code>(*ANY)</code> at the beginning of the regexp according to the re documentation</li>
+</ul>
+
+<h2>Captures</h2>
+
+<p>Many functions in this module allows what to capture in a regex
+match via the <code>:capture</code> option. The supported values are:</p>
+
+<ul>
+<li><p><code>:all</code> - all captured subpatterns including the complete matching string.
+       This is the default;</p></li>
+<li><p><code>:first</code> - only the first captured subpattern, which is always the complete
+         matching part of the string. All explicitly captured subpatterns are
+         discarded;</p></li>
+<li><p><code>:all_but_first</code>- all but the first matching subpattern, i.e. all explicitly
+                captured subpatterns, but not the complete matching part of
+                the string;</p></li>
+<li><p><code>:none</code> - do not return matching subpatterns at all;</p></li>
+<li><p><code>:all_names</code> - captures all names in the Regex;</p></li>
+<li><p><code>list(binary)</code> - a list of named captures to capture;</p></li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#compile!/2">compile!(source, options \\ &quot;&quot;)</a></td>
+  
+    <td class="summary_synopsis"><p>Compiles the regular expression according to the given options.
+Fails with <a href="Regex.CompileError.html"><code>Regex.CompileError</code></a> if the regex cannot be compiled</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#compile/2">compile(source, options \\ &quot;&quot;)</a></td>
+  
+    <td class="summary_synopsis"><p>Compiles the regular expression</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#escape/1">escape(string)</a></td>
+  
+    <td class="summary_synopsis"><p>Escapes a string to be literally matched in a regex</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#match?/2">match?(regex, string)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a boolean indicating whether there was a match or not</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#named_captures/3">named_captures(regex, string, options \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the given captures as a map or <code>nil</code> if no captures are
+found. The option <code>:return</code> can be set to <code>:index</code> to get indexes
+back</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#names/1">names(regex)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a list of names in the regex</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#opts/1">opts(regex)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the regex options as a string</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#re_pattern/1">re_pattern(regex)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the underlying <code>re_pattern</code> in the regular expression</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#regex?/1">regex?(regex)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns true if the given argument is a regex</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#replace/4">replace(regex, string, replacement, options \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Receives a regex, a binary and a replacement, returns a new
+binary where the all matches are replaced by replacement</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#run/3">run(regex, string, options \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Runs the regular expression against the given string until the first match.
+It returns a list with all captures or <code>nil</code> if no match occurred</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#scan/3">scan(regex, string, options \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Same as <a href="#run/3"><code>run/3</code></a>, but scans the target several times collecting all
+matches of the regular expression. A list of lists is returned,
+where each entry in the primary list represents a match and each
+entry in the secondary list represents the captured contents</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#source/1">source(regex)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the regex source as a binary</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#split/3">split(regex, string, options \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Splits the given target into the number of parts specified</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: %Regex{re_pattern: term, source: binary, opts: binary}
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="compile/2">
+    <span class="signature"><strong>compile(source, options \\ &quot;&quot;)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compile/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>compile(binary, binary | [term]) :: {:ok, <a href="#t:t/0">t</a>} | {:error, any}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Compiles the regular expression.</p>
+
+<p>The given options can either be a binary with the characters
+representing the same regex options given to the <code>~r</code> sigil,
+or a list of options, as expected by the <a href="http://www.erlang.org/doc/man/re.html">Erlang <code>re</code> docs</a>.</p>
+
+<p>It returns <code>{:ok, regex}</code> in case of success,
+<code>{:error, reason}</code> otherwise.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.compile(&quot;foo&quot;)
+{:ok, ~r&quot;foo&quot;}
+
+iex&gt; Regex.compile(&quot;*foo&quot;)
+{:error, {&#39;nothing to repeat&#39;, 0}}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L95" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="compile!/2">
+    <span class="signature"><strong>compile!(source, options \\ &quot;&quot;)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compile!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Compiles the regular expression according to the given options.
+Fails with <a href="Regex.CompileError.html"><code>Regex.CompileError</code></a> if the regex cannot be compiled.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L124" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="escape/1">
+    <span class="signature"><strong>escape(string)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#escape/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>escape(<a href="String.html#t:t/0">String.t</a>) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Escapes a string to be literally matched in a regex.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.escape(&quot;.&quot;)
+&quot;\\.&quot;
+
+iex&gt; Regex.escape(&quot;\\what if&quot;)
+&quot;\\\\what\\ if&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L542" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="match?/2">
+    <span class="signature"><strong>match?(regex, string)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#match?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns a boolean indicating whether there was a match or not.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.match?(~r/foo/, &quot;foo&quot;)
+true
+
+iex&gt; Regex.match?(~r/foo/, &quot;bar&quot;)
+false
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L143" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="named_captures/3">
+    <span class="signature"><strong>named_captures(regex, string, options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#named_captures/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the given captures as a map or <code>nil</code> if no captures are
+found. The option <code>:return</code> can be set to <code>:index</code> to get indexes
+back.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.named_captures(~r/c(?&lt;foo&gt;d)/, &quot;abcd&quot;)
+%{&quot;foo&quot; =&gt; &quot;d&quot;}
+
+iex&gt; Regex.named_captures(~r/a(?&lt;foo&gt;b)c(?&lt;bar&gt;d)/, &quot;abcd&quot;)
+%{&quot;bar&quot; =&gt; &quot;d&quot;, &quot;foo&quot; =&gt; &quot;b&quot;}
+
+iex&gt; Regex.named_captures(~r/a(?&lt;foo&gt;b)c(?&lt;bar&gt;d)/, &quot;efgh&quot;)
+nil
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L214" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="names/1">
+    <span class="signature"><strong>names(regex)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#names/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns a list of names in the regex.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.names(~r/(?&lt;foo&gt;bar)/)
+[&quot;foo&quot;]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L263" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="opts/1">
+    <span class="signature"><strong>opts(regex)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#opts/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the regex options as a string.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.opts(~r(foo)m)
+&quot;m&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L250" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="re_pattern/1">
+    <span class="signature"><strong>re_pattern(regex)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#re_pattern/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the underlying <code>re_pattern</code> in the regular expression.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L224" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="regex?/1">
+    <span class="signature"><strong>regex?(regex)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#regex?/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns true if the given argument is a regex.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.regex?(~r/foo/)
+true
+
+iex&gt; Regex.regex?(0)
+false
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L159" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="replace/4">
+    <span class="signature"><strong>replace(regex, string, replacement, options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#replace/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Receives a regex, a binary and a replacement, returns a new
+binary where the all matches are replaced by replacement.</p>
+
+<p>The replacement can be either a string or a function. The string
+is used as a replacement for every match and it allows specific
+captures to be accessed via <code>\N</code>, where <code>N</code> is the capture. In
+case <code>\0</code> is used, the whole match is inserted.</p>
+
+<p>When the replacement is a function, the function may have arity
+N where each argument maps to a capture, with the first argument
+being the whole match. If the function expects more arguments
+than captures found, the remaining arguments will receive <code>&quot;&quot;</code>.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><code>:global</code> - when <code>false</code>, replaces only the first occurrence
+(defaults to true)</li>
+</ul>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.replace(~r/d/, &quot;abc&quot;, &quot;d&quot;)
+&quot;abc&quot;
+
+iex&gt; Regex.replace(~r/b/, &quot;abc&quot;, &quot;d&quot;)
+&quot;adc&quot;
+
+iex&gt; Regex.replace(~r/b/, &quot;abc&quot;, &quot;[\\0]&quot;)
+&quot;a[b]c&quot;
+
+iex&gt; Regex.replace(~r/a(b|d)c/, &quot;abcadc&quot;, &quot;[\\1]&quot;)
+&quot;[b][d]&quot;
+
+iex&gt; Regex.replace(~r/a(b|d)c/, &quot;abcadc&quot;, fn _, x -&gt; &quot;[#{x}]&quot; end)
+&quot;[b][d]&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L398" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="run/3">
+    <span class="signature"><strong>run(regex, string, options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#run/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Runs the regular expression against the given string until the first match.
+It returns a list with all captures or <code>nil</code> if no match occurred.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><code>:return</code> - Set to <code>:index</code> to return indexes. Defaults to <code>:binary</code>;</li>
+<li><code>:capture</code> - What to capture in the result. Check the moduledoc for Regex
+           to see the possible capture values;</li>
+</ul>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.run(~r/c(d)/, &quot;abcd&quot;)
+[&quot;cd&quot;, &quot;d&quot;]
+
+iex&gt; Regex.run(~r/e/, &quot;abcd&quot;)
+nil
+
+iex&gt; Regex.run(~r/c(d)/, &quot;abcd&quot;, return: :index)
+[{2,2},{3,1}]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L184" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="scan/3">
+    <span class="signature"><strong>scan(regex, string, options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#scan/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Same as <a href="#run/3"><code>run/3</code></a>, but scans the target several times collecting all
+matches of the regular expression. A list of lists is returned,
+where each entry in the primary list represents a match and each
+entry in the secondary list represents the captured contents.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><code>:return</code> - Set to <code>:index</code> to return indexes. Defaults to <code>:binary</code>;</li>
+<li><code>:capture</code> - What to capture in the result. Check the moduledoc for Regex
+           to see the possible capture values;</li>
+</ul>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.scan(~r/c(d|e)/, &quot;abcd abce&quot;)
+[[&quot;cd&quot;, &quot;d&quot;], [&quot;ce&quot;, &quot;e&quot;]]
+
+iex&gt; Regex.scan(~r/c(?:d|e)/, &quot;abcd abce&quot;)
+[[&quot;cd&quot;], [&quot;ce&quot;]]
+
+iex&gt; Regex.scan(~r/e/, &quot;abcd&quot;)
+[]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L292" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="source/1">
+    <span class="signature"><strong>source(regex)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#source/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the regex source as a binary.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.source(~r(foo))
+&quot;foo&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L237" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="split/3">
+    <span class="signature"><strong>split(regex, string, options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#split/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Splits the given target into the number of parts specified.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><p><code>:parts</code> - when specified, splits the string into the
+         given number of parts. If not specified, <code>:parts</code>
+         is defaulted to <code>:infinity</code>, which will split the
+         string into the maximum number of parts possible
+         based on the given pattern.</p></li>
+<li><p><code>:trim</code> - when true, remove blank strings from the result;</p></li>
+</ul>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Regex.split(~r/-/, &quot;a-b-c&quot;)
+[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
+
+iex&gt; Regex.split(~r/-/, &quot;a-b-c&quot;, [parts: 2])
+[&quot;a&quot;,&quot;b-c&quot;]
+
+iex&gt; Regex.split(~r/-/, &quot;abc&quot;)
+[&quot;abc&quot;]
+
+iex&gt; Regex.split(~r//, &quot;abc&quot;)
+[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;&quot;]
+
+iex&gt; Regex.split(~r//, &quot;abc&quot;, trim: true)
+[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/regex.ex#L338" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Enum</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Enum.html">Enum</a></div>
+
+      <h1>
+        Enum
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Provides a set of algorithms that enumerate over collections according to the
+<a href="Enumerable.html"><code>Enumerable</code></a> protocol:</p>
+
+<pre><code>iex&gt; Enum.map([1, 2, 3], fn(x) -&gt; x * 2 end)
+[2,4,6]
+</code></pre>
+
+<p>Some particular types, like dictionaries, yield a specific format on
+enumeration. For dicts, the argument is always a <code>{key, value}</code> tuple:</p>
+
+<pre><code>iex&gt; dict = %{a: 1, b: 2}
+iex&gt; Enum.map(dict, fn {k, v} -&gt; {k, v * 2} end)
+[a: 2, b: 4]
+</code></pre>
+
+<p>Note that the functions in the <a href="Enum.html"><code>Enum</code></a> module are eager: they always start
+the enumeration of the given collection. The <a href="Stream.html"><code>Stream</code></a> module allows
+lazy enumeration of collections and provides infinite streams.</p>
+
+<p>Since the majority of the functions in <a href="Enum.html"><code>Enum</code></a> enumerate the whole
+collection and return a list as result, infinite streams need to
+be carefully used with such functions, as they can potentially run
+forever. For example:</p>
+
+<pre><code>Enum.each Stream.cycle([1,2,3]), &amp;IO.puts(&amp;1)
+</code></pre>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L143" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#all?/2">all?(collection, fun \\ fn x -&gt; x end)</a></td>
+  
+    <td class="summary_synopsis"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code> and returns <code>false</code>
+if at least one invocation returns <code>false</code>. Otherwise returns <code>true</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#any?/2">any?(collection, fun \\ fn x -&gt; x end)</a></td>
+  
+    <td class="summary_synopsis"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code> and returns <code>true</code> if
+at least one invocation returns <code>true</code>. Returns <code>false</code> otherwise</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#at/3">at(collection, n, default \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Finds the element at the given index (zero-based).
+Returns <code>default</code> if index is out of bounds</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#chunk/2">chunk(coll, n)</a></td>
+  
+    <td class="summary_synopsis"><p>Shortcut to <code>chunk(coll, n, n)</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#chunk/4">chunk(coll, n, step, pad \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a collection of lists containing <code>n</code> items each, where
+each new chunk starts <code>step</code> elements into the collection</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#chunk_by/2">chunk_by(coll, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Splits <code>coll</code> on every element for which <code>fun</code> returns a new value</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#concat/1">concat(enumerables)</a></td>
+  
+    <td class="summary_synopsis"><p>Given an enumerable of enumerables, concatenate the enumerables into a single list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#concat/2">concat(left, right)</a></td>
+  
+    <td class="summary_synopsis"><p>Concatenates the enumerable on the right with the enumerable on the left</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#count/1">count(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the collection&#39;s size</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#count/2">count(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the count of items in the collection for which
+<code>fun</code> returns <code>true</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#drop/2">drop(collection, count)</a></td>
+  
+    <td class="summary_synopsis"><p>Drops the first <code>count</code> items from <code>collection</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#drop_while/2">drop_while(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Drops items at the beginning of <code>collection</code> while <code>fun</code> returns <code>true</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#each/2">each(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code>.
+Returns <code>:ok</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#empty?/1">empty?(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns <code>true</code> if the collection is empty, otherwise <code>false</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#fetch!/2">fetch!(collection, n)</a></td>
+  
+    <td class="summary_synopsis"><p>Finds the element at the given index (zero-based).
+Raises <code>OutOfBoundsError</code> if the given position
+is outside the range of the collection</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#fetch/2">fetch(collection, n)</a></td>
+  
+    <td class="summary_synopsis"><p>Finds the element at the given index (zero-based).
+Returns <code>{:ok, element}</code> if found, otherwise <code>:error</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#filter/2">filter(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Filters the collection, i.e. returns only those elements
+for which <code>fun</code> returns <code>true</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#filter_map/3">filter_map(collection, filter, mapper)</a></td>
+  
+    <td class="summary_synopsis"><p>Filters the collection and maps its values in one pass</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#find/3">find(collection, ifnone \\ nil, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the first item for which <code>fun</code> returns a truthy value. If no such
+item is found, returns <code>ifnone</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#find_index/2">find_index(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Similar to <a href="#find/3"><code>find/3</code></a>, but returns the index (zero-based)
+of the element instead of the element itself</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#find_value/3">find_value(collection, ifnone \\ nil, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Similar to <a href="#find/3"><code>find/3</code></a>, but returns the value of the function
+invocation instead of the element itself</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#flat_map/2">flat_map(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a new collection appending the result of invoking <code>fun</code>
+on each corresponding item of <code>collection</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#flat_map_reduce/3">flat_map_reduce(collection, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Maps and reduces a collection, flattening the given results</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#group_by/3">group_by(collection, dict \\ %{}, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Splits <code>collection</code> into groups based on <code>fun</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#intersperse/2">intersperse(collection, element)</a></td>
+  
+    <td class="summary_synopsis"><p>Intersperses <code>element</code> between each element of the enumeration</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#into/2">into(collection, list)</a></td>
+  
+    <td class="summary_synopsis"><p>Inserts the given enumerable into a collectable</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#into/3">into(collection, list, transform)</a></td>
+  
+    <td class="summary_synopsis"><p>Inserts the given enumerable into a collectable
+according to the transformation function</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#join/2">join(collection, joiner \\ &quot;&quot;)</a></td>
+  
+    <td class="summary_synopsis"><p>Joins the given <code>collection</code> according to <code>joiner</code>.
+<code>joiner</code> can be either a binary or a list and the
+result will be of the same type as <code>joiner</code>. If
+<code>joiner</code> is not passed at all, it defaults to an
+empty binary</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#map/2">map(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a new collection, where each item is the result
+of invoking <code>fun</code> on each corresponding item of <code>collection</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#map_join/3">map_join(collection, joiner \\ &quot;&quot;, mapper)</a></td>
+  
+    <td class="summary_synopsis"><p>Maps and joins the given <code>collection</code> in one pass.
+<code>joiner</code> can be either a binary or a list and the
+result will be of the same type as <code>joiner</code>. If
+<code>joiner</code> is not passed at all, it defaults to an
+empty binary</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#map_reduce/3">map_reduce(collection, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code>
+while also keeping an accumulator. Returns a tuple where
+the first element is the mapped collection and the second
+one is the final accumulator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#max/1">max(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the maximum value.
+Raises <code>EmptyError</code> if the collection is empty</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#max_by/2">max_by(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the maximum value as calculated by the given function.
+Raises <code>EmptyError</code> if the collection is empty</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#member?/2">member?(collection, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Checks if <code>value</code> exists within the <code>collection</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#min/1">min(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the minimum value.
+Raises <code>EmptyError</code> if the collection is empty</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#min_by/2">min_by(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the minimum value as calculated by the given function.
+Raises <code>EmptyError</code> if the collection is empty</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#partition/2">partition(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Partitions <code>collection</code> into two collections, where the first one contains elements
+for which <code>fun</code> returns a truthy value, and the second one -- for which <code>fun</code>
+returns <code>false</code> or <code>nil</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reduce/2">reduce(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Invokes <code>fun</code> for each element in the collection passing that element and the
+accumulator <code>acc</code> as arguments. <code>fun</code>&#39;s return value is stored in <code>acc</code>.
+The first element of the collection is used as the initial value of <code>acc</code>.
+Returns the accumulator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reduce/3">reduce(collection, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Invokes <code>fun</code> for each element in the collection passing that element and the
+accumulator <code>acc</code> as arguments. <code>fun</code>&#39;s return value is stored in <code>acc</code>.
+Returns the accumulator</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reject/2">reject(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns elements of collection for which <code>fun</code> returns <code>false</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reverse/1">reverse(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Reverses the collection</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reverse/2">reverse(collection, tail)</a></td>
+  
+    <td class="summary_synopsis"><p>Reverses the collection and appends the tail.
+This is an optimization for
+<code>Enum.concat(Enum.reverse(collection), tail)</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#scan/2">scan(enum, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Applies the given function to each element in the collection,
+storing the result in a list and passing it as the accumulator
+for the next computation</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#scan/3">scan(enum, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Applies the given function to each element in the collection,
+storing the result in a list and passing it as the accumulator
+for the next computation. Uses the given <code>acc</code> as the starting value</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#shuffle/1">shuffle(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a list of collection elements shuffled</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#slice/2">slice(coll, arg2)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a subset list of the given collection. Drops elements
+until element position <code>range.first</code>, then takes elements until element
+position <code>range.last</code> (inclusive)</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#slice/3">slice(coll, start, count)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a subset list of the given collection. Drops elements
+until element position <code>start</code>, then takes <code>count</code> elements</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sort/1">sort(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Sorts the collection according to Elixir&#39;s term ordering</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sort/2">sort(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Sorts the collection by the given function</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#split/2">split(collection, count)</a></td>
+  
+    <td class="summary_synopsis"><p>Splits the enumerable into two collections, leaving <code>count</code>
+elements in the first one. If <code>count</code> is a negative number,
+it starts counting from the back to the beginning of the
+collection</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#split_while/2">split_while(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Splits <code>collection</code> in two while <code>fun</code> returns <code>true</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sum/1">sum(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the sum of all values</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#take/2">take(collection, count)</a></td>
+  
+    <td class="summary_synopsis"><p>Takes the first <code>count</code> items from the collection</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#take_every/2">take_every(collection, nth)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a collection of every <code>nth</code> item in the collection,
+starting with the first element</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#take_while/2">take_while(collection, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Takes the items at the beginning of <code>collection</code> while <code>fun</code> returns <code>true</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#to_list/1">to_list(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Convert <code>collection</code> to a list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#traverse/2">traverse(collection, transform)</a></td>
+  
+    <td class="summary_synopsis"><p>Traverses the given enumerable keeping its shape</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#uniq/2">uniq(collection, fun \\ fn x -&gt; x end)</a></td>
+  
+    <td class="summary_synopsis"><p>Enumerates the collection, removing all duplicated items</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#with_index/1">with_index(collection)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the collection with each element wrapped in a tuple
+alongside its index</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#zip/2">zip(coll1, coll2)</a></td>
+  
+    <td class="summary_synopsis"><p>Zips corresponding elements from two collections into one list
+of tuples</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:element/0">
+    <a href="#t:element/0">element</a> :: any
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:index/0">
+    <a href="#t:index/0">index</a> :: non_neg_integer
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:default/0">
+    <a href="#t:default/0">default</a> :: any
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="all?/2">
+    <span class="signature"><strong>all?(collection, fun \\ fn x -&gt; x end)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#all?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>all?(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code> and returns <code>false</code>
+if at least one invocation returns <code>false</code>. Otherwise returns <code>true</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.all?([2, 4, 6], fn(x) -&gt; rem(x, 2) == 0 end)
+true
+
+iex&gt; Enum.all?([2, 3, 4], fn(x) -&gt; rem(x, 2) == 0 end)
+false
+</code></pre>
+
+<p>If no function is given, it defaults to checking if
+all items in the collection evaluate to <code>true</code>.</p>
+
+<pre><code>iex&gt; Enum.all?([1, 2, 3])
+true
+
+iex&gt; Enum.all?([1, nil, 3])
+false
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L222" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="any?/2">
+    <span class="signature"><strong>any?(collection, fun \\ fn x -&gt; x end)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#any?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>any?(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code> and returns <code>true</code> if
+at least one invocation returns <code>true</code>. Returns <code>false</code> otherwise.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.any?([2, 4, 6], fn(x) -&gt; rem(x, 2) == 1 end)
+false
+
+iex&gt; Enum.any?([2, 3, 4], fn(x) -&gt; rem(x, 2) == 1 end)
+true
+</code></pre>
+
+<p>If no function is given, it defaults to checking if
+at least one item in the collection evaluates to <code>true</code>.</p>
+
+<pre><code>iex&gt; Enum.any?([false, false, false])
+false
+
+iex&gt; Enum.any?([false, true, false])
+true
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L259" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="at/3">
+    <span class="signature"><strong>at(collection, n, default \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#at/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>at(<a href="#t:t/0">t</a>, integer, <a href="#t:default/0">default</a>) :: <a href="#t:element/0">element</a> | <a href="#t:default/0">default</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Finds the element at the given index (zero-based).
+Returns <code>default</code> if index is out of bounds.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.at([2, 4, 6], 0)
+2
+
+iex&gt; Enum.at([2, 4, 6], 2)
+6
+
+iex&gt; Enum.at([2, 4, 6], 4)
+nil
+
+iex&gt; Enum.at([2, 4, 6], 4, :none)
+:none
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L292" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="chunk/2">
+    <span class="signature"><strong>chunk(coll, n)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#chunk/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>chunk(<a href="#t:t/0">t</a>, non_neg_integer) :: [[]]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Shortcut to <code>chunk(coll, n, n)</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L303" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="chunk/4">
+    <span class="signature"><strong>chunk(coll, n, step, pad \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#chunk/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>chunk(<a href="#t:t/0">t</a>, non_neg_integer, non_neg_integer, <a href="#t:t/0">t</a> | nil) :: [[]]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns a collection of lists containing <code>n</code> items each, where
+each new chunk starts <code>step</code> elements into the collection.</p>
+
+<p><code>step</code> is optional and, if not passed, defaults to <code>n</code>, i.e.
+chunks do not overlap. If the final chunk does not have <code>n</code>
+elements to fill the chunk, elements are taken as necessary
+from <code>pad</code> if it was passed. If <code>pad</code> is passed and does not
+have enough elements to fill the chunk, then the chunk is
+returned anyway with less than <code>n</code> elements. If <code>pad</code> is not
+passed at all or is <code>nil</code>, then the partial chunk is discarded
+from the result.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.chunk([1, 2, 3, 4, 5, 6], 2)
+[[1, 2], [3, 4], [5, 6]]
+
+iex&gt; Enum.chunk([1, 2, 3, 4, 5, 6], 3, 2)
+[[1, 2, 3], [3, 4, 5]]
+
+iex&gt; Enum.chunk([1, 2, 3, 4, 5, 6], 3, 2, [7])
+[[1, 2, 3], [3, 4, 5], [5, 6, 7]]
+
+iex&gt; Enum.chunk([1, 2, 3, 4, 5, 6], 3, 3, [])
+[[1, 2, 3], [4, 5, 6]]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L335" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="chunk_by/2">
+    <span class="signature"><strong>chunk_by(coll, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#chunk_by/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>chunk_by(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: [[]]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Splits <code>coll</code> on every element for which <code>fun</code> returns a new value.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.chunk_by([1, 2, 2, 3, 4, 4, 6, 7, 7], &amp;(rem(&amp;1, 2) == 1))
+[[1], [2, 2], [3], [4, 4, 6], [7, 7]]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L359" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="concat/1">
+    <span class="signature"><strong>concat(enumerables)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#concat/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>concat(<a href="#t:t/0">t</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Given an enumerable of enumerables, concatenate the enumerables into a single list.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.concat([1..3, 4..6, 7..9])
+[1,2,3,4,5,6,7,8,9]
+
+iex&gt; Enum.concat([[1, [2], 3], [4], [5, 6]])
+[1,[2],3,4,5,6]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L384" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="concat/2">
+    <span class="signature"><strong>concat(left, right)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#concat/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>concat(<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Concatenates the enumerable on the right with the enumerable on the left.</p>
+
+<p>This function produces the same result as the <a href="Kernel.html#++/2"><code>Kernel.++/2</code></a> operator for lists.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.concat(1..3, 4..6)
+[1,2,3,4,5,6]
+
+iex&gt; Enum.concat([1, 2, 3], [4, 5, 6])
+[1,2,3,4,5,6]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L403" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="count/1">
+    <span class="signature"><strong>count(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#count/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>count(<a href="#t:t/0">t</a>) :: non_neg_integer</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the collection&#39;s size.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.count([1, 2, 3])
+3
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L426" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="count/2">
+    <span class="signature"><strong>count(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#count/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>count(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: non_neg_integer</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the count of items in the collection for which
+<code>fun</code> returns <code>true</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.count([1, 2, 3, 4, 5], fn(x) -&gt; rem(x, 2) == 0 end)
+2
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L452" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="drop/2">
+    <span class="signature"><strong>drop(collection, count)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#drop/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>drop(<a href="#t:t/0">t</a>, integer) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Drops the first <code>count</code> items from <code>collection</code>.</p>
+
+<p>If a negative value <code>count</code> is given, the last <code>count</code>
+values will be dropped. The collection is enumerated
+once to retrieve the proper index and the remaining
+calculation is performed from the end.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.drop([1, 2, 3], 2)
+[3]
+
+iex&gt; Enum.drop([1, 2, 3], 10)
+[]
+
+iex&gt; Enum.drop([1, 2, 3], 0)
+[1,2,3]
+
+iex&gt; Enum.drop([1, 2, 3], -1)
+[1,2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L482" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="drop_while/2">
+    <span class="signature"><strong>drop_while(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#drop_while/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>drop_while(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Drops items at the beginning of <code>collection</code> while <code>fun</code> returns <code>true</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.drop_while([1, 2, 3, 4, 5], fn(x) -&gt; x &lt; 3 end)
+[3,4,5]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L510" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="each/2">
+    <span class="signature"><strong>each(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#each/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>each(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: :ok</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code>.
+Returns <code>:ok</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>Enum.each([&quot;some&quot;, &quot;example&quot;], fn(x) -&gt; IO.puts x end)
+&quot;some&quot;
+&quot;example&quot;
+#=&gt; :ok
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L533" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="empty?/1">
+    <span class="signature"><strong>empty?(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#empty?/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>empty?(<a href="#t:t/0">t</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns <code>true</code> if the collection is empty, otherwise <code>false</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.empty?([])
+true
+
+iex&gt; Enum.empty?([1, 2, 3])
+false
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L559" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="fetch/2">
+    <span class="signature"><strong>fetch(collection, n)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#fetch/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>fetch(<a href="#t:t/0">t</a>, integer) :: {:ok, <a href="#t:element/0">element</a>} | :error</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Finds the element at the given index (zero-based).
+Returns <code>{:ok, element}</code> if found, otherwise <code>:error</code>.</p>
+
+<p>A negative index can be passed, which means the collection is
+enumerated once and the index is counted from the end (i.e.
+<code>-1</code> fetches the last element).</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.fetch([2, 4, 6], 0)
+{:ok, 2}
+
+iex&gt; Enum.fetch([2, 4, 6], 2)
+{:ok, 6}
+
+iex&gt; Enum.fetch([2, 4, 6], 4)
+:error
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L588" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="fetch!/2">
+    <span class="signature"><strong>fetch!(collection, n)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#fetch!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>fetch!(<a href="#t:t/0">t</a>, integer) :: <a href="#t:element/0">element</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Finds the element at the given index (zero-based).
+Raises <code>OutOfBoundsError</code> if the given position
+is outside the range of the collection.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.fetch!([2, 4, 6], 0)
+2
+
+iex&gt; Enum.fetch!([2, 4, 6], 2)
+6
+
+iex&gt; Enum.fetch!([2, 4, 6], 4)
+** (Enum.OutOfBoundsError) out of bounds error
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L630" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="filter/2">
+    <span class="signature"><strong>filter(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#filter/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>filter(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Filters the collection, i.e. returns only those elements
+for which <code>fun</code> returns <code>true</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.filter([1, 2, 3], fn(x) -&gt; rem(x, 2) == 0 end)
+[2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L648" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="filter_map/3">
+    <span class="signature"><strong>filter_map(collection, filter, mapper)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#filter_map/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>filter_map(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term)), (<a href="#t:element/0">element</a> -> <a href="#t:element/0">element</a>)) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Filters the collection and maps its values in one pass.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.filter_map([1, 2, 3], fn(x) -&gt; rem(x, 2) == 0 end, &amp;(&amp;1 * 2))
+[4]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L667" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="find/3">
+    <span class="signature"><strong>find(collection, ifnone \\ nil, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#find/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>find(<a href="#t:t/0">t</a>, <a href="#t:default/0">default</a>, (<a href="#t:element/0">element</a> -> any)) :: <a href="#t:element/0">element</a> | <a href="#t:default/0">default</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the first item for which <code>fun</code> returns a truthy value. If no such
+item is found, returns <code>ifnone</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.find([2, 4, 6], fn(x) -&gt; rem(x, 2) == 1 end)
+nil
+
+iex&gt; Enum.find([2, 4, 6], 0, fn(x) -&gt; rem(x, 2) == 1 end)
+0
+
+iex&gt; Enum.find([2, 3, 4], fn(x) -&gt; rem(x, 2) == 1 end)
+3
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L694" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="find_index/2">
+    <span class="signature"><strong>find_index(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#find_index/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>find_index(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: <a href="#t:index/0">index</a> | nil</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Similar to <a href="#find/3"><code>find/3</code></a>, but returns the index (zero-based)
+of the element instead of the element itself.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.find_index([2, 4, 6], fn(x) -&gt; rem(x, 2) == 1 end)
+nil
+
+iex&gt; Enum.find_index([2, 3, 4], fn(x) -&gt; rem(x, 2) == 1 end)
+1
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L748" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="find_value/3">
+    <span class="signature"><strong>find_value(collection, ifnone \\ nil, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#find_value/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>find_value(<a href="#t:t/0">t</a>, any, (<a href="#t:element/0">element</a> -> any)) :: any | nil</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Similar to <a href="#find/3"><code>find/3</code></a>, but returns the value of the function
+invocation instead of the element itself.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.find_value([2, 4, 6], fn(x) -&gt; rem(x, 2) == 1 end)
+nil
+
+iex&gt; Enum.find_value([2, 3, 4], fn(x) -&gt; rem(x, 2) == 1 end)
+true
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L721" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="flat_map/2">
+    <span class="signature"><strong>flat_map(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#flat_map/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>flat_map(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> <a href="#t:t/0">t</a>)) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns a new collection appending the result of invoking <code>fun</code>
+on each corresponding item of <code>collection</code>.</p>
+
+<p>The given function should return an enumerable.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.flat_map([:a, :b, :c], fn(x) -&gt; [x, x] end)
+[:a, :a, :b, :b, :c, :c]
+
+iex&gt; Enum.flat_map([{1,3}, {4,6}], fn({x,y}) -&gt; x..y end)
+[1, 2, 3, 4, 5, 6]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L780" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="flat_map_reduce/3">
+    <span class="signature"><strong>flat_map_reduce(collection, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#flat_map_reduce/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>(flat_map_reduce(<a href="#t:t/0">t</a>, acc, fun) :: {[any], any}) when fun: (<a href="#t:element/0">element</a>, acc -> {<a href="#t:t/0">t</a>, acc} | {:halt, acc}), acc: any</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Maps and reduces a collection, flattening the given results.</p>
+
+<p>It expects an accumulator and a function that receives each stream item
+and an accumulator, and must return a tuple containing a new stream
+(often a list) with the new accumulator or a tuple with <code>:halt</code> as first
+element and the accumulator as second.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; enum = 1..100
+iex&gt; n = 3
+iex&gt; Enum.flat_map_reduce(enum, 0, fn i, acc -&gt;
+...&gt;   if acc &lt; n, do: {[i], acc + 1}, else: {:halt, acc}
+...&gt; end)
+{[1,2,3], 3}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L807" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="group_by/3">
+    <span class="signature"><strong>group_by(collection, dict \\ %{}, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#group_by/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>(group_by(<a href="#t:t/0">t</a>, dict, (<a href="#t:element/0">element</a> -> any)) :: dict) when dict: <a href="Dict.html#t:t/0">Dict.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Splits <code>collection</code> into groups based on <code>fun</code>.</p>
+
+<p>The result is a dict (by default a map) where each key is
+a group and each value is a list of elements from <code>collection</code>
+for which <code>fun</code> returned that group. Ordering is not necessarily
+preserved.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.group_by(~w{ant buffalo cat dingo}, &amp;String.length/1)
+%{3 =&gt; [&quot;cat&quot;, &quot;ant&quot;], 7 =&gt; [&quot;buffalo&quot;], 5 =&gt; [&quot;dingo&quot;]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1222" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="intersperse/2">
+    <span class="signature"><strong>intersperse(collection, element)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#intersperse/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>intersperse(<a href="#t:t/0">t</a>, <a href="#t:element/0">element</a>) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Intersperses <code>element</code> between each element of the enumeration.</p>
+
+<p>Complexity: O(n)</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.intersperse([1, 2, 3], 0)
+[1, 0, 2, 0, 3]
+
+iex&gt; Enum.intersperse([1], 0)
+[1]
+
+iex&gt; Enum.intersperse([], 0)
+[]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L839" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="into/2">
+    <span class="signature"><strong>into(collection, list)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#into/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>into(<a href="Enumerable.html#t:t/0">Enumerable.t</a>, <a href="Collectable.html#t:t/0">Collectable.t</a>) :: <a href="Collectable.html#t:t/0">Collectable.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Inserts the given enumerable into a collectable.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.into([1, 2], [0])
+[0, 1, 2]
+
+iex&gt; Enum.into([a: 1, b: 2], %{})
+%{a: 1, b: 2}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L864" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="into/3">
+    <span class="signature"><strong>into(collection, list, transform)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#into/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>into(<a href="Enumerable.html#t:t/0">Enumerable.t</a>, <a href="Collectable.html#t:t/0">Collectable.t</a>, (term -> term)) :: <a href="Collectable.html#t:t/0">Collectable.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Inserts the given enumerable into a collectable
+according to the transformation function.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.into([2, 3], [3], fn x -&gt; x * 3 end)
+[3, 6, 9]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L891" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="join/2">
+    <span class="signature"><strong>join(collection, joiner \\ &quot;&quot;)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#join/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>join(<a href="#t:t/0">t</a>, <a href="String.html#t:t/0">String.t</a>) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Joins the given <code>collection</code> according to <code>joiner</code>.
+<code>joiner</code> can be either a binary or a list and the
+result will be of the same type as <code>joiner</code>. If
+<code>joiner</code> is not passed at all, it defaults to an
+empty binary.</p>
+
+<p>All items in the collection must be convertible
+to a binary, otherwise an error is raised.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.join([1, 2, 3])
+&quot;123&quot;
+
+iex&gt; Enum.join([1, 2, 3], &quot; = &quot;)
+&quot;1 = 2 = 3&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L936" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="map/2">
+    <span class="signature"><strong>map(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#map/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>map(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns a new collection, where each item is the result
+of invoking <code>fun</code> on each corresponding item of <code>collection</code>.</p>
+
+<p>For dicts, the function expects a key-value tuple.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.map([1, 2, 3], fn(x) -&gt; x * 2 end)
+[2, 4, 6]
+
+iex&gt; Enum.map([a: 1, b: 2], fn({k, v}) -&gt; {k, -v} end)
+[a: -1, b: -2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L961" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="map_join/3">
+    <span class="signature"><strong>map_join(collection, joiner \\ &quot;&quot;, mapper)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#map_join/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>map_join(<a href="#t:t/0">t</a>, <a href="String.html#t:t/0">String.t</a>, (<a href="#t:element/0">element</a> -> any)) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Maps and joins the given <code>collection</code> in one pass.
+<code>joiner</code> can be either a binary or a list and the
+result will be of the same type as <code>joiner</code>. If
+<code>joiner</code> is not passed at all, it defaults to an
+empty binary.</p>
+
+<p>All items in the collection must be convertible
+to a binary, otherwise an error is raised.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.map_join([1, 2, 3], &amp;(&amp;1 * 2))
+&quot;246&quot;
+
+iex&gt; Enum.map_join([1, 2, 3], &quot; = &quot;, &amp;(&amp;1 * 2))
+&quot;2 = 4 = 6&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L990" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="map_reduce/3">
+    <span class="signature"><strong>map_reduce(collection, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#map_reduce/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>map_reduce(<a href="#t:t/0">t</a>, any, (<a href="#t:element/0">element</a>, any -> any)) :: any</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Invokes the given <code>fun</code> for each item in the <code>collection</code>
+while also keeping an accumulator. Returns a tuple where
+the first element is the mapped collection and the second
+one is the final accumulator.</p>
+
+<p>For dicts, the first tuple element must be a <code>{key, value}</code>
+tuple.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.map_reduce([1, 2, 3], 0, fn(x, acc) -&gt; {x * 2, x + acc} end)
+{[2, 4, 6], 6}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1015" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="max/1">
+    <span class="signature"><strong>max(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#max/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>max(<a href="#t:t/0">t</a>) :: <a href="#t:element/0">element</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the maximum value.
+Raises <code>EmptyError</code> if the collection is empty.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.max([1, 2, 3])
+3
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1038" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="max_by/2">
+    <span class="signature"><strong>max_by(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#max_by/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>max_by(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: <a href="#t:element/0">element</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the maximum value as calculated by the given function.
+Raises <code>EmptyError</code> if the collection is empty.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.max_by([&quot;a&quot;, &quot;aa&quot;, &quot;aaa&quot;], fn(x) -&gt; String.length(x) end)
+&quot;aaa&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1053" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="member?/2">
+    <span class="signature"><strong>member?(collection, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#member?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>member?(<a href="#t:t/0">t</a>, <a href="#t:element/0">element</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Checks if <code>value</code> exists within the <code>collection</code>.</p>
+
+<p>Membership is tested with the match (<code>===</code>) operator, although
+enumerables like ranges may include floats inside the given
+range.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.member?(1..10, 5)
+true
+
+iex&gt; Enum.member?([:a, :b, :c], :d)
+false
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1097" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="min/1">
+    <span class="signature"><strong>min(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#min/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>min(<a href="#t:t/0">t</a>) :: <a href="#t:element/0">element</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the minimum value.
+Raises <code>EmptyError</code> if the collection is empty.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.min([1, 2, 3])
+1
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1124" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="min_by/2">
+    <span class="signature"><strong>min_by(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#min_by/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>min_by(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: <a href="#t:element/0">element</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the minimum value as calculated by the given function.
+Raises <code>EmptyError</code> if the collection is empty.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.min_by([&quot;a&quot;, &quot;aa&quot;, &quot;aaa&quot;], fn(x) -&gt; String.length(x) end)
+&quot;a&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1139" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="partition/2">
+    <span class="signature"><strong>partition(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#partition/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>partition(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: {[], []}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Partitions <code>collection</code> into two collections, where the first one contains elements
+for which <code>fun</code> returns a truthy value, and the second one -- for which <code>fun</code>
+returns <code>false</code> or <code>nil</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.partition([1, 2, 3], fn(x) -&gt; rem(x, 2) == 0 end)
+{[2], [1,3]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1194" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reduce/2">
+    <span class="signature"><strong>reduce(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reduce/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>reduce(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a>, any -> any)) :: any</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Invokes <code>fun</code> for each element in the collection passing that element and the
+accumulator <code>acc</code> as arguments. <code>fun</code>&#39;s return value is stored in <code>acc</code>.
+The first element of the collection is used as the initial value of <code>acc</code>.
+Returns the accumulator.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.reduce([1, 2, 3, 4], fn(x, acc) -&gt; x * acc end)
+24
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1262" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reduce/3">
+    <span class="signature"><strong>reduce(collection, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reduce/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>reduce(<a href="#t:t/0">t</a>, any, (<a href="#t:element/0">element</a>, any -> any)) :: any</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Invokes <code>fun</code> for each element in the collection passing that element and the
+accumulator <code>acc</code> as arguments. <code>fun</code>&#39;s return value is stored in <code>acc</code>.
+Returns the accumulator.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.reduce([1, 2, 3], 0, fn(x, acc) -&gt; x + acc end)
+6
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1240" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reject/2">
+    <span class="signature"><strong>reject(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reject/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>reject(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns elements of collection for which <code>fun</code> returns <code>false</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.reject([1, 2, 3], fn(x) -&gt; rem(x, 2) == 0 end)
+[1, 3]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1295" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reverse/1">
+    <span class="signature"><strong>reverse(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reverse/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>reverse(<a href="#t:t/0">t</a>) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Reverses the collection.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.reverse([1, 2, 3])
+[3, 2, 1]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1313" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reverse/2">
+    <span class="signature"><strong>reverse(collection, tail)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reverse/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>reverse(<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Reverses the collection and appends the tail.
+This is an optimization for
+<code>Enum.concat(Enum.reverse(collection), tail)</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.reverse([1, 2, 3], [4, 5, 6])
+[3, 2, 1, 4, 5, 6]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1333" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="scan/2">
+    <span class="signature"><strong>scan(enum, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#scan/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>scan(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a>, any -> any)) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Applies the given function to each element in the collection,
+storing the result in a list and passing it as the accumulator
+for the next computation.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.scan(1..5, &amp;(&amp;1 + &amp;2))
+[1,3,6,10,15]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1355" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="scan/3">
+    <span class="signature"><strong>scan(enum, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#scan/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>scan(<a href="#t:t/0">t</a>, any, (<a href="#t:element/0">element</a>, any -> any)) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Applies the given function to each element in the collection,
+storing the result in a list and passing it as the accumulator
+for the next computation. Uses the given <code>acc</code> as the starting value.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.scan(1..5, 0, &amp;(&amp;1 + &amp;2))
+[1,3,6,10,15]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1373" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="shuffle/1">
+    <span class="signature"><strong>shuffle(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#shuffle/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>shuffle(<a href="#t:t/0">t</a>) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns a list of collection elements shuffled.</p>
+
+<p>Notice that you need to explicitly call <a href="http://www.erlang.org/doc/man/random.html#seed-1"><code>:random.seed/1</code></a> and
+set a seed value for the random algorithm. Otherwise, the
+default seed will be set which will always return the same
+result. For example, one could do the following to set a seed
+dynamically:</p>
+
+<pre><code>:random.seed(:erlang.now)
+</code></pre>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.shuffle([1, 2, 3])
+[3, 2, 1]
+iex&gt; Enum.shuffle([1, 2, 3])
+[3, 1, 2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1399" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="slice/2">
+    <span class="signature"><strong>slice(coll, arg2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#slice/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>slice(<a href="#t:t/0">t</a>, <a href="Range.html#t:t/0">Range.t</a>) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns a subset list of the given collection. Drops elements
+until element position <code>range.first</code>, then takes elements until element
+position <code>range.last</code> (inclusive).</p>
+
+<p>Positions are calculated by adding the number of items in the collection to
+negative positions (so position -3 in a collection with count 5 becomes
+position 2).</p>
+
+<p>The first position (after adding count to negative positions) must be smaller
+or equal to the last position.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.slice(1..100, 5..10)
+[6, 7, 8, 9, 10, 11]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1467" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="slice/3">
+    <span class="signature"><strong>slice(coll, start, count)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#slice/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>slice(<a href="#t:t/0">t</a>, integer, non_neg_integer) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns a subset list of the given collection. Drops elements
+until element position <code>start</code>, then takes <code>count</code> elements.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.slice(1..100, 5, 10)
+[6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1418" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sort/1">
+    <span class="signature"><strong>sort(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sort/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sort(<a href="#t:t/0">t</a>) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Sorts the collection according to Elixir&#39;s term ordering.</p>
+
+<p>Uses the merge sort algorithm.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.sort([3, 2, 1])
+[1, 2, 3]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1496" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sort/2">
+    <span class="signature"><strong>sort(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sort/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sort(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a>, <a href="#t:element/0">element</a> -> boolean)) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Sorts the collection by the given function.</p>
+
+<p>This function uses the merge sort algorithm. The given function
+must return false if the first argument is less than right one.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.sort([1, 2, 3], &amp;(&amp;1 &gt; &amp;2))
+[3, 2, 1]
+</code></pre>
+
+<p>The sorting algorithm will be stable as long as the given function
+returns true for values considered equal:</p>
+
+<pre><code>iex&gt; Enum.sort [&quot;some&quot;, &quot;kind&quot;, &quot;of&quot;, &quot;monster&quot;], &amp;(byte_size(&amp;1) &lt;= byte_size(&amp;2))
+[&quot;of&quot;, &quot;some&quot;, &quot;kind&quot;, &quot;monster&quot;]
+</code></pre>
+
+<p>If the function does not return true, the sorting is not stable and
+the order of equal terms may be shuffled:</p>
+
+<pre><code>iex&gt; Enum.sort [&quot;some&quot;, &quot;kind&quot;, &quot;of&quot;, &quot;monster&quot;], &amp;(byte_size(&amp;1) &lt; byte_size(&amp;2))
+[&quot;of&quot;, &quot;kind&quot;, &quot;some&quot;, &quot;monster&quot;]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1529" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="split/2">
+    <span class="signature"><strong>split(collection, count)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#split/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>split(<a href="#t:t/0">t</a>, integer) :: {[], []}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Splits the enumerable into two collections, leaving <code>count</code>
+elements in the first one. If <code>count</code> is a negative number,
+it starts counting from the back to the beginning of the
+collection.</p>
+
+<p>Be aware that a negative <code>count</code> implies the collection
+will be enumerated twice: once to calculate the position, and
+a second time to do the actual splitting.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.split([1, 2, 3], 2)
+{[1,2], [3]}
+
+iex&gt; Enum.split([1, 2, 3], 10)
+{[1,2,3], []}
+
+iex&gt; Enum.split([1, 2, 3], 0)
+{[], [1,2,3]}
+
+iex&gt; Enum.split([1, 2, 3], -1)
+{[1,2], [3]}
+
+iex&gt; Enum.split([1, 2, 3], -5)
+{[], [1,2,3]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1566" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="split_while/2">
+    <span class="signature"><strong>split_while(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#split_while/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>split_while(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: {[], []}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Splits <code>collection</code> in two while <code>fun</code> returns <code>true</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.split_while([1, 2, 3, 4], fn(x) -&gt; x &lt; 3 end)
+{[1, 2], [3, 4]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1597" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sum/1">
+    <span class="signature"><strong>sum(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sum/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sum(<a href="#t:t/0">t</a>) :: number</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the sum of all values.</p>
+
+<p>Raises <a href="ArithmeticError.html"><code>ArithmeticError</code></a> if collection contains a non-numeric value.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.sum([1, 2, 3])
+6
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1178" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="take/2">
+    <span class="signature"><strong>take(collection, count)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#take/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>take(<a href="#t:t/0">t</a>, integer) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Takes the first <code>count</code> items from the collection.</p>
+
+<p>If a negative <code>count</code> is given, the last <code>count</code> values will
+be taken. For such, the collection is fully enumerated keeping up
+to <code>2 * count</code> elements in memory. Once the end of the collection is
+reached, the last <code>count</code> elements are returned.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.take([1, 2, 3], 2)
+[1,2]
+
+iex&gt; Enum.take([1, 2, 3], 10)
+[1,2,3]
+
+iex&gt; Enum.take([1, 2, 3], 0)
+[]
+
+iex&gt; Enum.take([1, 2, 3], -1)
+[3]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1638" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="take_every/2">
+    <span class="signature"><strong>take_every(collection, nth)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#take_every/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>take_every(<a href="#t:t/0">t</a>, integer) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns a collection of every <code>nth</code> item in the collection,
+starting with the first element.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.take_every(1..10, 2)
+[1, 3, 5, 7, 9]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1674" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="take_while/2">
+    <span class="signature"><strong>take_while(collection, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#take_while/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>take_while(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> as_boolean(term))) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Takes the items at the beginning of <code>collection</code> while <code>fun</code> returns <code>true</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.take_while([1, 2, 3], fn(x) -&gt; x &lt; 3 end)
+[1, 2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1691" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="to_list/1">
+    <span class="signature"><strong>to_list(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#to_list/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>to_list(<a href="#t:t/0">t</a>) :: [term]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Convert <code>collection</code> to a list.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.to_list(1 .. 3)
+[1, 2, 3]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1710" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="traverse/2">
+    <span class="signature"><strong>traverse(collection, transform)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#traverse/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>traverse(<a href="Enumerable.html#t:t/0">Enumerable.t</a>, (term -> term)) :: <a href="Collectable.html#t:t/0">Collectable.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Traverses the given enumerable keeping its shape.</p>
+
+<p>It also expects the enumerable to implement the <a href="Collectable.html"><code>Collectable</code></a> protocol.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.traverse(%{a: 1, b: 2}, fn {k, v} -&gt; {k, v * 2} end)
+%{a: 2, b: 4}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1731" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="uniq/2">
+    <span class="signature"><strong>uniq(collection, fun \\ fn x -&gt; x end)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#uniq/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>uniq(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> term)) :: []</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Enumerates the collection, removing all duplicated items.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.uniq([1, 2, 3, 2, 1])
+[1, 2, 3]
+
+iex&gt; Enum.uniq([{1, :x}, {2, :y}, {1, :z}], fn {x, _} -&gt; x end)
+[{1,:x}, {2,:y}]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1753" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="with_index/1">
+    <span class="signature"><strong>with_index(collection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#with_index/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>with_index(<a href="#t:t/0">t</a>) :: [{<a href="#t:element/0">element</a>, non_neg_integer}]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the collection with each element wrapped in a tuple
+alongside its index.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.with_index [1,2,3]
+[{1,0},{2,1},{3,2}]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1800" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="zip/2">
+    <span class="signature"><strong>zip(coll1, coll2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#zip/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>zip(<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>) :: [{any, any}]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Zips corresponding elements from two collections into one list
+of tuples.</p>
+
+<p>The zipping finishes as soon as any enumerable completes.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Enum.zip([1, 2, 3], [:a, :b, :c])
+[{1,:a},{2,:b},{3,:c}]
+
+iex&gt; Enum.zip([1,2,3,4,5], [:a, :b, :c])
+[{1,:a},{2,:b},{3,:c}]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/enum.ex#L1781" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

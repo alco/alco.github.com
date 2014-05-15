@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>URI</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="URI.html">URI</a></div>
+
+      <h1>
+        URI
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Utilities for working with and creating URIs.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#decode/1">decode(uri)</a></td>
+  
+    <td class="summary_synopsis"><p>Percent-unescape a URI</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#decode/2">decode(arg1, uri)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#decode_query/2">decode_query(q, dict \\ %{})</a></td>
+  
+    <td class="summary_synopsis"><p>Decodes a query string into a dictionary (by default uses a map)</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#default_port/1">default_port(scheme)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the default port for a given scheme</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#default_port/2">default_port(scheme, port)</a></td>
+  
+    <td class="summary_synopsis"><p>Registers a scheme with a default port</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#encode/1">encode(s)</a></td>
+  
+    <td class="summary_synopsis"><p>Percent-escape a URI</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#encode_query/1">encode_query(l)</a></td>
+  
+    <td class="summary_synopsis"><p>Encodes an enumerable into a query string</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#normalize_scheme/1">normalize_scheme(scheme)</a></td>
+  
+    <td class="summary_synopsis"><p>Normalizes the scheme according to the spec by downcasing it</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#parse/1">parse(s)</a></td>
+  
+    <td class="summary_synopsis"><p>Parses a URI into components</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#query_decoder/1">query_decoder(q)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns an iterator function over the query string that decodes
+the query string in steps</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: %URI{scheme: term, path: term, query: term, fragment: term, authority: term, userinfo: term, host: term, port: term}
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="decode/1">
+    <span class="signature"><strong>decode(uri)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#decode/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Percent-unescape a URI.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; URI.decode(&quot;http%3A%2F%2Felixir-lang.org&quot;)
+&quot;http://elixir-lang.org&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L185" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="decode/2">
+    <span class="signature"><strong>decode(arg1, uri)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#decode/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"></div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L189" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="decode_query/2">
+    <span class="signature"><strong>decode_query(q, dict \\ %{})</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#decode_query/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Decodes a query string into a dictionary (by default uses a map).</p>
+
+<p>Given a query string of the form &quot;key1=value1&amp;key2=value2...&quot;, produces a
+map with one entry for each key-value pair. Each key and value will be a
+binary. Keys and values will be percent-unescaped.</p>
+
+<p>Use <a href="#query_decoder/1"><code>query_decoder/1</code></a> if you want to iterate over each value manually.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; URI.decode_query(&quot;foo=1&amp;bar=2&quot;)
+%{&quot;bar&quot; =&gt; &quot;2&quot;, &quot;foo&quot; =&gt; &quot;1&quot;}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L98" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="default_port/1">
+    <span class="signature"><strong>default_port(scheme)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#default_port/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the default port for a given scheme.</p>
+
+<p>If the scheme is unknown to URI, returns <code>nil</code>.
+Any scheme may be registered via <a href="#default_port/2"><code>default_port/2</code></a>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; URI.default_port(&quot;ftp&quot;)
+21
+
+iex&gt; URI.default_port(&quot;ponzi&quot;)
+nil
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L23" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="default_port/2">
+    <span class="signature"><strong>default_port(scheme, port)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#default_port/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Registers a scheme with a default port.</p>
+
+<p>It is recommended for this function to be invoked in your
+application start callback in case you want to register
+new URIs.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L59" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="encode/1">
+    <span class="signature"><strong>encode(s)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#encode/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Percent-escape a URI.</p>
+
+<h2>Example</h2>
+
+<pre><code>iex&gt; URI.encode(&quot;http://elixir-lang.org/getting_started/2.html&quot;)
+&quot;http%3A%2F%2Felixir-lang.org%2Fgetting_started%2F2.html&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L157" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="encode_query/1">
+    <span class="signature"><strong>encode_query(l)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#encode_query/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Encodes an enumerable into a query string.</p>
+
+<p>Takes an enumerable (containing a sequence of two-item tuples)
+and returns a string of the form &quot;key1=value1&amp;key2=value2...&quot; where
+keys and values are URL encoded as per <a href="#encode/1"><code>encode/1</code></a>.</p>
+
+<p>Keys and values can be any term that implements the <a href="String.Chars.html"><code>String.Chars</code></a>
+protocol, except lists which are explicitly forbidden.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; hd = %{&quot;foo&quot; =&gt; 1, &quot;bar&quot; =&gt; 2}
+iex&gt; URI.encode_query(hd)
+&quot;bar=2&amp;foo=1&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L81" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="normalize_scheme/1">
+    <span class="signature"><strong>normalize_scheme(scheme)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#normalize_scheme/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Normalizes the scheme according to the spec by downcasing it.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L22" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="parse/1">
+    <span class="signature"><strong>parse(s)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#parse/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Parses a URI into components.</p>
+
+<p>URIs have portions that are handled specially for the particular
+scheme of the URI. For example, http and https have different
+default ports. Such values can be accessed and registered via
+<a href="URI.html#default_port/1"><code>URI.default_port/1</code></a> and <a href="URI.html#default_port/2"><code>URI.default_port/2</code></a>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; URI.parse(&quot;http://elixir-lang.org/&quot;)
+%URI{scheme: &quot;http&quot;, path: &quot;/&quot;, query: nil, fragment: nil,
+     authority: &quot;elixir-lang.org&quot;, userinfo: nil,
+     host: &quot;elixir-lang.org&quot;, port: 80}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L225" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="query_decoder/1">
+    <span class="signature"><strong>query_decoder(q)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#query_decoder/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns an iterator function over the query string that decodes
+the query string in steps.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; URI.query_decoder(&quot;foo=1&amp;bar=2&quot;) |&gt; Enum.map &amp;(&amp;1)
+[{&quot;foo&quot;, &quot;1&quot;}, {&quot;bar&quot;, &quot;2&quot;}]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/uri.ex#L112" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

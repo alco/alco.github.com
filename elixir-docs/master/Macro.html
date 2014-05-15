@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Macro</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Macro.html">Macro</a></div>
+
+      <h1>
+        Macro
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Conveniences for working with macros.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L3" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#decompose_call/1">decompose_call(arg1)</a></td>
+  
+    <td class="summary_synopsis"><p>Decomposes a local or remote call into its remote part (when provided),
+function name and argument list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#escape/2">escape(expr, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Recursively escapes a value so it can be inserted
+into a syntax tree</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#expand/2">expand(tree, env)</a></td>
+  
+    <td class="summary_synopsis"><p>Receives an AST node and expands it until it can no longer
+be expanded</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#expand_once/2">expand_once(ast, env)</a></td>
+  
+    <td class="summary_synopsis"><p>Receives an AST node and expands it once</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#pipe/3">pipe(expr, call_args, position)</a></td>
+  
+    <td class="summary_synopsis"><p>Pipes <code>expr</code> into the <code>call_args</code> at the given <code>position</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#safe_term/1">safe_term(terms)</a></td>
+  
+    <td class="summary_synopsis"><p>Recursively traverses the quoted expression checking if all sub-terms are
+safe</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#to_string/2">to_string(tree, fun \\ fn _ast, string -&gt; string end)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the given expression to a binary</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unescape_string/1">unescape_string(chars)</a></td>
+  
+    <td class="summary_synopsis"><p>Unescape the given chars</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unescape_string/2">unescape_string(chars, map)</a></td>
+  
+    <td class="summary_synopsis"><p>Unescape the given chars according to the map given</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unescape_tokens/1">unescape_tokens(tokens)</a></td>
+  
+    <td class="summary_synopsis"><p>Unescape the given tokens according to the default map</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unescape_tokens/2">unescape_tokens(tokens, map)</a></td>
+  
+    <td class="summary_synopsis"><p>Unescape the given tokens according to the given map</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unpipe/1">unpipe(other)</a></td>
+  
+    <td class="summary_synopsis"><p>Breaks a pipeline expression into a list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update_meta/2">update_meta(quoted, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Recurs the quoted expression applying the given function to
+each metadata node</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: <a href="#t:expr/0">expr</a> | {<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>} | atom | number | binary | pid | (... -> any) | [<a href="#t:t/0">t</a>]
+  </p>
+  
+      <div class="typespec_doc"><p>Abstract Syntax Tree (AST)</p>
+</div>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:expr/0">
+    <a href="#t:expr/0">expr</a> :: {<a href="#t:expr/0">expr</a> | atom, <a href="Keyword.html#t:t/0">Keyword.t</a>, atom | [<a href="#t:t/0">t</a>]}
+  </p>
+  
+      <div class="typespec_doc"><p>Expr node (remaining ones are literals)</p>
+</div>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="decompose_call/1">
+    <span class="signature"><strong>decompose_call(arg1)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#decompose_call/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>decompose_call(<a href="Macro.html#t:t/0">Macro.t</a>) :: {atom, [<a href="Macro.html#t:t/0">Macro.t</a>]} | {<a href="Macro.html#t:t/0">Macro.t</a>, atom, [<a href="Macro.html#t:t/0">Macro.t</a>]} | :error</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Decomposes a local or remote call into its remote part (when provided),
+function name and argument list.</p>
+
+<p>Returns <code>:error</code> when an invalid call syntax is provided.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Macro.decompose_call(quote do: foo)
+{:foo, []}
+
+iex&gt; Macro.decompose_call(quote do: foo())
+{:foo, []}
+
+iex&gt; Macro.decompose_call(quote do: foo(1, 2, 3))
+{:foo, [1, 2, 3]}
+
+iex&gt; Macro.decompose_call(quote do: Elixir.M.foo(1, 2, 3))
+{{:__aliases__, [], [:Elixir, :M]}, :foo, [1, 2, 3]}
+
+iex&gt; Macro.decompose_call(quote do: 42)
+:error
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L147" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="escape/2">
+    <span class="signature"><strong>escape(expr, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#escape/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>escape(term, <a href="Keyword.html#t:t/0">Keyword.t</a>) :: <a href="Macro.html#t:t/0">Macro.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Recursively escapes a value so it can be inserted
+into a syntax tree.</p>
+
+<p>One may pass <code>unquote: true</code> to <a href="#escape/2"><code>escape/2</code></a>
+which leaves <code>unquote</code> statements unescaped, effectively
+unquoting the contents on escape.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Macro.escape(:foo)
+:foo
+
+iex&gt; Macro.escape({:a, :b, :c})
+{:{}, [], [:a, :b, :c]}
+
+iex&gt; Macro.escape({:unquote, [], [1]}, unquote: true)
+1
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L181" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="expand/2">
+    <span class="signature"><strong>expand(tree, env)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#expand/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Receives an AST node and expands it until it can no longer
+be expanded.</p>
+
+<p>This function uses <a href="#expand_once/2"><code>expand_once/2</code></a> under the hood. Check
+<a href="#expand_once/2"><code>expand_once/2</code></a> for more information and exmaples.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L762" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="expand_once/2">
+    <span class="signature"><strong>expand_once(ast, env)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#expand_once/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Receives an AST node and expands it once.</p>
+
+<p>The following contents are expanded:</p>
+
+<ul>
+<li>Macros (local or remote);</li>
+<li>Aliases are expanded (if possible) and return atoms;</li>
+<li>Pseudo-variables (<code>__ENV__</code>, <code>__MODULE__</code> and <code>__DIR__</code>);</li>
+<li>Module attributes reader (<code>@foo</code>);</li>
+</ul>
+
+<p>If the expression cannot be expanded, it returns the expression
+itself. Notice that <a href="#expand_once/2"><code>expand_once/2</code></a> performs the expansion just
+once and it is not recursive. Check <a href="#expand/2"><code>expand/2</code></a> for expansion
+until the node can no longer be expanded.</p>
+
+<h2>Examples</h2>
+
+<p>In the example below, we have a macro that generates a module
+with a function named <code>name_length</code> that returns the length
+of the module name. The value of this function will be calculated
+at compilation time and not at runtime.</p>
+
+<p>Consider the implementation below:</p>
+
+<pre><code>defmacro defmodule_with_length(name, do: block) do
+  length = length(atom_to_list(name))
+
+  quote do
+    defmodule unquote(name) do
+      def name_length, do: unquote(length)
+      unquote(block)
+    end
+  end
+end
+</code></pre>
+
+<p>When invoked like this:</p>
+
+<pre><code>defmodule_with_length My.Module do
+  def other_function, do: ...
+end
+</code></pre>
+
+<p>The compilation will fail because <code>My.Module</code> when quoted
+is not an atom, but a syntax tree as follow:</p>
+
+<pre><code>{:__aliases__, [], [:My, :Module]}
+</code></pre>
+
+<p>That said, we need to expand the aliases node above to an
+atom, so we can retrieve its length. Expanding the node is
+not straight-forward because we also need to expand the
+caller aliases. For example:</p>
+
+<pre><code>alias MyHelpers, as: My
+
+defmodule_with_length My.Module do
+  def other_function, do: ...
+end
+</code></pre>
+
+<p>The final module name will be <code>MyHelpers.Module</code> and not
+<code>My.Module</code>. With <a href="Macro.html#expand/2"><code>Macro.expand/2</code></a>, such aliases are taken
+into consideration. Local and remote macros are also
+expanded. We could rewrite our macro above to use this
+function as:</p>
+
+<pre><code>defmacro defmodule_with_length(name, do: block) do
+  expanded = Macro.expand(name, __CALLER__)
+  length   = length(atom_to_list(expanded))
+
+  quote do
+    defmodule unquote(name) do
+      def name_length, do: unquote(length)
+      unquote(block)
+    end
+  end
+end
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L644" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="pipe/3">
+    <span class="signature"><strong>pipe(expr, call_args, position)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#pipe/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>pipe(<a href="Macro.html#t:t/0">Macro.t</a>, <a href="Macro.html#t:t/0">Macro.t</a>, integer) :: <a href="Macro.html#t:t/0">Macro.t</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Pipes <code>expr</code> into the <code>call_args</code> at the given <code>position</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L68" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="safe_term/1">
+    <span class="signature"><strong>safe_term(terms)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#safe_term/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Recursively traverses the quoted expression checking if all sub-terms are
+safe.</p>
+
+<p>Terms are considered safe if they represent data structures and don&#39;t actually
+evaluate code. Returns <code>:ok</code> unless a given term is unsafe,
+which is returned as <code>{:unsafe, term}</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L782" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="to_string/2">
+    <span class="signature"><strong>to_string(tree, fun \\ fn _ast, string -&gt; string end)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#to_string/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>to_string(<a href="Macro.html#t:t/0">Macro.t</a>, (<a href="Macro.html#t:t/0">Macro.t</a>, <a href="String.html#t:t/0">String.t</a> -> <a href="String.html#t:t/0">String.t</a>)) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the given expression to a binary.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Macro.to_string(quote do: foo.bar(1, 2, 3))
+&quot;foo.bar(1, 2, 3)&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L299" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="unescape_string/1">
+    <span class="signature"><strong>unescape_string(chars)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unescape_string/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>unescape_string(<a href="String.html#t:t/0">String.t</a>) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Unescape the given chars.</p>
+
+<p>This is the unescaping behaviour used by default in Elixir
+single- and double-quoted strings. Check <a href="#unescape_string/2"><code>unescape_string/2</code></a>
+for information on how to customize the escaping map.</p>
+
+<p>In this setup, Elixir will escape the following: <code>\a</code>, <code>\b</code>,
+<code>\d</code>, <code>\e</code>, <code>\f</code>, <code>\n</code>, <code>\r</code>, <code>\s</code>, <code>\t</code> and <code>\v</code>. Octals are
+also escaped according to the latin1 set they represent.</p>
+
+<p>This function is commonly used on sigil implementations
+(like <code>~r</code>, <code>~s</code> and others) which receive a raw, unescaped
+string.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Macro.unescape_string(&quot;example\\n&quot;)
+&quot;example\n&quot;
+</code></pre>
+
+<p>In the example above, we pass a string with <code>\n</code> escaped
+and return a version with it unescaped.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L209" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="unescape_string/2">
+    <span class="signature"><strong>unescape_string(chars, map)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unescape_string/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>unescape_string(<a href="String.html#t:t/0">String.t</a>, (non_neg_integer -> non_neg_integer | false)) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Unescape the given chars according to the map given.</p>
+
+<p>Check <a href="#unescape_string/1"><code>unescape_string/1</code></a> if you want to use the same map
+as Elixir single- and double-quoted strings.</p>
+
+<h2>Map</h2>
+
+<p>The map must be a function. The function receives an integer
+representing the codepoint of the character it wants to unescape.
+Here is the default mapping function implemented by Elixir:</p>
+
+<pre><code>def unescape_map(?a), do: ?\a
+def unescape_map(?b), do: ?\b
+def unescape_map(?d), do: ?\d
+def unescape_map(?e), do: ?\e
+def unescape_map(?f), do: ?\f
+def unescape_map(?n), do: ?\n
+def unescape_map(?r), do: ?\r
+def unescape_map(?s), do: ?\s
+def unescape_map(?t), do: ?\t
+def unescape_map(?v), do: ?\v
+def unescape_map(e),  do: e
+</code></pre>
+
+<p>If the <code>unescape_map</code> function returns <code>false</code>. The char is
+not escaped and <code>\</code> is kept in the char list.</p>
+
+<h2>Octals</h2>
+
+<p>Octals will by default be escaped unless the map function
+returns <code>false</code> for <code>?0</code>.</p>
+
+<h2>Hex</h2>
+
+<p>Hexadecimals will by default be escaped unless the map function
+returns <code>false</code> for <code>?x</code>.</p>
+
+<h2>Examples</h2>
+
+<p>Using the <code>unescape_map</code> function defined above is easy:</p>
+
+<pre><code>Macro.unescape_string &quot;example\\n&quot;, &amp;unescape_map(&amp;1)
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L258" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="unescape_tokens/1">
+    <span class="signature"><strong>unescape_tokens(tokens)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unescape_tokens/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>unescape_tokens([<a href="Macro.html#t:t/0">Macro.t</a>]) :: [<a href="Macro.html#t:t/0">Macro.t</a>]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Unescape the given tokens according to the default map.</p>
+
+<p>Check <a href="#unescape_string/1"><code>unescape_string/1</code></a> and <a href="#unescape_string/2"><code>unescape_string/2</code></a> for more
+information about unescaping.</p>
+
+<p>Only tokens that are binaries are unescaped, all others are
+ignored. This function is useful when implementing your own
+sigils. Check the implementation of <a href="Kernel.html#sigil_s/2"><code>Kernel.sigil_s/2</code></a>
+for examples.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L274" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="unescape_tokens/2">
+    <span class="signature"><strong>unescape_tokens(tokens, map)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unescape_tokens/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>unescape_tokens([<a href="Macro.html#t:t/0">Macro.t</a>], (non_neg_integer -> non_neg_integer | false)) :: [<a href="Macro.html#t:t/0">Macro.t</a>]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Unescape the given tokens according to the given map.</p>
+
+<p>Check <a href="#unescape_tokens/1"><code>unescape_tokens/1</code></a> and <a href="#unescape_string/2"><code>unescape_string/2</code></a> for more information.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L284" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="unpipe/1">
+    <span class="signature"><strong>unpipe(other)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unpipe/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>unpipe(<a href="Macro.html#t:t/0">Macro.t</a>) :: [<a href="Macro.html#t:t/0">Macro.t</a>]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Breaks a pipeline expression into a list.</p>
+
+<p>Raises if the pipeline is ill-formed.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L56" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="update_meta/2">
+    <span class="signature"><strong>update_meta(quoted, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update_meta/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>update_meta(<a href="#t:t/0">t</a>, (<a href="Keyword.html#t:t/0">Keyword.t</a> -> <a href="Keyword.html#t:t/0">Keyword.t</a>)) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Recurs the quoted expression applying the given function to
+each metadata node.</p>
+
+<p>This is often useful to remove information like lines and
+hygienic counters from the expression for either storage or
+comparison.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; quoted = quote line: 10, do: sample()
+{:sample, [line: 10], []}
+iex&gt; Macro.update_meta(quoted, &amp;Keyword.delete(&amp;1, :line))
+{:sample, [], []}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/macro.ex#L104" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

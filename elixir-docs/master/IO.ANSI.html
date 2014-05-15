@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IO.ANSI</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="IO.html">IO</a> &rarr; <a href="IO.ANSI.html">ANSI</a></div>
+
+      <h1>
+        IO.ANSI
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Functionality to render ANSI escape sequences
+(<a href="http://en.wikipedia.org/wiki/ANSI_escape_code">http://en.wikipedia.org/wiki/ANSI_escape_code</a>) —  characters embedded
+in text used to control formatting, color, and other output options
+on video text terminals.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L17" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#black/0">black()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to black</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#black_background/0">black_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to black</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#blink_off/0">blink_off()</a></td>
+  
+    <td class="summary_synopsis"><p>Blink: off</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#blink_rapid/0">blink_rapid()</a></td>
+  
+    <td class="summary_synopsis"><p>Blink: Rapid. MS-DOS ANSI.SYS; 150 per minute or more; not widely supported</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#blink_slow/0">blink_slow()</a></td>
+  
+    <td class="summary_synopsis"><p>Blink: Slow. Less than 150 per minute</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#blue/0">blue()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to blue</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#blue_background/0">blue_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to blue</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#bright/0">bright()</a></td>
+  
+    <td class="summary_synopsis"><p>Bright (increased intensity) or Bold</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#clear/0">clear()</a></td>
+  
+    <td class="summary_synopsis"><p>Clear screen</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#conceal/0">conceal()</a></td>
+  
+    <td class="summary_synopsis"><p>Conceal. Not widely supported</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#crossed_out/0">crossed_out()</a></td>
+  
+    <td class="summary_synopsis"><p>Crossed-out. Characters legible, but marked for deletion. Not widely supported</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#cyan/0">cyan()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to cyan</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#cyan_background/0">cyan_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to cyan</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#default_background/0">default_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Default background color</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#default_color/0">default_color()</a></td>
+  
+    <td class="summary_synopsis"><p>Default text color</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#encircled/0">encircled()</a></td>
+  
+    <td class="summary_synopsis"><p>Encircled</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#escape/2">escape(string, emit \\ terminal?())</a></td>
+  
+    <td class="summary_synopsis"><p>Escapes a string by converting named ANSI sequences into actual ANSI codes</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#escape_fragment/2">escape_fragment(string, emit \\ terminal?())</a></td>
+  
+    <td class="summary_synopsis"><p>Escapes a string by converting named ANSI sequences into actual ANSI codes</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#faint/0">faint()</a></td>
+  
+    <td class="summary_synopsis"><p>Faint (decreased intensity), not widely supported</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_1/0">font_1()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 1</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_2/0">font_2()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 2</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_3/0">font_3()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 3</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_4/0">font_4()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 4</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_5/0">font_5()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 5</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_6/0">font_6()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 6</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_7/0">font_7()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 7</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_8/0">font_8()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 8</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#font_9/0">font_9()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets alternative font 9</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#framed/0">framed()</a></td>
+  
+    <td class="summary_synopsis"><p>Framed</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#green/0">green()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to green</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#green_background/0">green_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to green</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#home/0">home()</a></td>
+  
+    <td class="summary_synopsis"><p>Send cursor home</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#inverse/0">inverse()</a></td>
+  
+    <td class="summary_synopsis"><p>Image: Negative. Swap foreground and background</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#italic/0">italic()</a></td>
+  
+    <td class="summary_synopsis"><p>Italic: on. Not widely supported. Sometimes treated as inverse</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#magenta/0">magenta()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to magenta</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#magenta_background/0">magenta_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to magenta</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#no_underline/0">no_underline()</a></td>
+  
+    <td class="summary_synopsis"><p>Underline: None</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#normal/0">normal()</a></td>
+  
+    <td class="summary_synopsis"><p>Normal color or intensity</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#not_framed_encircled/0">not_framed_encircled()</a></td>
+  
+    <td class="summary_synopsis"><p>Not framed or encircled</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#not_italic/0">not_italic()</a></td>
+  
+    <td class="summary_synopsis"><p>Not italic</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#not_overlined/0">not_overlined()</a></td>
+  
+    <td class="summary_synopsis"><p>Not overlined</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#overlined/0">overlined()</a></td>
+  
+    <td class="summary_synopsis"><p>Overlined</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#primary_font/0">primary_font()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets primary (default) font</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#red/0">red()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to red</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#red_background/0">red_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to red</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reset/0">reset()</a></td>
+  
+    <td class="summary_synopsis"><p>Resets all attributes</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reverse/0">reverse()</a></td>
+  
+    <td class="summary_synopsis"><p>Image: Negative. Swap foreground and background</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#terminal?/1">terminal?(device \\ :erlang.group_leader())</a></td>
+  
+    <td class="summary_synopsis"><p>Checks whether the default I/O device is a terminal or a file</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#underline/0">underline()</a></td>
+  
+    <td class="summary_synopsis"><p>Underline: Single</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#white/0">white()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to white</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#white_background/0">white_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to white</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#yellow/0">yellow()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets foreground color to yellow</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#yellow_background/0">yellow_background()</a></td>
+  
+    <td class="summary_synopsis"><p>Sets background color to yellow</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="black/0">
+    <span class="signature"><strong>black()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#black/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to black</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="black_background/0">
+    <span class="signature"><strong>black_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#black_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to black</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="blink_off/0">
+    <span class="signature"><strong>blink_off()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#blink_off/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Blink: off</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L93" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="blink_rapid/0">
+    <span class="signature"><strong>blink_rapid()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#blink_rapid/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Blink: Rapid. MS-DOS ANSI.SYS; 150 per minute or more; not widely supported</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L61" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="blink_slow/0">
+    <span class="signature"><strong>blink_slow()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#blink_slow/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Blink: Slow. Less than 150 per minute</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L58" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="blue/0">
+    <span class="signature"><strong>blue()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#blue/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to blue</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="blue_background/0">
+    <span class="signature"><strong>blue_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#blue_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to blue</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="bright/0">
+    <span class="signature"><strong>bright()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#bright/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Bright (increased intensity) or Bold</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L46" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="clear/0">
+    <span class="signature"><strong>clear()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#clear/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Clear screen</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L131" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="conceal/0">
+    <span class="signature"><strong>conceal()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#conceal/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Conceal. Not widely supported</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L70" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="crossed_out/0">
+    <span class="signature"><strong>crossed_out()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#crossed_out/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Crossed-out. Characters legible, but marked for deletion. Not widely supported.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L73" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="cyan/0">
+    <span class="signature"><strong>cyan()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#cyan/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to cyan</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="cyan_background/0">
+    <span class="signature"><strong>cyan_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#cyan_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to cyan</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="default_background/0">
+    <span class="signature"><strong>default_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#default_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Default background color</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L110" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="default_color/0">
+    <span class="signature"><strong>default_color()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#default_color/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Default text color</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L107" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="encircled/0">
+    <span class="signature"><strong>encircled()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#encircled/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Encircled</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L116" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="escape/2">
+    <span class="signature"><strong>escape(string, emit \\ terminal?())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#escape/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>escape(<a href="String.html#t:t/0">String.t</a>, emit :: boolean) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Escapes a string by converting named ANSI sequences into actual ANSI codes.</p>
+
+<p>The format for referring to sequences is <code>%{red}</code> and <code>%{red,bright}</code> (for
+multiple sequences).</p>
+
+<p>It will also append a <code>%{reset}</code> to the string. If you don&#39;t want this
+behaviour, use <a href="#escape_fragment/2"><code>escape_fragment/2</code></a>.</p>
+
+<p>An optional boolean parameter can be passed to enable or disable
+emitting actual ANSI codes. When <code>false</code>, no ANSI codes will emitted.
+By default, standard output will be checked if it is a terminal capable
+of handling these sequences (using <a href="#terminal?/1"><code>terminal?/1</code></a> function)</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; IO.ANSI.escape(&quot;Hello %{red,bright,green}yes&quot;, true)
+&quot;Hello \e[31m\e[1m\e[32myes\e[0m&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L158" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="escape_fragment/2">
+    <span class="signature"><strong>escape_fragment(string, emit \\ terminal?())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#escape_fragment/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>escape_fragment(<a href="String.html#t:t/0">String.t</a>, emit :: boolean) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Escapes a string by converting named ANSI sequences into actual ANSI codes.</p>
+
+<p>The format for referring to sequences is <code>%{red}</code> and <code>%{red,bright}</code> (for
+multiple sequences).</p>
+
+<p>An optional boolean parameter can be passed to enable or disable
+emitting actual ANSI codes. When <code>false</code>, no ANSI codes will emitted.
+By default, standard output will be checked if it is a terminal capable
+of handling these sequences (using <a href="#terminal?/1"><code>terminal?/1</code></a> function)</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; IO.ANSI.escape_fragment(&quot;Hello %{red,bright,green}yes&quot;, true)
+&quot;Hello \e[31m\e[1m\e[32myes&quot;
+
+iex&gt; IO.ANSI.escape_fragment(&quot;%{reset}bye&quot;, true)
+&quot;\e[0mbye&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L188" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="faint/0">
+    <span class="signature"><strong>faint()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#faint/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Faint (decreased intensity), not widely supported</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L49" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_1/0">
+    <span class="signature"><strong>font_1()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_1/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 1</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_2/0">
+    <span class="signature"><strong>font_2()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_2/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 2</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_3/0">
+    <span class="signature"><strong>font_3()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_3/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 3</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_4/0">
+    <span class="signature"><strong>font_4()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_4/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 4</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_5/0">
+    <span class="signature"><strong>font_5()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_5/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 5</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_6/0">
+    <span class="signature"><strong>font_6()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_6/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 6</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_7/0">
+    <span class="signature"><strong>font_7()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_7/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 7</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_8/0">
+    <span class="signature"><strong>font_8()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_8/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 8</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="font_9/0">
+    <span class="signature"><strong>font_9()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#font_9/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets alternative font 9</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L80" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="framed/0">
+    <span class="signature"><strong>framed()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#framed/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Framed</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L113" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="green/0">
+    <span class="signature"><strong>green()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#green/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to green</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="green_background/0">
+    <span class="signature"><strong>green_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#green_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to green</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="home/0">
+    <span class="signature"><strong>home()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#home/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Send cursor home</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L128" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="inverse/0">
+    <span class="signature"><strong>inverse()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#inverse/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Image: Negative. Swap foreground and background</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L64" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="italic/0">
+    <span class="signature"><strong>italic()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#italic/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Italic: on. Not widely supported. Sometimes treated as inverse.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L52" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="magenta/0">
+    <span class="signature"><strong>magenta()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#magenta/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to magenta</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="magenta_background/0">
+    <span class="signature"><strong>magenta_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#magenta_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to magenta</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="no_underline/0">
+    <span class="signature"><strong>no_underline()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#no_underline/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Underline: None</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L90" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="normal/0">
+    <span class="signature"><strong>normal()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#normal/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Normal color or intensity</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L84" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="not_framed_encircled/0">
+    <span class="signature"><strong>not_framed_encircled()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#not_framed_encircled/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Not framed or encircled</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L122" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="not_italic/0">
+    <span class="signature"><strong>not_italic()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#not_italic/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Not italic</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L87" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="not_overlined/0">
+    <span class="signature"><strong>not_overlined()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#not_overlined/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Not overlined</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L125" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="overlined/0">
+    <span class="signature"><strong>overlined()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#overlined/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Overlined</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L119" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="primary_font/0">
+    <span class="signature"><strong>primary_font()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#primary_font/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets primary (default) font</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L76" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="red/0">
+    <span class="signature"><strong>red()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#red/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to red</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="red_background/0">
+    <span class="signature"><strong>red_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#red_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to red</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reset/0">
+    <span class="signature"><strong>reset()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reset/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Resets all attributes</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L43" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reverse/0">
+    <span class="signature"><strong>reverse()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reverse/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Image: Negative. Swap foreground and background</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L67" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="terminal?/1">
+    <span class="signature"><strong>terminal?(device \\ :erlang.group_leader())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#terminal?/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>terminal?(:io.device) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Checks whether the default I/O device is a terminal or a file.</p>
+
+<p>Used to identify whether printing ANSI escape sequences will likely
+be displayed as intended. This is checked by sending a message to
+the group leader. In case the group leader does not support the message,
+it will likely lead to a timeout (and a slow down on execution time).</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L37" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="underline/0">
+    <span class="signature"><strong>underline()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#underline/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Underline: Single</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L55" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="white/0">
+    <span class="signature"><strong>white()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#white/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to white</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="white_background/0">
+    <span class="signature"><strong>white_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#white_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to white</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="yellow/0">
+    <span class="signature"><strong>yellow()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#yellow/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets foreground color to yellow</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L100" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="yellow_background/0">
+    <span class="signature"><strong>yellow_background()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#yellow_background/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets background color to yellow</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/io/ansi.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

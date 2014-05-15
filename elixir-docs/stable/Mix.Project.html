@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix.Project</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a> &rarr; <a href="Mix.Project.html">Project</a></div>
+
+      <h1>
+        Mix.Project
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Defines and manipulate Mix projects.</p>
+
+<p>In order to configure Mix, a developer needs to use
+<a href="Mix.Project.html"><code>Mix.Project</code></a> in a module and define a function named
+<code>project</code> that returns a keyword list with configuration.</p>
+
+<pre><code>defmodule MyApp do
+  use Mix.Project
+
+  def project do
+    [app: :my_app,
+     vsn: &quot;0.6.0&quot;]
+  end
+end
+</code></pre>
+
+<p>After being defined, the configuration for this project can be read
+as <a href="Mix.Project.html#config/0"><code>Mix.Project.config/0</code></a>. Notice that <a href="#config/0"><code>config/0</code></a> won&#39;t fail if a
+project is not defined; this allows many mix tasks to work
+even without a project.</p>
+
+<p>In case the developer needs a project or wants to access a special
+function in the project, he/she can call <a href="Mix.Project.html#get!/0"><code>Mix.Project.get!/0</code></a>
+which fails with <a href="Mix.NoProjectError.html"><code>Mix.NoProjectError</code></a> in case a project is not
+defined.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#app_path/1">app_path(config \\ config())</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the application path inside the build</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#build_path/1">build_path(config \\ config())</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the build path for this project</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#build_structure/2">build_structure(config \\ config(), opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Builds the project structure for the current application</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#compile_path/1">compile_path(config \\ config())</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the paths this project compiles to</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#config/0">config()</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the project configuration</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#config_files/0">config_files()</a></td>
+  
+    <td class="summary_synopsis"><p>Returns a list of project configuration files for this project</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#deps_path/1">deps_path(config \\ config())</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the path to store dependencies for this project</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get!/0">get!()</a></td>
+  
+    <td class="summary_synopsis"><p>Same as <a href="#get/0"><code>get/0</code></a>, but raises an exception if there is no current project</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get/0">get()</a></td>
+  
+    <td class="summary_synopsis"><p>Retrieves the current project if there is one</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#in_project/4">in_project(app, path, post_config \\ [], fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Runs the given <code>fun</code> inside the given project</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#load_paths/0">load_paths()</a></td>
+  
+    <td class="summary_synopsis"><p>Returns all load paths for this project</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#manifest_path/1">manifest_path(config \\ config())</a></td>
+  
+    <td class="summary_synopsis"><p>The path to store manifests</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#umbrella?/0">umbrella?()</a></td>
+  
+    <td class="summary_synopsis"><p>Returns <code>true</code> if project is an umbrella project</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="app_path/1">
+    <span class="signature"><strong>app_path(config \\ config())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#app_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the application path inside the build.</p>
+
+<p>The returned path will be expanded.</p>
+
+<h2>Examples</h2>
+
+<pre><code>Mix.Project.app_path
+#=&gt; &quot;/path/to/project/_build/shared/lib/app&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L259" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="build_path/1">
+    <span class="signature"><strong>build_path(config \\ config())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#build_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the build path for this project.</p>
+
+<p>The returned path will be expanded.</p>
+
+<h2>Examples</h2>
+
+<pre><code>Mix.Project.build_path
+#=&gt; &quot;/path/to/project/_build/shared&quot;
+</code></pre>
+
+<p>If :build<em>per</em>environment is set to true (the default), it
+will create a new build per environment:</p>
+
+<pre><code>Mix.env
+#=&gt; :dev
+Mix.Project.build_path
+#=&gt; &quot;/path/to/project/_build/dev&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L221" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="build_structure/2">
+    <span class="signature"><strong>build_structure(config \\ config(), opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#build_structure/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Builds the project structure for the current application.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><code>:symlink_ebin</code> - Symlink ebin instead of copying it</li>
+</ul>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L295" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="compile_path/1">
+    <span class="signature"><strong>compile_path(config \\ config())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compile_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the paths this project compiles to.</p>
+
+<p>The returned path will be expanded.</p>
+
+<h2>Examples</h2>
+
+<pre><code>Mix.Project.compile_path
+#=&gt; &quot;/path/to/project/_build/shared/lib/app/priv&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L283" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="config/0">
+    <span class="signature"><strong>config()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#config/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the project configuration.</p>
+
+<p>If there is no project defined, it still returns a keyword
+list with default values. This allows many mix tasks to work
+without the need for an underlying project.</p>
+
+<p>Note this configuration is cached once the project is
+pushed into the stack. Calling it multiple times won&#39;t
+cause it to be recomputed.</p>
+
+<p>Do not use <code>Mix.Project.config</code> to rely on runtime configuration.
+Use it only to configure aspects of your project (like
+compilation directories) and not your application runtime.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L123" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="config_files/0">
+    <span class="signature"><strong>config_files()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#config_files/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns a list of project configuration files for this project.</p>
+
+<p>This function is usually used in compilation tasks to trigger
+a full recompilation whenever such configuration files change.</p>
+
+<p>By default it includes the mix.exs file and the lock manifest.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L138" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="deps_path/1">
+    <span class="signature"><strong>deps_path(config \\ config())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#deps_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the path to store dependencies for this project.</p>
+
+<p>The returned path will be expanded.</p>
+
+<h2>Examples</h2>
+
+<pre><code>Mix.Project.deps_path
+#=&gt; &quot;/path/to/project/deps&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L198" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="get/0">
+    <span class="signature"><strong>get()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Retrieves the current project if there is one.</p>
+
+<p>Otherwise <code>nil</code> is returned. It may happen in cases
+there is no mixfile in the current directory.</p>
+
+<p>If you expect a project to be defined, i.e. it is a
+requirement of the current task, you should call
+<a href="#get!/0"><code>get!/0</code></a> instead.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L88" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="get!/0">
+    <span class="signature"><strong>get!()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get!/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Same as <a href="#get/0"><code>get/0</code></a>, but raises an exception if there is no current project.</p>
+
+<p>This is usually called by tasks that need additional
+functions on the project to be defined. Since such
+tasks usually depend on a project being defined, this
+function raises <a href="Mix.NoProjectError.html"><code>Mix.NoProjectError</code></a> in case no project
+is available.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L104" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="in_project/4">
+    <span class="signature"><strong>in_project(app, path, post_config \\ [], fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#in_project/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Runs the given <code>fun</code> inside the given project.</p>
+
+<p>This function changes the current working directory and
+loads the project at the given directory onto the project
+stack.</p>
+
+<p>A <code>post_config</code> can be passed that will be merged into
+the project configuration.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L169" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="load_paths/0">
+    <span class="signature"><strong>load_paths()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#load_paths/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns all load paths for this project.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L319" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="manifest_path/1">
+    <span class="signature"><strong>manifest_path(config \\ config())</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#manifest_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>The path to store manifests.</p>
+
+<p>By default they are stored in the app path
+inside the build directory but it may be changed
+in future releases.</p>
+
+<p>The returned path will be expanded.</p>
+
+<h2>Examples</h2>
+
+<pre><code>Mix.Project.manifest_path
+#=&gt; &quot;/path/to/project/_build/shared/lib/app&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L244" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="umbrella?/0">
+    <span class="signature"><strong>umbrella?()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#umbrella?/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns <code>true</code> if project is an umbrella project.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/project.ex#L155" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

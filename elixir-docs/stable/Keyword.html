@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Keyword</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Keyword.html">Keyword</a></div>
+
+      <h1>
+        Keyword
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>A keyword is a list of tuples where the first element
+of the tuple is an atom and the second element can be
+any value.</p>
+
+<p>A keyword may have duplicated keys so it is not strictly
+a dictionary. However most of the functions in this module
+behaves exactly as a dictionary and mimic the API defined
+by the <a href="Dict.html"><code>Dict</code></a> behaviour.</p>
+
+<p>For example, <code>Keyword.get</code> will get the first entry matching
+the given key, regardless if duplicated entries exist.
+Similarly, <code>Keyword.put</code> and <code>Keyword.delete</code> ensure all
+duplicated entries for a given key are removed when invoked.
+A handful of functions exist to handle duplicated keys, in
+particular, <code>from_enum</code> allows creating a new keywords without
+removing duplicated keys, <code>get_values</code> returns all values for
+a given key and <code>delete_first</code> deletes just one of the existing
+entries.</p>
+
+<p>Since a keyword list is simply a list, all the operations defined
+in <a href="Enum.html"><code>Enum</code></a> and <a href="List.html"><code>List</code></a> can also be applied.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#delete/2">delete(keywords, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Deletes all entries in the keyword list for a specific <code>key</code>.
+If the <code>key</code> does not exist, returns the keyword list unchanged.
+Use <code>delete_first</code> to delete just the first entry in case of
+duplicated keys</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete/3">delete(keywords, key, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Deletes the entry in the keyword list for a <code>key</code> with <code>value</code>.
+If no <code>key</code> with <code>value</code> exists, returns the keyword list unchanged</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete_first/2">delete_first(keywords, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Deletes the first entry in the keyword list for a specific <code>key</code>.
+If the <code>key</code> does not exist, returns the keyword list unchanged</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#drop/2">drop(keywords, keys)</a></td>
+  
+    <td class="summary_synopsis"><p>Drops the given keys from the dict.
+Duplicated keys are preserved in the new keyword list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#equal?/2">equal?(left, right)</a></td>
+  
+    <td class="summary_synopsis"><p>Checks if two keywords are equal. I.e. they contain
+the same keys and those keys contain the same values</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#fetch!/2">fetch!(keywords, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Fetches the value for specific <code>key</code>. If <code>key</code> does not exist,
+a <a href="KeyError.html"><code>KeyError</code></a> is raised</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#fetch/2">fetch(keywords, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Fetches the value for a specific <code>key</code> and returns it in a tuple.
+If the <code>key</code> does not exist, returns <code>:error</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get/3">get(keywords, key, default \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets the value for a specific <code>key</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get_values/2">get_values(keywords, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets all values for a specific <code>key</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#has_key?/2">has_key?(keywords, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns whether a given <code>key</code> exists in the given <code>keywords</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keys/1">keys(keywords)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns all keys from the keyword list. Duplicated
+keys appear duplicated in the final list of keys</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#keyword?/1">keyword?(arg1)</a></td>
+  
+    <td class="summary_synopsis"><p>Checks if the given argument is a keywords list or not</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#merge/2">merge(d1, d2)</a></td>
+  
+    <td class="summary_synopsis"><p>Merges two keyword lists into one. If they have duplicated
+entries, the one given as second argument wins</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#merge/3">merge(d1, d2, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Merges two keyword lists into one. If they have duplicated
+entries, the given function is invoked to solve conflicts</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/0">new()</a></td>
+  
+    <td class="summary_synopsis"><p>Returns an empty keyword list, i.e. an empty list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/1">new(pairs)</a></td>
+  
+    <td class="summary_synopsis"><p>Creates a keyword from an enumerable</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/2">new(pairs, transform)</a></td>
+  
+    <td class="summary_synopsis"><p>Creates a keyword from an enumerable via the transformation function</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#pop/3">pop(keywords, key, default \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the first value associated with <code>key</code> in the keyword
+list as well as the keyword list without <code>key</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#pop_first/3">pop_first(keywords, key, default \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the first value associated with <code>key</code> in the keyword
+list as well as the keyword list without that particular ocurrence
+of <code>key</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/3">put(keywords, key, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Puts the given <code>value</code> under <code>key</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put_new/3">put_new(keywords, key, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Puts the given <code>value</code> under <code>key</code> unless the entry <code>key</code>
+already exists</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#split/2">split(keywords, keys)</a></td>
+  
+    <td class="summary_synopsis"><p>Splits the given keywords in two given the given keys.
+Duplicated keys are preserved in the split keyword list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#take/2">take(keywords, keys)</a></td>
+  
+    <td class="summary_synopsis"><p>Takes the given keys from the dict.
+Duplicated keys are preserved in the new keyword list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update!/3">update!(keywords, key, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Updates the <code>key</code> with the given function. If the <code>key</code> does
+not exist, raises <a href="KeyError.html"><code>KeyError</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update/4">update(list1, key, initial, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Updates the <code>key</code> with the given function. If the <code>key</code> does
+not exist, inserts the given <code>initial</code> value</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#values/1">values(keywords)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns all values from the keyword list</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:key/0">
+    <a href="#t:key/0">key</a> :: atom
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:value/0">
+    <a href="#t:value/0">value</a> :: any
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: [{<a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>}]
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:t/1">
+    <a href="#t:t/1">t(value)</a> :: [{<a href="#t:key/0">key</a>, value}]
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="delete/2">
+    <span class="signature"><strong>delete(keywords, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>delete(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Deletes all entries in the keyword list for a specific <code>key</code>.
+If the <code>key</code> does not exist, returns the keyword list unchanged.
+Use <code>delete_first</code> to delete just the first entry in case of
+duplicated keys.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.delete([a: 1, b: 2], :a)
+[b: 2]
+
+iex&gt; Keyword.delete([a: 1, b: 2, a: 3], :a)
+[b: 2]
+
+iex&gt; Keyword.delete([b: 2], :a)
+[b: 2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L251" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="delete/3">
+    <span class="signature"><strong>delete(keywords, key, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>delete(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Deletes the entry in the keyword list for a <code>key</code> with <code>value</code>.
+If no <code>key</code> with <code>value</code> exists, returns the keyword list unchanged.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.delete([a: 1, b: 2], :a, 1)
+[b: 2]
+
+iex&gt; Keyword.delete([a: 1, b: 2, a: 3], :a, 3)
+[a: 1, b: 2]
+
+iex&gt; Keyword.delete([b: 2], :a, 5)
+[b: 2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L228" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="delete_first/2">
+    <span class="signature"><strong>delete_first(keywords, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete_first/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>delete_first(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Deletes the first entry in the keyword list for a specific <code>key</code>.
+If the <code>key</code> does not exist, returns the keyword list unchanged.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.delete_first([a: 1, b: 2, a: 3], :a)
+[b: 2, a: 3]
+
+iex&gt; Keyword.delete_first([b: 2], :a)
+[b: 2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L269" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="drop/2">
+    <span class="signature"><strong>drop(keywords, keys)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#drop/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Drops the given keys from the dict.
+Duplicated keys are preserved in the new keyword list.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; d = [a: 1, b: 2, c: 3, d: 4]
+iex&gt; Keyword.drop(d, [:b, :d])
+[a: 1, c: 3]
+
+iex&gt; d = [a: 1, b: 2, c: 3, d: 4, a: 5]
+iex&gt; Keyword.drop(d, [:b, :d])
+[a: 1, c: 3, a: 5]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L504" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="equal?/2">
+    <span class="signature"><strong>equal?(left, right)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#equal?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>equal?(<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Checks if two keywords are equal. I.e. they contain
+the same keys and those keys contain the same values.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.equal?([a: 1, b: 2], [b: 2, a: 1])
+true
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L325" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="fetch/2">
+    <span class="signature"><strong>fetch(keywords, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#fetch/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>fetch(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>) :: {:ok, <a href="#t:value/0">value</a>}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Fetches the value for a specific <code>key</code> and returns it in a tuple.
+If the <code>key</code> does not exist, returns <code>:error</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.fetch([a: 1], :a)
+{:ok, 1}
+
+iex&gt; Keyword.fetch([a: 1], :b)
+:error
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L137" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="fetch!/2">
+    <span class="signature"><strong>fetch!(keywords, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#fetch!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>fetch!(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>) :: <a href="#t:value/0">value</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Fetches the value for specific <code>key</code>. If <code>key</code> does not exist,
+a <a href="KeyError.html"><code>KeyError</code></a> is raised.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.fetch!([a: 1], :a)
+1
+
+iex&gt; Keyword.fetch!([a: 1], :b)
+** (KeyError) key :b not found in: [a: 1]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L158" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="get/3">
+    <span class="signature"><strong>get(keywords, key, default \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>get(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>) :: <a href="#t:value/0">value</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets the value for a specific <code>key</code>.</p>
+
+<p>If <code>key</code> does not exist, return default value (<code>nil</code> if no default value).</p>
+
+<p>If duplicated entries exist, the first one is returned.
+Use <a href="#get_values/2"><code>get_values/2</code></a> to retrieve all entries.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.get([a: 1], :a)
+1
+
+iex&gt; Keyword.get([a: 1], :b)
+nil
+
+iex&gt; Keyword.get([a: 1], :b, 3)
+3
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L116" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="get_values/2">
+    <span class="signature"><strong>get_values(keywords, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get_values/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>get_values(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>) :: [<a href="#t:value/0">value</a>]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets all values for a specific <code>key</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.get_values([a: 1, a: 2], :a)
+[1,2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L175" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="has_key?/2">
+    <span class="signature"><strong>has_key?(keywords, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#has_key?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>has_key?(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns whether a given <code>key</code> exists in the given <code>keywords</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.has_key?([a: 1], :a)
+true
+
+iex&gt; Keyword.has_key?([a: 1], :b)
+false
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L382" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="keys/1">
+    <span class="signature"><strong>keys(keywords)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keys/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>keys(<a href="#t:t/0">t</a>) :: [<a href="#t:key/0">key</a>]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns all keys from the keyword list. Duplicated
+keys appear duplicated in the final list of keys.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.keys([a: 1, b: 2])
+[:a,:b]
+
+iex&gt; Keyword.keys([a: 1, b: 2, a: 3])
+[:a,:b,:a]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L193" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="keyword?/1">
+    <span class="signature"><strong>keyword?(arg1)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#keyword?/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>keyword?(term) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Checks if the given argument is a keywords list or not.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L38" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="merge/2">
+    <span class="signature"><strong>merge(d1, d2)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#merge/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>merge(<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Merges two keyword lists into one. If they have duplicated
+entries, the one given as second argument wins.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.merge([a: 1, b: 2], [a: 3, d: 4]) |&gt; Enum.sort
+[a: 3, b: 2, d: 4]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L340" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="merge/3">
+    <span class="signature"><strong>merge(d1, d2, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#merge/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>merge(<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>, (<a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>, <a href="#t:value/0">value</a> -> <a href="#t:value/0">value</a>)) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Merges two keyword lists into one. If they have duplicated
+entries, the given function is invoked to solve conflicts.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.merge([a: 1, b: 2], [a: 3, d: 4], fn (_k, v1, v2) -&gt;
+...&gt;  v1 + v2
+...&gt; end)
+[a: 4, b: 2, d: 4]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L357" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="new/0">
+    <span class="signature"><strong>new()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>new :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns an empty keyword list, i.e. an empty list.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L49" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="new/1">
+    <span class="signature"><strong>new(pairs)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>new(<a href="Enum.html#t:t/0">Enum.t</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Creates a keyword from an enumerable.</p>
+
+<p>Duplicated entries are removed, the latest one prevails.
+I.e. differently from <code>Enum.into(enumerable, [])</code>,
+<code>Keyword.new(enumerable)</code> guarantees the keys are unique.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.new([{:b, 1}, {:a, 2}])
+[a: 2, b: 1]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L67" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="new/2">
+    <span class="signature"><strong>new(pairs, transform)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>new(<a href="Enum.html#t:t/0">Enum.t</a>, ({<a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>} -> {<a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>})) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Creates a keyword from an enumerable via the transformation function.</p>
+
+<p>Duplicated entries are removed, the latest one prevails.
+I.e. differently from <code>Enum.into(enumerable, [], fun)</code>,
+<code>Keyword.new(enumerable, fun)</code> guarantees the keys are unique.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.new([:a, :b], fn (x) -&gt; {x, x} end) |&gt; Enum.sort
+[a: :a, b: :b]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L87" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="pop/3">
+    <span class="signature"><strong>pop(keywords, key, default \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#pop/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the first value associated with <code>key</code> in the keyword
+list as well as the keyword list without <code>key</code>.</p>
+
+<p>All duplicated entries are removed. See <a href="#pop_first/3"><code>pop_first/3</code></a> for
+removing only the first entry.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.pop [a: 1], :a
+{1,[]}
+
+iex&gt; Keyword.pop [a: 1], :b
+{nil,[a: 1]}
+
+iex&gt; Keyword.pop [a: 1], :b, 3
+{3,[a: 1]}
+
+iex&gt; Keyword.pop [a: 1], :b, 3
+{3,[a: 1]}
+
+iex&gt; Keyword.pop [a: 1, a: 2], :a
+{1,[]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L533" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="pop_first/3">
+    <span class="signature"><strong>pop_first(keywords, key, default \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#pop_first/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the first value associated with <code>key</code> in the keyword
+list as well as the keyword list without that particular ocurrence
+of <code>key</code>.</p>
+
+<p>Duplicated entries are not removed.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.pop_first [a: 1], :a
+{1,[]}
+
+iex&gt; Keyword.pop_first [a: 1], :b
+{nil,[a: 1]}
+
+iex&gt; Keyword.pop_first [a: 1], :b, 3
+{3,[a: 1]}
+
+iex&gt; Keyword.pop_first [a: 1], :b, 3
+{3,[a: 1]}
+
+iex&gt; Keyword.pop_first [a: 1, a: 2], :a
+{1,[a: 2]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L562" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="put/3">
+    <span class="signature"><strong>put(keywords, key, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>put(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Puts the given <code>value</code> under <code>key</code>.</p>
+
+<p>If a previous value is already stored, all entries are
+removed and the value is overridden.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.put([a: 1, b: 2], :a, 3)
+[a: 3, b: 2]
+
+iex&gt; Keyword.put([a: 1, b: 2, a: 4], :a, 3)
+[a: 3, b: 2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L289" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="put_new/3">
+    <span class="signature"><strong>put_new(keywords, key, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put_new/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>put_new(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Puts the given <code>value</code> under <code>key</code> unless the entry <code>key</code>
+already exists.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.put_new([a: 1], :b, 2)
+[b: 2, a: 1]
+
+iex&gt; Keyword.put_new([a: 1, b: 2], :a, 3)
+[a: 1, b: 2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L307" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="split/2">
+    <span class="signature"><strong>split(keywords, keys)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#split/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Splits the given keywords in two given the given keys.
+Duplicated keys are preserved in the split keyword list.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; d = [a: 1, b: 2, c: 3, d: 4]
+iex&gt; Keyword.split(d, [:a, :c, :e])
+{[a: 1, c: 3], [b: 2, d: 4]}
+
+iex&gt; d = [a: 1, b: 2, c: 3, d: 4, a: 5]
+iex&gt; Keyword.split(d, [:a, :c, :e])
+{[a: 1, c: 3, a: 5], [b: 2, d: 4]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L457" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="take/2">
+    <span class="signature"><strong>take(keywords, keys)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#take/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Takes the given keys from the dict.
+Duplicated keys are preserved in the new keyword list.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; d = [a: 1, b: 2, c: 3, d: 4]
+iex&gt; Keyword.take(d, [:a, :c, :e])
+[a: 1, c: 3]
+
+iex&gt; d = [a: 1, b: 2, c: 3, d: 4, a: 5]
+iex&gt; Keyword.take(d, [:a, :c, :e])
+[a: 1, c: 3, a: 5]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L485" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="update/4">
+    <span class="signature"><strong>update(list1, key, initial, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>update(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>, (<a href="#t:value/0">value</a> -> <a href="#t:value/0">value</a>)) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Updates the <code>key</code> with the given function. If the <code>key</code> does
+not exist, inserts the given <code>initial</code> value.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.update([a: 1], :a, 13, &amp;(&amp;1 * 2))
+[a: 2]
+
+iex&gt; Keyword.update([a: 1], :b, 11, &amp;(&amp;1 * 2))
+[a: 1, b: 11]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L430" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="update!/3">
+    <span class="signature"><strong>update!(keywords, key, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update!/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>update!(<a href="#t:t/0">t</a>, <a href="#t:key/0">key</a>, (<a href="#t:value/0">value</a> -> <a href="#t:value/0">value</a>)) :: <a href="#t:t/0">t</a> | no_return</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Updates the <code>key</code> with the given function. If the <code>key</code> does
+not exist, raises <a href="KeyError.html"><code>KeyError</code></a>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.update!([a: 1], :a, &amp;(&amp;1 * 2))
+[a: 2]
+
+iex&gt; Keyword.update!([a: 1], :b, &amp;(&amp;1 * 2))
+** (KeyError) key :b not found in: [a: 1]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L400" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="values/1">
+    <span class="signature"><strong>values(keywords)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#values/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>values(<a href="#t:t/0">t</a>) :: [<a href="#t:value/0">value</a>]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns all values from the keyword list.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Keyword.values([a: 1, b: 2])
+[1,2]
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/keyword.ex#L207" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

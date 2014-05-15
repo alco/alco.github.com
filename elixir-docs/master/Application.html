@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Application</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Application.html">Application</a></div>
+
+      <h1>
+        Application
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>A module for working with applications and defining application callbacks.</p>
+
+<p>In Elixir (actually, in Erlang/OTP), an application is a component
+implementing some specific functionality, that can be started and stopped
+as a unit, and which can be re-used in other systems as well.</p>
+
+<p>Applications are defined with an application file named <code>APP.app</code> where
+<code>APP</code> is the APP name, usually in <code>underscore_case</code> convention. The
+application file must reside in the same <code>ebin</code> directory as the
+application&#39;s modules bytecode.</p>
+
+<p>In Elixir, Mix is responsible for compiling your source code and
+generating your application <code>.app</code> file. Furthermore, Mix is also
+responsible for configuring, starting and stoping your application
+and its dependencies. For this reason, this documentation will focus
+on the remaining aspects of your application: the application environment,
+and the application callback module.</p>
+
+<p>You can learn more about Mix compilation of <code>.app</code> files by typing
+<code>mix help compile.app</code>.</p>
+
+<h2>Application environment</h2>
+
+<p>Once an application is started, OTP provides an application environment
+that can be used to configure applications.</p>
+
+<p>Assuming you are inside a Mix project, you can edit your application
+function in the <code>mix.exs</code> file to the following:</p>
+
+<pre><code>def application do
+  [env: [hello: :world]]
+end
+</code></pre>
+
+<p>In the application function, we can define the default environment values
+for our application. By starting your application with <code>iex -S mix</code>, you
+can access the default value:</p>
+
+<pre><code>Application.get_env(:APP_NAME, :hello)
+#=&gt; {:ok, :hello}
+</code></pre>
+
+<p>It is also possible to put and delete values from the application value,
+including new values that are not defined in the environment file (although
+those should be avoided).</p>
+
+<p>In the future, we plan to support configuration files which allows
+developers to configure the environment of their dependencies.</p>
+
+<p>Keep in mind that each application is responsible for its environment.
+Do not use the fucntions in this module for directly access or modify
+the environment of other application (as it may lead to inconsistent
+data in the application environment).</p>
+
+<h2>Application module callback</h2>
+
+<p>Often times, an application defines a supervision tree that must be started
+and stopped when the application starts and stops. For such, we need to
+define an application module callback. The first step is to define the
+module callback in the application definition in the <code>mix.exs</code> file:</p>
+
+<pre><code>def application do
+  [mod: {MyApp, []}]
+end
+</code></pre>
+
+<p>Our application now requires the <code>MyApp</code> module to provide an application
+callback. This can be done by invoking <code>use Application</code> in that module
+and defining a <a href="#start/2"><code>start/2</code></a> callback, for example:</p>
+
+<pre><code>defmodule MyApp do
+  use Application
+
+  def start(_type, _args) do
+    MyApp.Supervisor.start_link()
+  end
+end
+</code></pre>
+
+<p><a href="#start/2"><code>start/2</code></a> most commonly returns <code>{:ok, pid}</code> or <code>{:ok, pid, state}</code> where
+<code>pid</code> identifies the supervision tree and the state is the application state.
+<code>args</code> is second element of the tuple given to the <code>:mod</code> option.</p>
+
+<p>The <code>type</code> passed into <a href="#start/2"><code>start/2</code></a> is usually <code>:normal</code> unless in a distributed
+setup where applications takeover and failovers are configured. This particular
+aspect of applications can be read with more detail in the OTP documentation:</p>
+
+<ul>
+<li><a href="http://www.erlang.org/doc/man/application.html">http://www.erlang.org/doc/man/application.html</a></li>
+<li><a href="http://www.erlang.org/doc/design_principles/applications.html">http://www.erlang.org/doc/design_principles/applications.html</a></li>
+</ul>
+
+<p>A developer may also implement the <a href="#stop/1"><code>stop/1</code></a> callback (automatically defined
+by <code>use Application</code>) which does any application cleanup. It receives the
+application state and can return any value. Notice that shutting down the
+supervisor is automatically handled by the VM;</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#app_dir/1">app_dir(app)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets the directory for app</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#app_dir/2">app_dir(app, path)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the given path inside <a href="#app_dir/1"><code>app_dir/1</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete_env/3">delete_env(app, key, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Deletes the <code>key</code> from the given <code>app</code> environment</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ensure_all_started/2">ensure_all_started(app, type \\ :temporary)</a></td>
+  
+    <td class="summary_synopsis"><p>Ensures the given <code>app</code> and its applications are started</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ensure_started/2">ensure_started(app, type \\ :temporary)</a></td>
+  
+    <td class="summary_synopsis"><p>Ensures the given <code>app</code> is started</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#fetch_env/2">fetch_env(app, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the value for <code>key</code> in <code>app</code>&#39;s environment in a tuple</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#format_error/1">format_error(reason)</a></td>
+  
+    <td class="summary_synopsis"><p>Formats the error reason returned by <a href="#start/2"><code>start/2</code></a>,
+<code>ensure_started/2, [</code>stop/1<code>](#stop/1), [</code>load/1<code>](#load/1) and [</code>unload/1`](#unload/1),
+returns a string</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get_all_env/1">get_all_env(app)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns all key-value pairs for <code>app</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get_env/3">get_env(app, key, default \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the value for <code>key</code> in <code>app</code>&#39;s environment</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#load/1">load(app)</a></td>
+  
+    <td class="summary_synopsis"><p>Loads the given <code>app</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put_env/4">put_env(app, key, value, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Puts the <code>value</code> in <code>key</code> for the given <code>app</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#start/2">start(app, type \\ :temporary)</a></td>
+  
+    <td class="summary_synopsis"><p>Starts the given <code>app</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#stop/1">stop(app)</a></td>
+  
+    <td class="summary_synopsis"><p>Stops the given <code>app</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unload/1">unload(app)</a></td>
+  
+    <td class="summary_synopsis"><p>Unloads the given <code>app</code></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:app/0">
+    <a href="#t:app/0">app</a> :: atom
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:key/0">
+    <a href="#t:key/0">key</a> :: atom
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:value/0">
+    <a href="#t:value/0">value</a> :: term
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:start_type/0">
+    <a href="#t:start_type/0">start_type</a> :: :permanent | :transient | :temporary
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="app_dir/1">
+    <span class="signature"><strong>app_dir(app)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#app_dir/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>app_dir(<a href="#t:app/0">app</a>) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets the directory for app.</p>
+
+<p>This information is returned based on the code path. Here is an
+example:</p>
+
+<pre><code>File.mkdir_p!(&quot;foo/ebin&quot;)
+Code.prepend_path(&quot;foo/ebin&quot;)
+Application.app_dir(:foo)
+#=&gt; &quot;foo&quot;
+</code></pre>
+
+<p>Even though the directory is empty and there is no <code>.app</code> file
+it is considered the application directory based on the name
+&quot;foo/ebin&quot;. The name may contain a dash <code>-</code> which is considered
+to be the app version and it is removed for the lookup purposes:</p>
+
+<pre><code>File.mkdir_p!(&quot;bar-123/ebin&quot;)
+Code.prepend_path(&quot;bar-123/ebin&quot;)
+Application.app_dir(:bar)
+#=&gt; &quot;bar-123&quot;
+</code></pre>
+
+<p>For more information on code paths, check the <a href="Code.html"><code>Code</code></a> module in
+Elixir and also Erlang&#39;s <code>:code</code> module.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L306" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="app_dir/2">
+    <span class="signature"><strong>app_dir(app, path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#app_dir/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>app_dir(<a href="#t:app/0">app</a>, <a href="String.html#t:t/0">String.t</a>) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the given path inside <a href="#app_dir/1"><code>app_dir/1</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L317" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="delete_env/3">
+    <span class="signature"><strong>delete_env(app, key, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete_env/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>delete_env(<a href="#t:app/0">app</a>, <a href="#t:key/0">key</a>, timeout: timeout, persistent: boolean) :: :ok</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Deletes the <code>key</code> from the given <code>app</code> environment.</p>
+
+<p>See <a href="#put_env/4"><code>put_env/4</code></a> for a description of the options.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L179" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="ensure_all_started/2">
+    <span class="signature"><strong>ensure_all_started(app, type \\ :temporary)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ensure_all_started/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>ensure_all_started(<a href="#t:app/0">app</a>, <a href="#t:start_type/0">start_type</a>) :: {:ok, [<a href="#t:app/0">app</a>]} | {:error, term}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Ensures the given <code>app</code> and its applications are started.</p>
+
+<p>Same as <a href="#start/2"><code>start/2</code></a> but also starts the applications listed under
+<code>:applications</code> in the <code>.app</code> file in case they were not previously
+started.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L206" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="ensure_started/2">
+    <span class="signature"><strong>ensure_started(app, type \\ :temporary)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ensure_started/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>ensure_started(<a href="#t:app/0">app</a>, <a href="#t:start_type/0">start_type</a>) :: :ok | {:error, term}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Ensures the given <code>app</code> is started.</p>
+
+<p>Same as <a href="#start/2"><code>start/2</code></a> but returns <code>:ok</code> if the application was already
+started. This is useful in scripts and in test setup, where test
+applications need to be explicitly started:</p>
+
+<pre><code>:ok = Application.ensure_started(:my_test_dep)
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L194" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="fetch_env/2">
+    <span class="signature"><strong>fetch_env(app, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#fetch_env/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>fetch_env(<a href="#t:app/0">app</a>, <a href="#t:key/0">key</a>) :: {:ok, <a href="#t:value/0">value</a>} | :error</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the value for <code>key</code> in <code>app</code>&#39;s environment in a tuple.</p>
+
+<p>If the specified application is not loaded, or the configuration parameter
+does not exist, the function returns <code>:error</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L143" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="format_error/1">
+    <span class="signature"><strong>format_error(reason)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#format_error/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>format_error(any) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Formats the error reason returned by <a href="#start/2"><code>start/2</code></a>,
+<code>ensure_started/2, [</code>stop/1<code>](#stop/1), [</code>load/1<code>](#load/1) and [</code>unload/1`](#unload/1),
+returns a string.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L327" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="get_all_env/1">
+    <span class="signature"><strong>get_all_env(app)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get_all_env/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>get_all_env(<a href="#t:app/0">app</a>) :: [{<a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>}]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns all key-value pairs for <code>app</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L118" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="get_env/3">
+    <span class="signature"><strong>get_env(app, key, default \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get_env/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>get_env(<a href="#t:app/0">app</a>, <a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>) :: <a href="#t:value/0">value</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns the value for <code>key</code> in <code>app</code>&#39;s environment.</p>
+
+<p>If the specified application is not loaded, or the configuration parameter
+does not exist, the function returns the <code>default</code> value.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L129" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="load/1">
+    <span class="signature"><strong>load(app)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#load/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>load(<a href="#t:app/0">app</a>) :: :ok | {:error, term}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Loads the given <code>app</code>.</p>
+
+<p>In order to be loaded, an <code>.app</code> file must be in the load paths.
+All <code>:included_applications</code> will also be loaded.</p>
+
+<p>Loading the application does not start it nor load its modules, but
+it does load its environment.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L266" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="put_env/4">
+    <span class="signature"><strong>put_env(app, key, value, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put_env/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>put_env(<a href="#t:app/0">app</a>, <a href="#t:key/0">key</a>, <a href="#t:value/0">value</a>, timeout: timeout, persistent: boolean) :: :ok</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Puts the <code>value</code> in <code>key</code> for the given <code>app</code>.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><p><code>:timeout</code> - the timeout for the change (defaults to 5000ms);</p></li>
+<li><p><code>:persistent</code> - persists the given value on application load and reloads;</p></li>
+</ul>
+
+<p>If <a href="#put_env/4"><code>put_env/4</code></a> is called before the application is loaded, the application
+environment values specified in the <code>.app</code> file will override the ones
+previously set.</p>
+
+<p>The persistent option can be set to true when there is a need to guarantee
+parameters set with this function will not be overridden by the ones defined
+in the application resource file on load. This means persistent values will
+stick after the application is loaded and also on application reload.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L169" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="start/2">
+    <span class="signature"><strong>start(app, type \\ :temporary)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#start/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>start(<a href="#t:app/0">app</a>, <a href="#t:start_type/0">start_type</a>) :: :ok | {:error, term}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Starts the given <code>app</code>.</p>
+
+<p>If the <code>app</code> is not loaded, the application will first be loaded using <a href="#load/1"><code>load/1</code></a>.
+Any included application, defined in the <code>:included_applications</code> key of the
+<code>.app</code> file will also be loaded, but they won&#39;t be started.</p>
+
+<p>Furthermore, all applications listed in the <code>:applications</code> key must be explicitly
+started before this application is. If not, <code>{:error, {:not_started, app}}</code> is
+returned, where <code>app</code> is the name of the missing application.</p>
+
+<p>In case you want to automatically  load <strong>and start</strong> all of <code>app</code>&#39;s dependencies,
+see <a href="#ensure_all_started/2"><code>ensure_all_started/2</code></a>.</p>
+
+<p>The <code>type</code> argument specifies the type of the application:</p>
+
+<ul>
+<li><code>:permanent</code> - if <code>app</code> terminates, all other applications and the entire
+node are also terminated;</li>
+<li><code>:transient</code> - if <code>app</code> terminates with <code>:normal</code> reason, it is reported
+but no other applications are terminated. If a transient application terminates
+abnormally, all other applications and the entire node are also terminated;</li>
+<li><code>:temporary</code> - if <code>app</code> termiantes, it is reported but no other applications
+are terminated (the default);</li>
+</ul>
+
+<p>Note that it is always possible to stop an application explicitly by calling
+<a href="#stop/1"><code>stop/1</code></a>. Regardless of the type of the application, no other applications will
+be affected.</p>
+
+<p>Note also that the <code>:transient</code> type is of little practical use, since when a
+supervision tree terminates, the reason is set to <code>:shutdown</code>, not <code>:normal</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L242" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="stop/1">
+    <span class="signature"><strong>stop(app)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#stop/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>stop(<a href="#t:app/0">app</a>) :: :ok | {:error, term}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Stops the given <code>app</code>.</p>
+
+<p>When stopped, the application is still loaded.  </p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L252" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="unload/1">
+    <span class="signature"><strong>unload(app)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unload/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>unload(<a href="#t:app/0">app</a>) :: :ok | {:error, term}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Unloads the given <code>app</code>.</p>
+
+<p>It will also unload all <code>:included_applications</code>.
+Note that the function does not purge the application modules.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/application.ex#L277" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dict.Behaviour</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Dict.html">Dict</a> &rarr; <a href="Dict.Behaviour.html">Behaviour</a></div>
+
+      <h1>
+        Dict.Behaviour
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Default implementations for some required functions in the <a href="Dict.html"><code>Dict</code></a> module.</p>
+
+<p>This module makes it easier to create your own <a href="Dict.html"><code>Dict</code></a> compliant
+module, by providing default implementations for some required functions.</p>
+
+<h2>Example</h2>
+
+<pre><code>defmodule MyDict do
+  use Dict.Behaviour
+
+  # implement required functions (see below)
+
+  # override default implementations if optimization is needed
+end
+</code></pre>
+
+<p>The client module must contain the following functions:</p>
+
+<ul>
+<li><code>delete/2</code></li>
+<li><code>fetch/2</code></li>
+<li><code>put/3</code></li>
+<li><code>reduce/3</code></li>
+<li><code>size/1</code></li>
+</ul>
+
+<p>All functions, except <code>reduce/3</code>, are required by the Dict behaviour.
+<code>reduce/3</code> must be implemtented as per the Enumerable protocol.</p>
+
+<p>Based on these functions, <a href="Dict.Behaviour.html"><code>Dict.Behaviour</code></a> generates default implementations
+for the following functions:</p>
+
+<ul>
+<li><code>drop/2</code></li>
+<li><code>equal?/2</code></li>
+<li><code>fetch!/2</code></li>
+<li><code>get/2</code></li>
+<li><code>get/3</code></li>
+<li><code>has_key?/2</code></li>
+<li><code>keys/1</code></li>
+<li><code>merge/2</code></li>
+<li><code>merge/3</code></li>
+<li><code>pop/2</code></li>
+<li><code>pop/3</code></li>
+<li><code>put_new/3</code></li>
+<li><code>split/2</code></li>
+<li><code>take/2</code></li>
+<li><code>to_list/1</code></li>
+<li><code>values/1</code></li>
+<li><code>update/4</code></li>
+<li><code>update!/3</code></li>
+</ul>
+
+<p>All of these functions are defined as overridable, so you can provide your own
+implementation if needed.</p>
+
+<p>Note you can also test your custom module via <a href="Dict.html"><code>Dict</code></a>&#39;s doctests:</p>
+
+<pre><code>defmodule MyDict do
+  def new(keywords \\ []) do
+    ...
+  end
+end
+
+defmodule MyTests do
+  use ExUnit.Case
+  doctest Dict
+  defp dict_impl, do: MyDict
+end
+</code></pre>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/elixir/lib/dict/behaviour.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

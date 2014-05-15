@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Code</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Code.html">Code</a></div>
+
+      <h1>
+        Code
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Utilities for managing code compilation, code evaluation and code loading.</p>
+
+<p>This module complements <a href="http://www.erlang.org/doc/man/code.html">Erlang&#39;s code module</a>
+to add behaviour which is specific to Elixir.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#append_path/1">append_path(path)</a></td>
+  
+    <td class="summary_synopsis"><p>Append a path to the Erlang VM code path</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#compile_quoted/2">compile_quoted(quoted, file \\ &quot;nofile&quot;)</a></td>
+  
+    <td class="summary_synopsis"><p>Compiles the quoted expression</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#compile_string/2">compile_string(string, file \\ &quot;nofile&quot;)</a></td>
+  
+    <td class="summary_synopsis"><p>Compiles the given string</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#compiler_options/0">compiler_options()</a></td>
+  
+    <td class="summary_synopsis"><p>Gets the compilation options from the code server</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#compiler_options/1">compiler_options(opts)</a></td>
+  
+    <td class="summary_synopsis"><p>Sets compilation options</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete_path/1">delete_path(path)</a></td>
+  
+    <td class="summary_synopsis"><p>Delete a path from the Erlang VM code path</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ensure_compiled/1">ensure_compiled(module)</a></td>
+  
+    <td class="summary_synopsis"><p>Ensures the given module is compiled and loaded</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ensure_compiled?/1">ensure_compiled?(module)</a></td>
+  
+    <td class="summary_synopsis"><p>Ensures the given module is compiled and loaded</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ensure_loaded/1">ensure_loaded(module)</a></td>
+  
+    <td class="summary_synopsis"><p>Ensures the given module is loaded</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ensure_loaded?/1">ensure_loaded?(module)</a></td>
+  
+    <td class="summary_synopsis"><p>Ensures the given module is loaded</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#eval_file/2">eval_file(file, relative_to \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Evals the given file</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#eval_quoted/3">eval_quoted(quoted, binding \\ [], opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Evaluate the quoted contents</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#eval_string/3">eval_string(string, binding \\ [], opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Evaluate the contents given by <code>string</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#load_file/2">load_file(file, relative_to \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Load the given file</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#loaded_files/0">loaded_files()</a></td>
+  
+    <td class="summary_synopsis"><p>List all loaded files</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#prepend_path/1">prepend_path(path)</a></td>
+  
+    <td class="summary_synopsis"><p>Prepend a path to the Erlang VM code path</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#require_file/2">require_file(file, relative_to \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Requires the given <code>file</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#string_to_quoted!/2">string_to_quoted!(string, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Convert the given string to its quoted form</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#string_to_quoted/2">string_to_quoted(string, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Convert the given string to its quoted form</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unload_files/1">unload_files(files)</a></td>
+  
+    <td class="summary_synopsis"><p>Remove files from the loaded files list</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="append_path/1">
+    <span class="signature"><strong>append_path(path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#append_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Append a path to the Erlang VM code path.</p>
+
+<p>The path is expanded with <a href="Path.html#expand/1"><code>Path.expand/1</code></a> before being appended.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L39" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="compile_quoted/2">
+    <span class="signature"><strong>compile_quoted(quoted, file \\ &quot;nofile&quot;)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compile_quoted/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Compiles the quoted expression.</p>
+
+<p>Returns a list of tuples where the first element is the module name and
+the second one is its byte code (as a binary).</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L360" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="compile_string/2">
+    <span class="signature"><strong>compile_string(string, file \\ &quot;nofile&quot;)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compile_string/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Compiles the given string.</p>
+
+<p>Returns a list of tuples where the first element is the module name
+and the second one is its byte code (as a binary).</p>
+
+<p>For compiling many files at once, check <a href="Kernel.ParallelCompiler.html#files/2"><code>Kernel.ParallelCompiler.files/2</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L350" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="compiler_options/0">
+    <span class="signature"><strong>compiler_options()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compiler_options/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Gets the compilation options from the code server.</p>
+
+<p>Check <a href="#compiler_options/1"><code>compiler_options/1</code></a> for more information.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L314" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="compiler_options/1">
+    <span class="signature"><strong>compiler_options(opts)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compiler_options/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets compilation options.</p>
+
+<p>These options are global since they are stored by Elixir&#39;s Code Server.</p>
+
+<p>Available options are:</p>
+
+<ul>
+<li><p><code>:docs</code> - when <code>true</code>, retain documentation in the compiled module,
+<code>true</code> by default;</p></li>
+<li><p><code>:debug_info</code> - when <code>true</code>, retain debug information in the compiled module.
+This allows a developer to reconstruct the original source
+code, <code>false</code> by default;</p></li>
+<li><p><code>:ignore_module_conflict</code> - when <code>true</code>, override modules that were already defined
+without raising errors, <code>false</code> by default;</p></li>
+<li><p><code>:warnings_as_errors</code> - cause compilation to fail when warnings are generated;</p></li>
+</ul>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L338" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="delete_path/1">
+    <span class="signature"><strong>delete_path(path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Delete a path from the Erlang VM code path.</p>
+
+<p>The path is expanded with <a href="Path.html#expand/1"><code>Path.expand/1</code></a> before being deleted.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L57" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="ensure_compiled/1">
+    <span class="signature"><strong>ensure_compiled(module)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ensure_compiled/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Ensures the given module is compiled and loaded.</p>
+
+<p>If the module is already loaded, it works as no-op. If the module was
+not loaded yet, it checks if it needs to be compiled first and then
+tries to load it.</p>
+
+<p>If it succeeds loading the module, it returns <code>{:module, module}</code>.
+If not, returns <code>{:error, reason}</code> with the error reason.</p>
+
+<p>Check <a href="#ensure_loaded/1"><code>ensure_loaded/1</code></a> for more information on module loading
+and when to use <a href="#ensure_loaded/1"><code>ensure_loaded/1</code></a> or <a href="#ensure_compiled/1"><code>ensure_compiled/1</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L430" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="ensure_compiled?/1">
+    <span class="signature"><strong>ensure_compiled?(module)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ensure_compiled?/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Ensures the given module is compiled and loaded.</p>
+
+<p>Similar to <a href="#ensure_compiled/1"><code>ensure_compiled/1</code></a>, but returns <code>true</code> if the module
+is already loaded or was successfully loaded and compiled.
+Returns <code>false</code> otherwise.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L454" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="ensure_loaded/1">
+    <span class="signature"><strong>ensure_loaded(module)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ensure_loaded/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Ensures the given module is loaded.</p>
+
+<p>If the module is already loaded, this works as no-op. If the module
+was not yet loaded, it tries to load it.</p>
+
+<p>If it succeeds loading the module, it returns <code>{:module, module}</code>.
+If not, returns <code>{:error, reason}</code> with the error reason.</p>
+
+<h2>Code loading on the Erlang VM</h2>
+
+<p>Erlang has two modes to load code: interactive and embedded.</p>
+
+<p>By default, the Erlang VM runs in interactive mode, where modules
+are loaded as needed. In embedded mode the opposite happens, as all
+modules need to be loaded upfront or explicitly.</p>
+
+<p>Therefore, this function is used to check if a module is loaded
+before using it and allows one to react accordingly. For example, the <a href="URI.html"><code>URI</code></a>
+module uses this function to check if a specific parser exists for a given
+URI scheme.</p>
+
+<h2><a href="Code.html#ensure_compiled/1"><code>Code.ensure_compiled/1</code></a></h2>
+
+<p>Elixir also contains an <a href="#ensure_compiled/1"><code>ensure_compiled/1</code></a> function that is a
+superset of <a href="#ensure_loaded/1"><code>ensure_loaded/1</code></a>.</p>
+
+<p>Since Elixir&#39;s compilation happens in parallel, in some situations
+you may need to use a module that was not yet compiled, therefore
+it can&#39;t even be loaded.</p>
+
+<p><a href="#ensure_compiled/1"><code>ensure_compiled/1</code></a> halts the current process until the
+module we are depending on is available.</p>
+
+<p>In most cases, <a href="#ensure_loaded/1"><code>ensure_loaded/1</code></a> is enough. <a href="#ensure_compiled/1"><code>ensure_compiled/1</code></a>
+must be used in rare cases, usually involving macros that need to
+invoke a module for callback information.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L402" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="ensure_loaded?/1">
+    <span class="signature"><strong>ensure_loaded?(module)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ensure_loaded?/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Ensures the given module is loaded.</p>
+
+<p>Similar to <a href="#ensure_loaded/1"><code>ensure_loaded/1</code></a>, but returns <code>true</code> if the module
+is already loaded or was successfully loaded. Returns <code>false</code>
+otherwise.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L413" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="eval_file/2">
+    <span class="signature"><strong>eval_file(file, relative_to \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#eval_file/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Evals the given file.</p>
+
+<p>Accepts <code>relative_to</code> as an argument to tell where the file is located.</p>
+
+<p>While <code>load_file</code> loads a file and returns the loaded modules and their
+byte code, <code>eval_file</code> simply evalutes the file contents and returns the
+evaluation result and its bindings.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L253" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="eval_quoted/3">
+    <span class="signature"><strong>eval_quoted(quoted, binding \\ [], opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#eval_quoted/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Evaluate the quoted contents.</p>
+
+<p>See <a href="#eval_string/3"><code>eval_string/3</code></a> for a description of arguments and return values.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; contents = quote(hygiene: [vars: false], do: a + b)
+iex&gt; Code.eval_quoted(contents, [a: 1, b: 2], file: __ENV__.file, line: __ENV__.line)
+{3, [a: 1, b: 2]}
+</code></pre>
+
+<p>For convenience, you can pass <code>__ENV__</code> as the <code>opts</code> argument and
+all options will be automatically extracted from the current environment:</p>
+
+<pre><code>iex&gt; contents = quote(hygiene: [vars: false], do: a + b)
+iex&gt; Code.eval_quoted(contents, [a: 1, b: 2], __ENV__)
+{3, [a: 1, b: 2]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L150" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="eval_string/3">
+    <span class="signature"><strong>eval_string(string, binding \\ [], opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#eval_string/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Evaluate the contents given by <code>string</code>.</p>
+
+<p>The <code>binding</code> argument is a keyword list of variable bindings.
+The <code>opts</code> argument is a keyword list of environment options.</p>
+
+<p>Those options can be:</p>
+
+<ul>
+<li><code>:file</code> - the file to be considered in the evaluation</li>
+<li><code>:line</code> - the line on which the script starts</li>
+<li><code>:delegate_locals_to</code> - delegate local calls to the given module,
+the default is to not delegate</li>
+</ul>
+
+<p>Additionally, the following scope values can be configured:</p>
+
+<ul>
+<li><code>:aliases</code> - a list of tuples with the alias and its target</li>
+<li><code>:requires</code> - a list of modules required</li>
+<li><code>:functions</code> - a list of tuples where the first element is a module
+and the second a list of imported function names and arity. The list
+of function names and arity must be sorted</li>
+<li><code>:macros</code> - a list of tuples where the first element is a module
+and the second a list of imported macro names and arity. The list
+of function names and arity must be sorted</li>
+</ul>
+
+<p>Notice that setting any of the values above overrides Elixir&#39;s default
+values. For example, setting <code>:requires</code> to <code>[]</code>, will no longer
+automatically require the <a href="Kernel.html"><code>Kernel</code></a> module; in the same way setting
+<code>:macros</code> will no longer auto-import <a href="Kernel.html"><code>Kernel</code></a> macros like <code>if</code>, <code>case</code>,
+etc.</p>
+
+<p>Returns a tuple of the form <code>{value, binding}</code>,
+where <code>value</code> is the value returned from evaluating <code>string</code>.
+If an error occurs while evaluating <code>string</code> an exception will be raised.</p>
+
+<p><code>binding</code> is a keyword list with the value of all variable bindings
+after evaluating <code>string</code>. The binding key is usually an atom, but it
+may be a tuple for variables defined in a different context.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Code.eval_string(&quot;a + b&quot;, [a: 1, b: 2], file: __ENV__.file, line: __ENV__.line)
+{3, [a: 1, b: 2]}
+
+iex&gt; Code.eval_string(&quot;c = a + b&quot;, [a: 1, b: 2], __ENV__)
+{3, [a: 1, b: 2, c: 3]}
+
+iex&gt; Code.eval_string(&quot;a = a + b&quot;, [a: 1, b: 2])
+{3, [a: 3, b: 2]}
+</code></pre>
+
+<p>For convenience, you can pass <code>__ENV__</code> as the <code>opts</code> argument and
+all imports, requires and aliases defined in the current environment
+will be automatically carried over:</p>
+
+<pre><code>iex&gt; Code.eval_string(&quot;a + b&quot;, [a: 1, b: 2], __ENV__)
+{3, [a: 1, b: 2]}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L118" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="load_file/2">
+    <span class="signature"><strong>load_file(file, relative_to \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#load_file/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Load the given file.</p>
+
+<p>Accepts <code>relative_to</code> as an argument to tell where the file is located.
+If the file was already required/loaded, loads it again.</p>
+
+<p>It returns a list of tuples <code>{ModuleName, &lt;&lt;byte_code&gt;&gt;}</code>, one tuple for
+each module defined in the file.</p>
+
+<p>Notice that if <code>load_file</code> is invoked by different processes concurrently,
+the target file will be loaded concurrently many times. Check <a href="#require_file/2"><code>require_file/2</code></a>
+if you don&#39;t want a file to be loaded concurrently.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L271" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="loaded_files/0">
+    <span class="signature"><strong>loaded_files()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#loaded_files/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>List all loaded files.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L19" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="prepend_path/1">
+    <span class="signature"><strong>prepend_path(path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#prepend_path/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Prepend a path to the Erlang VM code path.</p>
+
+<p>The path is expanded with <a href="Path.html#expand/1"><code>Path.expand/1</code></a> before being prepended.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L48" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="require_file/2">
+    <span class="signature"><strong>require_file(file, relative_to \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#require_file/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Requires the given <code>file</code>.</p>
+
+<p>Accepts <code>relative_to</code> as an argument to tell where the file is located.
+The return value is the same as that of <a href="#load_file/2"><code>load_file/2</code></a>. If the file was already
+required/loaded, doesn&#39;t do anything and returns <code>nil</code>.</p>
+
+<p>Notice that if <code>require_file</code> is invoked by different processes concurrently,
+the first process to invoke <code>require_file</code> acquires a lock and the remaining
+ones will block until the file is available. I.e. if <code>require_file</code> is called
+N times with a given file, it will be loaded only once. The first process to
+call <code>require_file</code> will get the list of loaded modules, others will get <code>nil</code>.</p>
+
+<p>Check <a href="#load_file/2"><code>load_file/2</code></a> if you want a file to be loaded multiple times.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L294" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="string_to_quoted/2">
+    <span class="signature"><strong>string_to_quoted(string, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#string_to_quoted/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Convert the given string to its quoted form.</p>
+
+<p>Returns <code>{:ok, quoted_form}</code>
+if it succeeds, <code>{:error, {line, error, token}}</code> otherwise.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><p><code>:file</code> - The filename to be used in stacktraces
+and the file reported in the <code>__ENV__</code> variable.</p></li>
+<li><p><code>:line</code> - The line reported in the <code>__ENV__</code> variable.</p></li>
+<li><p><code>:existing_atoms_only</code> - When <code>true</code>, raises an error
+when non-existing atoms are found by the tokenizer.</p></li>
+</ul>
+
+<h2>Macro.to_string/2</h2>
+
+<p>The opposite of converting a string to its quoted form is
+<a href="Macro.html#to_string/2"><code>Macro.to_string/2</code></a>, which converts a quoted form to a string/binary
+representation.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L222" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="string_to_quoted!/2">
+    <span class="signature"><strong>string_to_quoted!(string, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#string_to_quoted!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Convert the given string to its quoted form.</p>
+
+<p>It returns the ast if it succeeds,
+raises an exception otherwise. The exception is a <a href="TokenMissingError.html"><code>TokenMissingError</code></a>
+in case a token is missing (usually because the expression is incomplete),
+<a href="SyntaxError.html"><code>SyntaxError</code></a> otherwise.</p>
+
+<p>Check <a href="#string_to_quoted/2"><code>string_to_quoted/2</code></a> for options information.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L238" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="unload_files/1">
+    <span class="signature"><strong>unload_files(files)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unload_files/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Remove files from the loaded files list.</p>
+
+<p>The modules defined in the file are not removed;
+calling this function only removes them from the list,
+allowing them to be required again.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/code.ex#L30" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

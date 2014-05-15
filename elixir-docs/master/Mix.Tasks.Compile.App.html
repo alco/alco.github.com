@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix.Tasks.Compile.App</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a> &rarr; Tasks &rarr; <a href="Mix.Tasks.Compile.html">Compile</a> &rarr; <a href="Mix.Tasks.Compile.App.html">App</a></div>
+
+      <h1>
+        Mix.Tasks.Compile.App
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Writes an .app file.</p>
+
+<p>An <code>.app</code> file is a file containing Erlang terms that defines
+your application. Mix automatically generates this file based on
+your <code>mix.exs</code> configuration. You can learn more about OTP
+applications by seeing the documentation for the <a href="Application.html"><code>Application</code></a>
+module.</p>
+
+<p>In order to generate the <code>.app</code> file, Mix expects your application
+to have both <code>:app</code> and <code>:version</code> keys. Furthermore, you can
+configure the generated application by defining an <code>application</code>
+function in your <code>mix.exs</code> with the following options:</p>
+
+<ul>
+<li><p><code>:applications</code> - all applications your application depends
+on at runtime. For example, if your application depends on
+Erlang&#39;s <code>:crypto</code>, it needs to be added to this list. Most
+of your dependencies must be added as well (unless they&#39;re
+a development or test dependency). Mix and other tools use this
+list in order to properly boot your application dependencies
+before starting the application itself;</p></li>
+<li><p><code>:registered</code> - the name of all registered processes in the
+application. If your application defines a local GenServer
+with name <code>MyServer</code>, it is recommended to add <code>MyServer</code>
+to this list. It is mostly useful to detect conflicts in
+between applications that register the same names;</p></li>
+<li><p><code>:mod</code> - specify a module to invoke when the application
+is started, it must be in the format <code>{Mod, args}</code> where
+args is often an empty list. The module specified here must
+implement the callbacks defined by the <a href="Application.html"><code>Application</code></a>
+module;</p></li>
+<li><p><code>:env</code> - default values for the application environment.
+The application environment is one of the most common ways
+to configure applications;</p></li>
+</ul>
+
+<p>Let&#39;s see an example <code>application</code> function:</p>
+
+<pre><code>def application do
+  [mod: {MyApp, []},
+   env: [default: :value],
+   applications: [:crypto]]
+end
+</code></pre>
+
+<p>Besides the options above, <code>.app</code> files also expects other
+options like <code>:modules</code> and <code>:vsn</code>, but those are automatically
+filled by Mix.</p>
+
+<h2>Command line options</h2>
+
+<ul>
+<li><code>--force</code> - forces compilation regardless of modification times</li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/tasks/compile.app.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#run/1">run(args)</a></td>
+  
+    <td class="summary_synopsis"><p>Callback implementation of <a href="Mix.Task.html#run/1"><code>Mix.Task.run/1</code></a></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="run/1">
+    <span class="signature"><strong>run(args)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#run/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Callback implementation of <a href="Mix.Task.html#run/1"><code>Mix.Task.run/1</code></a>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/mix/lib/mix/tasks/compile.app.ex#L61" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

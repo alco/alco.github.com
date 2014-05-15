@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a></div>
+
+      <h1>
+        Mix
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Mix is a build tool that provides tasks for creating, compiling and
+testing Elixir projects. Mix is inspired by the Leiningen
+build tool for Clojure and was written by one of its contributors.</p>
+
+<p>This module works as a facade for accessing the most common functionality
+in Elixir, such as the shell and the current project configuration.</p>
+
+<p>For getting started with Elixir, checkout out the guide available on
+<a href="http://elixir-lang.org">Elixir&#39;s website</a>.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#env/0">env()</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the mix environment</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#env/1">env(env)</a></td>
+  
+    <td class="summary_synopsis"><p>Changes the current mix env</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#shell/0">shell()</a></td>
+  
+    <td class="summary_synopsis"><p>The shell is a wrapper for doing IO</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#shell/1">shell(shell)</a></td>
+  
+    <td class="summary_synopsis"><p>Sets the current shell</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="env/0">
+    <span class="signature"><strong>env()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#env/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the mix environment.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix.ex#L34" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="env/1">
+    <span class="signature"><strong>env(env)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#env/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Changes the current mix env.</p>
+
+<p>Be careful when invoking this function as any project
+configuration won&#39;t be reloaded.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix.ex#L45" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="shell/0">
+    <span class="signature"><strong>shell()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#shell/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>The shell is a wrapper for doing IO.</p>
+
+<p>It contains conveniences for asking the user information,
+printing status and so forth. It is also swappable,
+allowing developers to use a test shell that simply sends the
+messages to the current process.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix.ex#L57" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="shell/1">
+    <span class="signature"><strong>shell(shell)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#shell/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sets the current shell.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix.ex#L64" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

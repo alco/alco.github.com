@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix.Tasks.Compile.Erlang</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a> &rarr; Tasks &rarr; <a href="Mix.Tasks.Compile.html">Compile</a> &rarr; <a href="Mix.Tasks.Compile.Erlang.html">Erlang</a></div>
+
+      <h1>
+        Mix.Tasks.Compile.Erlang
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Compile Erlang source files.</p>
+
+<p>When this task runs, it will first check the modification times of
+all files to be compiled and if they haven&#39;t been
+changed since the last compilation, it will not compile
+them. If any of them have changed, it compiles
+everything.</p>
+
+<p>For this reason, the task touches your <code>:compile_path</code>
+directory and sets the modification time to the current
+time and date at the end of each compilation. You can
+force compilation regardless of modification times by passing
+the <code>--force</code> option.</p>
+
+<h2>Command line options</h2>
+
+<ul>
+<li><code>--force</code> - forces compilation regardless of modification times</li>
+</ul>
+
+<h2>Configuration</h2>
+
+<ul>
+<li><p><code>ERL_COMPILER_OPTIONS</code> - can be used to give default compile options.
+The value must be a valid Erlang term. If the value is a list, it will
+be used as is. If it is not a list, it will be put into a list.</p></li>
+<li><p><code>:erlc_paths</code> - directories to find source files.
+Defaults to <code>[&quot;src&quot;]</code>, can be configured as:</p>
+
+<pre><code>[erlc_paths: [&quot;src&quot;, &quot;other&quot;]]
+</code></pre></li>
+<li><p><code>:erlc_include_path</code> - directory for adding include files.
+Defaults to <code>&quot;include&quot;</code>, can be configured as:</p>
+
+<pre><code>[erlc_include_path: &quot;other&quot;]
+</code></pre></li>
+<li><p><code>:erlc_options</code> - compilation options that apply to Erlang&#39;s
+compiler. <code>:debug_info</code> is enabled by default.</p>
+
+<p>There are many available options here:
+<a href="http://www.erlang.org/doc/man/compile.html#file-2">http://www.erlang.org/doc/man/compile.html#file-2</a></p></li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/tasks/compile.erlang.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#compile_mappings/6">compile_mappings(manifest, mappings, src_ext, dest_ext, force, callback)</a></td>
+  
+    <td class="summary_synopsis"><p>Extracts the extensions from the mappings, automatically
+invoking the callback for each stale input and output pair
+(or for all if <code>force</code> is true) and removing files that no
+longer have a source, while keeping the manifest up
+to date</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#manifests/0">manifests()</a></td>
+  
+    <td class="summary_synopsis"><p>Returns Erlang manifests</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#run/1">run(args)</a></td>
+  
+    <td class="summary_synopsis"><p>Runs this task</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#to_erl_file/1">to_erl_file(file)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the given file to a format accepted by
+the Erlang compilation tools</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="compile_mappings/6">
+    <span class="signature"><strong>compile_mappings(manifest, mappings, src_ext, dest_ext, force, callback)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#compile_mappings/6" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Extracts the extensions from the mappings, automatically
+invoking the callback for each stale input and output pair
+(or for all if <code>force</code> is true) and removing files that no
+longer have a source, while keeping the manifest up
+to date.</p>
+
+<h2>Examples</h2>
+
+<p>For example, a simple compiler for Lisp Flavored Erlang
+would be implemented like:</p>
+
+<pre><code>compile_mappings &quot;.compile.lfe&quot;,
+                 [{&quot;src&quot;, &quot;ebin&quot;}],
+                 :lfe, :beam, opts[:force], fn
+  input, output -&gt;
+    :lfe_comp.file(to_erl_file(input),
+                   [output_dir: Path.dirname(output)])
+end
+</code></pre>
+
+<p>The command above will:</p>
+
+<ol>
+<li>Look for files ending with the <code>lfe</code> extension in <code>src</code>
+and their <code>beam</code> counterpart in <code>ebin</code>;</li>
+<li>For each stale file (or for all if <code>force</code> is true),
+invoke the callback passing the calculated input
+and output;</li>
+<li>Update the manifest with the newly compiled outputs;</li>
+<li>Remove any output in the manifest that that does not
+have an equivalent source;</li>
+</ol>
+
+<p>The callback must return <code>{:ok, mod}</code> or <code>:error</code> in case
+of error. An error is raised at the end if any of the
+files failed to compile.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/tasks/compile.erlang.ex#L131" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="manifests/0">
+    <span class="signature"><strong>manifests()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#manifests/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns Erlang manifests.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/tasks/compile.erlang.ex#L93" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="run/1">
+    <span class="signature"><strong>run(args)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#run/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Runs this task.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/tasks/compile.erlang.ex#L60" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="to_erl_file/1">
+    <span class="signature"><strong>to_erl_file(file)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#to_erl_file/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Converts the given file to a format accepted by
+the Erlang compilation tools.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/tasks/compile.erlang.ex#L143" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

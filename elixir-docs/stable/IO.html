@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IO</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="IO.html">IO</a></div>
+
+      <h1>
+        IO
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Functions handling IO.</p>
+
+<p>Many functions in this module expects an IO device as argument.
+An IO device must be a pid or an atom representing a process.
+For convenience, Elixir provides <code>:stdio</code> and <code>:stderr</code> as
+shortcuts to Erlang&#39;s <code>:standard_io</code> and <code>:standard_error</code>.</p>
+
+<p>The majority of the functions expect char data, i.e. strings or
+lists of characters and strings. In case another type is given,
+it will do a conversion to string via the <a href="String.Chars.html"><code>String.Chars</code></a> protocol
+(as shown in typespecs).</p>
+
+<p>The functions starting with <code>bin*</code> expects iodata as argument,
+i.e. binaries or lists of bytes and binaries.</p>
+
+<h2>IO devices</h2>
+
+<p>An IO device may be an atom or a pid. In case it is an atom,
+the atom must be the name of a registered process. However,
+there are three exceptions for this rule:</p>
+
+<ul>
+<li><p><code>:standard_io</code> - when the <code>:standard_io</code> atom is given,
+it is treated as a shortcut for <code>Process.group_leader</code></p></li>
+<li><p><code>:stdio</code> - is a shortcut for <code>:standard_io</code></p></li>
+<li><p><code>:stderr</code> - is a shortcut for <code>:standard_error</code></p></li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L64" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#binread/2">binread(device \\ :erlang.group_leader(), chars_or_line)</a></td>
+  
+    <td class="summary_synopsis"><p>Reads <code>count</code> bytes from the IO device or until
+the end of the line if <code>:line</code> is given. It returns:</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#binstream/2">binstream(device, line_or_bytes)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the IO device into a <a href="IO.Stream.html"><code>IO.Stream</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#binwrite/2">binwrite(device \\ :erlang.group_leader(), item)</a></td>
+  
+    <td class="summary_synopsis"><p>Writes the given argument to the given device
+as a binary, no unicode conversion happens</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#getn/2">getn(prompt, count \\ 1)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets a number of bytes from the io device. If the
+io device is a unicode device, <code>count</code> implies
+the number of unicode codepoints to be retrieved.
+Otherwise, <code>count</code> is the number of raw bytes to be retrieved.
+It returns:</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#getn/3">getn(device, prompt, count)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets a number of bytes from the io device. If the
+io device is a unicode device, <code>count</code> implies
+the number of unicode codepoints to be retrieved.
+Otherwise, <code>count</code> is the number of raw bytes to be retrieved</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#gets/2">gets(device \\ :erlang.group_leader(), prompt)</a></td>
+  
+    <td class="summary_synopsis"><p>Reads a line from the IO device. It returns:</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#inspect/2">inspect(item, opts \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Inspects and writes the given argument to the device</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#inspect/3">inspect(device, item, opts)</a></td>
+  
+    <td class="summary_synopsis"><p>Inspects the item with options using the given device</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#puts/2">puts(device \\ :erlang.group_leader(), item)</a></td>
+  
+    <td class="summary_synopsis"><p>Writes the argument to the device, similar to <a href="#write/2"><code>write/2</code></a>,
+but adds a newline at the end. The argument is expected
+to be a char_data</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#read/2">read(device \\ :erlang.group_leader(), chars_or_line)</a></td>
+  
+    <td class="summary_synopsis"><p>Reads <code>count</code> characters from the IO device or until
+the end of the line if <code>:line</code> is given. It returns:</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#stream/2">stream(device, line_or_codepoints)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the io device into a <a href="IO.Stream.html"><code>IO.Stream</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#write/2">write(device \\ :erlang.group_leader(), item)</a></td>
+  
+    <td class="summary_synopsis"><p>Writes the given argument to the given device</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:device/0">
+    <a href="#t:device/0">device</a> :: atom | pid
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:nodata/0">
+    <a href="#t:nodata/0">nodata</a> :: {:error, term} | :eof
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="binread/2">
+    <span class="signature"><strong>binread(device \\ :erlang.group_leader(), chars_or_line)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#binread/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>binread(<a href="#t:device/0">device</a>, :line | non_neg_integer) :: iodata | <a href="#t:nodata/0">nodata</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Reads <code>count</code> bytes from the IO device or until
+the end of the line if <code>:line</code> is given. It returns:</p>
+
+<ul>
+<li><p><code>data</code> - The input characters.</p></li>
+<li><p><code>:eof</code> - End of file was encountered.</p></li>
+<li><p><code>{:error, reason}</code> - Other (rare) error condition,
+for instance <code>{:error, :estale}</code> if reading from an
+NFS file system.</p></li>
+</ul>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L143" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="binstream/2">
+    <span class="signature"><strong>binstream(device, line_or_bytes)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#binstream/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>binstream(<a href="#t:device/0">device</a>, :line | pos_integer) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the IO device into a <a href="IO.Stream.html"><code>IO.Stream</code></a>.</p>
+
+<p>An <a href="IO.Stream.html"><code>IO.Stream</code></a> implements both <a href="Enumerable.html"><code>Enumerable</code></a> and
+<a href="Collectable.html"><code>Collectable</code></a>, allowing it to be used for both read
+and write.</p>
+
+<p>The device is iterated line by line or by a number of bytes.
+This reads the IO device as a raw binary.</p>
+
+<p>Note that an IO stream has side effects and every time
+you go over the stream you may get different results.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L330" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="binwrite/2">
+    <span class="signature"><strong>binwrite(device \\ :erlang.group_leader(), item)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#binwrite/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>binwrite(<a href="#t:device/0">device</a>, iodata) :: :ok | {:error, term}</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Writes the given argument to the given device
+as a binary, no unicode conversion happens.</p>
+
+<p>Check <a href="#write/2"><code>write/2</code></a> for more information.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L186" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="getn/2">
+    <span class="signature"><strong>getn(prompt, count \\ 1)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#getn/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>getn(<a href="#t:device/0">device</a>, char_data | <a href="String.Chars.html#t:t/0">String.Chars.t</a>) :: char_data | <a href="#t:nodata/0">nodata</a></li>
+      
+        <li>getn(char_data | <a href="String.Chars.html#t:t/0">String.Chars.t</a>, pos_integer) :: char_data | <a href="#t:nodata/0">nodata</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets a number of bytes from the io device. If the
+io device is a unicode device, <code>count</code> implies
+the number of unicode codepoints to be retrieved.
+Otherwise, <code>count</code> is the number of raw bytes to be retrieved.
+It returns:</p>
+
+<ul>
+<li><p><code>data</code> - The input characters.</p></li>
+<li><p><code>:eof</code> - End of file was encountered.</p></li>
+<li><p><code>{:error, reason}</code> - Other (rare) error condition,
+for instance <code>{:error, :estale}</code> if reading from an
+NFS file system.</p></li>
+</ul>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L249" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="getn/3">
+    <span class="signature"><strong>getn(device, prompt, count)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#getn/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>getn(<a href="#t:device/0">device</a>, char_data | <a href="String.Chars.html#t:t/0">String.Chars.t</a>, pos_integer) :: char_data | <a href="#t:nodata/0">nodata</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets a number of bytes from the io device. If the
+io device is a unicode device, <code>count</code> implies
+the number of unicode codepoints to be retrieved.
+Otherwise, <code>count</code> is the number of raw bytes to be retrieved.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L266" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="gets/2">
+    <span class="signature"><strong>gets(device \\ :erlang.group_leader(), prompt)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#gets/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>gets(<a href="#t:device/0">device</a>, char_data | <a href="String.Chars.html#t:t/0">String.Chars.t</a>) :: char_data | <a href="#t:nodata/0">nodata</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Reads a line from the IO device. It returns:</p>
+
+<ul>
+<li><p><code>data</code> - The characters in the line terminated
+by a LF (or end of file).</p></li>
+<li><p><code>:eof</code> - End of file was encountered.</p></li>
+<li><p><code>{:error, reason}</code> - Other (rare) error condition,
+for instance <code>{:error, :estale}</code> if reading from an
+NFS file system.</p></li>
+</ul>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L283" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="inspect/2">
+    <span class="signature"><strong>inspect(item, opts \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#inspect/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>inspect(term, <a href="Keyword.html#t:t/0">Keyword.t</a>) :: term</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Inspects and writes the given argument to the device.</p>
+
+<p>It sets by default pretty printing to true and returns
+the item itself.</p>
+
+<p>Note this function does not use the IO device width
+because some IO devices does not implement the
+appropriate functions. Setting the width must be done
+explicitly by passing the <code>:width</code> option.</p>
+
+<h2>Examples</h2>
+
+<pre><code>IO.inspect Process.list
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L218" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="inspect/3">
+    <span class="signature"><strong>inspect(device, item, opts)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#inspect/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>inspect(<a href="#t:device/0">device</a>, term, <a href="Keyword.html#t:t/0">Keyword.t</a>) :: term</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Inspects the item with options using the given device.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L226" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="puts/2">
+    <span class="signature"><strong>puts(device \\ :erlang.group_leader(), item)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#puts/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>puts(<a href="#t:device/0">device</a>, char_data | <a href="String.Chars.html#t:t/0">String.Chars.t</a>) :: :ok</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Writes the argument to the device, similar to <a href="#write/2"><code>write/2</code></a>,
+but adds a newline at the end. The argument is expected
+to be a char_data.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L196" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="read/2">
+    <span class="signature"><strong>read(device \\ :erlang.group_leader(), chars_or_line)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#read/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>read(<a href="#t:device/0">device</a>, :line | non_neg_integer) :: char_data | <a href="#t:nodata/0">nodata</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Reads <code>count</code> characters from the IO device or until
+the end of the line if <code>:line</code> is given. It returns:</p>
+
+<ul>
+<li><p><code>data</code> - The input characters.</p></li>
+<li><p><code>:eof</code> - End of file was encountered.</p></li>
+<li><p><code>{:error, reason}</code> - Other (rare) error condition,
+for instance <code>{:error, :estale}</code> if reading from an
+NFS file system.</p></li>
+</ul>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L120" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="stream/2">
+    <span class="signature"><strong>stream(device, line_or_codepoints)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#stream/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>stream(<a href="#t:device/0">device</a>, :line | pos_integer) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the io device into a <a href="IO.Stream.html"><code>IO.Stream</code></a>.</p>
+
+<p>An <a href="IO.Stream.html"><code>IO.Stream</code></a> implements both <a href="Enumerable.html"><code>Enumerable</code></a> and
+<a href="Collectable.html"><code>Collectable</code></a>, allowing it to be used for both read
+and write.</p>
+
+<p>The device is iterated line by line if <code>:line</code> is given or
+by a given number of codepoints.</p>
+
+<p>This reads the IO as utf-8. Check out
+<a href="IO.html#binstream/2"><code>IO.binstream/2</code></a> to handle the IO as a raw binary.</p>
+
+<p>Note that an IO stream has side effects and every time
+you go over the stream you may get different results.</p>
+
+<h2>Examples</h2>
+
+<p>Here is an example on how we mimic an echo server
+from the command line:</p>
+
+<pre><code>Enum.each IO.stream(:stdio, :line), &amp;IO.write(&amp;1)
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L312" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="write/2">
+    <span class="signature"><strong>write(device \\ :erlang.group_leader(), item)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#write/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>write(<a href="#t:device/0">device</a>, char_data | <a href="String.Chars.html#t:t/0">String.Chars.t</a>) :: :ok</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Writes the given argument to the given device.</p>
+
+<p>By default the device is the standard output.
+It returns <code>:ok</code> if it succeeds.</p>
+
+<h2>Examples</h2>
+
+<pre><code>IO.write &quot;sample&quot;
+#=&gt; &quot;sample&quot;
+
+IO.write :stderr, &quot;error&quot;
+#=&gt; &quot;error&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/io.ex#L175" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

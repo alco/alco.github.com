@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mix.Utils</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Mix.html">Mix</a> &rarr; <a href="Mix.Utils.html">Utils</a></div>
+
+      <h1>
+        Mix.Utils
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Utilities used throughout Mix and tasks.</p>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#camelize/1">camelize(arg1)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the given string to CamelCase format</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#command_to_module/2">command_to_module(command, at \\ Elixir)</a></td>
+  
+    <td class="summary_synopsis"><p>Take a <code>command</code> name and attempts to load a module
+with the command name converted to a module name
+in the given <code>at</code> scope</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#command_to_module_name/1">command_to_module_name(s)</a></td>
+  
+    <td class="summary_synopsis"><p>Takes a command and converts it to the module name format</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#extract_files/2">extract_files(paths, exts_or_pattern)</a></td>
+  
+    <td class="summary_synopsis"><p>Extract files from a list of paths</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#extract_stale/2">extract_stale(sources, targets)</a></td>
+  
+    <td class="summary_synopsis"><p>Extract all stale <code>sources</code> compared to the given <code>targets</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#last_modified/1">last_modified(path)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns the date the given path was last modified</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#mix_home/0">mix_home()</a></td>
+  
+    <td class="summary_synopsis"><p>Get the mix home</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#mix_paths/0">mix_paths()</a></td>
+  
+    <td class="summary_synopsis"><p>Get all paths defined in the MIX_PATH env variable</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#module_name_to_command/2">module_name_to_command(module, nesting \\ 0)</a></td>
+  
+    <td class="summary_synopsis"><p>Takes a module and converts it to a command</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#read_manifest/1">read_manifest(file)</a></td>
+  
+    <td class="summary_synopsis"><p>Reads the given file as a manifest and returns each entry
+as a list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#read_path!/1">read_path!(path)</a></td>
+  
+    <td class="summary_synopsis"><p>Opens and reads content from either a URL or a local filesystem path</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#stale?/2">stale?(sources, targets)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns <code>true</code> if any of the <code>sources</code> are stale
+compared to the given <code>targets</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#symlink_or_copy/2">symlink_or_copy(source, target)</a></td>
+  
+    <td class="summary_synopsis"><p>Symlink directory <code>source</code> to <code>target</code> or copy it recursively
+in case symlink fails</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#underscore/1">underscore(atom)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the given atom or binary to underscore format</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#write_manifest/2">write_manifest(file, entries)</a></td>
+  
+    <td class="summary_synopsis"><p>Writes a manifest file with the given <code>entries</code> list</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="camelize/1">
+    <span class="signature"><strong>camelize(arg1)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#camelize/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Converts the given string to CamelCase format.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Mix.Utils.camelize &quot;foo_bar&quot;
+&quot;FooBar&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L231" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="command_to_module/2">
+    <span class="signature"><strong>command_to_module(command, at \\ Elixir)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#command_to_module/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Take a <code>command</code> name and attempts to load a module
+with the command name converted to a module name
+in the given <code>at</code> scope.</p>
+
+<p>Returns <code>{:module, module}</code> in case a module
+exists and is loaded, <code>{:error, reason}</code> otherwise.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Mix.Utils.command_to_module(&quot;compile&quot;, Mix.Tasks)
+{:module, Mix.Tasks.Compile}
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L51" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="command_to_module_name/1">
+    <span class="signature"><strong>command_to_module_name(s)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#command_to_module_name/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Takes a command and converts it to the module name format.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Mix.Utils.command_to_module_name(&quot;compile.elixir&quot;)
+&quot;Compile.Elixir&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L300" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="extract_files/2">
+    <span class="signature"><strong>extract_files(paths, exts_or_pattern)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#extract_files/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Extract files from a list of paths.</p>
+
+<p><code>exts_or_pattern</code> may be a list of extensions or a
+<a href="Path.html#wildcard/1"><code>Path.wildcard/1</code></a> pattern.</p>
+
+<p>If the path in <code>paths</code> is a file, it is included in
+the return result. If it is a directory, it is searched
+recursively for files with the given extensions or matching
+the given patterns.</p>
+
+<p>Any file starting with <code>&quot;.&quot;</code> is ignored.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L139" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="extract_stale/2">
+    <span class="signature"><strong>extract_stale(sources, targets)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#extract_stale/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Extract all stale <code>sources</code> compared to the given <code>targets</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L67" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="last_modified/1">
+    <span class="signature"><strong>last_modified(path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#last_modified/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns the date the given path was last modified.</p>
+
+<p>If the path does not exist, it returns the unix epoch
+(1970-01-01 00:00:00).</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L88" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="mix_home/0">
+    <span class="signature"><strong>mix_home()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#mix_home/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Get the mix home.</p>
+
+<p>It defaults to <code>~/.mix</code> unless the <code>MIX_HOME</code>
+environment variable is set.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L12" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="mix_paths/0">
+    <span class="signature"><strong>mix_paths()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#mix_paths/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Get all paths defined in the MIX_PATH env variable.</p>
+
+<p><code>MIX_PATH</code> may contain multiple paths. If on Windows, those
+paths should be separated by <code>;</code>, if on unix systems, use <code>:</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L22" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="module_name_to_command/2">
+    <span class="signature"><strong>module_name_to_command(module, nesting \\ 0)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#module_name_to_command/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Takes a module and converts it to a command.</p>
+
+<p>The nesting argument can be given in order to remove
+the nesting of a module.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Mix.Utils.module_name_to_command(Mix.Tasks.Compile, 2)
+&quot;compile&quot;
+
+iex&gt; Mix.Utils.module_name_to_command(&quot;Mix.Tasks.Compile.Elixir&quot;, 2)
+&quot;compile.elixir&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L280" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="read_manifest/1">
+    <span class="signature"><strong>read_manifest(file)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#read_manifest/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Reads the given file as a manifest and returns each entry
+as a list.</p>
+
+<p>A manifest is a tabular file where each line is a row
+and each entry in a row is separated by &quot;\t&quot;. The first
+entry must always be a path to a compiled artifact.</p>
+
+<p>In case there is no manifest file, returns an empty list.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L111" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="read_path!/1">
+    <span class="signature"><strong>read_path!(path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#read_path!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Opens and reads content from either a URL or a local filesystem path.</p>
+
+<p>Used by tasks like <code>local.install</code> and <code>local.rebar</code> that support
+installation either from a URL or a local file.</p>
+
+<p>Raises if the given path is not a url, nor a file or if the
+file or url are invalid.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L377" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="stale?/2">
+    <span class="signature"><strong>stale?(sources, targets)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#stale?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Returns <code>true</code> if any of the <code>sources</code> are stale
+compared to the given <code>targets</code>.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L60" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="symlink_or_copy/2">
+    <span class="signature"><strong>symlink_or_copy(source, target)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#symlink_or_copy/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Symlink directory <code>source</code> to <code>target</code> or copy it recursively
+in case symlink fails.</p>
+
+<p>Expect source and target to be absolute paths as it generates
+a relative symlink.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L325" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="underscore/1">
+    <span class="signature"><strong>underscore(atom)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#underscore/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Converts the given atom or binary to underscore format.</p>
+
+<p>If an atom is given, it is assumed to be an Elixir module,
+so it is converted to a binary and then processed.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; Mix.Utils.underscore &quot;FooBar&quot;
+&quot;foo_bar&quot;
+
+iex&gt; Mix.Utils.underscore &quot;Foo.Bar&quot;
+&quot;foo/bar&quot;
+
+iex&gt; Mix.Utils.underscore Foo.Bar
+&quot;foo/bar&quot;
+</code></pre>
+
+<p>In general, <code>underscore</code> can be thought of as the reverse of
+<code>camelize</code>, however, in some cases formatting may be lost:</p>
+
+<pre><code>Mix.Utils.underscore &quot;SAPExample&quot;  #=&gt; &quot;sap_example&quot;
+Mix.Utils.camelize   &quot;sap_example&quot; #=&gt; &quot;SapExample&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L181" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="write_manifest/2">
+    <span class="signature"><strong>write_manifest(file, entries)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#write_manifest/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Writes a manifest file with the given <code>entries</code> list.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/mix/lib/mix/utils.ex#L121" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

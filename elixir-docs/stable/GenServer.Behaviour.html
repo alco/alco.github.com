@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GenServer.Behaviour</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.2 &rarr; <a href="overview.html">Overview</a> &rarr; GenServer &rarr; <a href="GenServer.Behaviour.html">Behaviour</a></div>
+
+      <h1>
+        GenServer.Behaviour
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+        
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>This module is a convenience for defining GenServer callbacks in Elixir.</p>
+
+<p>A server is responsible for reacting to messages received from a client.
+A GenServer is an OTP behaviour that encapsulates common server
+functionalities.</p>
+
+<h2>Example</h2>
+
+<p>Below is an example of a GenServer that pushes and pops items
+onto a stack:</p>
+
+<pre><code>defmodule MyServer do
+  use GenServer.Behaviour
+
+  # Callbacks
+
+  def handle_call(:pop, _from, [h|t]) do
+    {:reply, h, t}
+  end
+
+  def handle_call(request, from, config) do
+    # Call the default implementation from GenServer.Behaviour
+    super(request, from, config)
+  end
+
+  def handle_cast({:push, item}, config) do
+    {:noreply, [item|config]}
+  end
+
+  def handle_cast(request, config) do
+    super(request, config)
+  end
+end
+
+{:ok, pid} = :gen_server.start_link(MyServer, [:hello], [])
+
+:gen_server.call(pid, :pop)
+#=&gt; :hello
+
+:gen_server.cast(pid, {:push, :world})
+#=&gt; :ok
+
+:gen_server.call(pid, :pop)
+#=&gt; :world
+</code></pre>
+
+<p>Notice we never call the server callbacks directly, they are called
+by OTP whenever we interact with the server. <strong>cast</strong> messages are
+asynchronous while <strong>call</strong> ones are synchronous. For a
+GenServer, there are 8 different values a callback such as
+<code>handle_call</code> or <code>handle_cast</code> can return:</p>
+
+<pre><code>{:reply, reply, new_state}
+{:reply, reply, new_state, timeout}
+{:reply, reply, new_state, :hibernate}
+{:noreply, new_state}
+{:noreply, new_state, timeout}
+{:noreply, new_state, :hibernate}
+{:stop, reason, new_state}
+{:stop, reason, reply, new_state}
+</code></pre>
+
+<p>There are 6 callbacks required to be implemented in a GenServer. The
+<a href="GenServer.Behaviour.html"><code>GenServer.Behaviour</code></a> module defines all of them automatically, but
+allows us to customize the ones we need. The required callbacks are:</p>
+
+<ul>
+<li><code>init(args)</code> - invoked when the server is started;</li>
+<li><code>handle_call(msg, from, state)</code> - invoked to handle call messages;</li>
+<li><code>handle_cast(msg, state)</code> - invoked to handle cast messages;</li>
+<li><code>handle_info(msg, state)</code> - handle all other messages which are
+normally received by processes;</li>
+<li><code>terminate(reason, state)</code> - called when the server is about to
+terminate, useful for cleaning up;</li>
+<li><code>code_change(old_vsn, state, extra)</code> - called when the application
+code is being upgraded live (hot code swap);</li>
+</ul>
+
+<p>Starting and sending messages to the GenServer is done
+via Erlang&#39;s <code>:gen_server</code> module. For more information,
+please refer to the following:</p>
+
+<ul>
+<li><a href="http://www.erlang.org/doc/man/gen_server.html">http://www.erlang.org/doc/man/gen_server.html</a></li>
+<li><a href="http://www.erlang.org/doc/design_principles/gen_server_concepts.html">http://www.erlang.org/doc/design_principles/gen_server_concepts.html</a></li>
+<li><a href="http://learnyousomeerlang.com/clients-and-servers">http://learnyousomeerlang.com/clients-and-servers</a></li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/v0.13.2/lib/elixir/lib/gen_server/behaviour.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>

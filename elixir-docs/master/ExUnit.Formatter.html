@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ExUnit.Formatter</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">Elixir v0.13.3-dev &rarr; <a href="overview.html">Overview</a> &rarr; <a href="ExUnit.html">ExUnit</a> &rarr; <a href="ExUnit.Formatter.html">Formatter</a></div>
+
+      <h1>
+        ExUnit.Formatter
+        
+      </h1>
+
+      
+
+      <ul class="summary_links">
+        
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>This module holds helper functions related to formatting and contains
+documentation about the formatting protocol.</p>
+
+<p>Formatters are registered at the <code>ExUnit.EventManager</code> event manager and
+will be send events by the runner.</p>
+
+<p>The following events are possible:</p>
+
+<ul>
+<li><code>{:suite_started, opts}</code> - The suite has started with the specified
+                           options to the runner.</li>
+<li><code>{:suite_finished, run_us, load_us}</code> - The suite has finished. <code>run_us</code> and
+                                       <code>load_us</code> are the run and load
+                                       times in microseconds respectively.</li>
+<li><code>{:case_started, test_case}</code> - A test case has started. See
+                               <a href="ExUnit.TestCase.html"><code>ExUnit.TestCase</code></a> for details.</li>
+<li><code>{:case_finished, test_case}</code> - A test case has finished. See
+                                <a href="ExUnit.TestCase.html"><code>ExUnit.TestCase</code></a> for details.</li>
+<li><code>{:test_started, test_case}</code> - A test case has started. See
+                               <a href="ExUnit.Test.html"><code>ExUnit.Test</code></a> for details.</li>
+<li><code>{:test_finished, test_case}</code> - A test case has finished. See
+                               <a href="ExUnit.Test.html"><code>ExUnit.Test</code></a> for details.</li>
+</ul>
+
+        </div>
+      
+
+      
+        <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/ex_unit/lib/ex_unit/formatter.ex#L1" target="_blank" class="view_source">Source</a>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#format_filters/2">format_filters(filters, type)</a></td>
+  
+    <td class="summary_synopsis"><p>Formats filters used to constain cases to be run</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#format_test_case_failure/5">format_test_case_failure(test_case, arg2, counter, width, formatter)</a></td>
+  
+    <td class="summary_synopsis"><p>Receives a test case and formats its failure</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#format_test_failure/5">format_test_failure(test, arg2, counter, width, formatter)</a></td>
+  
+    <td class="summary_synopsis"><p>Receives a test and formats its failure</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#format_time/2">format_time(run_us, load_us)</a></td>
+  
+    <td class="summary_synopsis"><p>Formats time taken running the test suite</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:id/0">
+    <a href="#t:id/0">id</a> :: term
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:test_case/0">
+    <a href="#t:test_case/0">test_case</a> :: <a href="ExUnit.TestCase.html#t:t/0">ExUnit.TestCase.t</a>
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:test/0">
+    <a href="#t:test/0">test</a> :: <a href="ExUnit.Test.html#t:t/0">ExUnit.Test.t</a>
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:run_us/0">
+    <a href="#t:run_us/0">run_us</a> :: pos_integer
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:load_us/0">
+    <a href="#t:load_us/0">load_us</a> :: pos_integer | nil
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="format_filters/2">
+    <span class="signature"><strong>format_filters(filters, type)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#format_filters/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>format_filters(<a href="Keyword.html#t:t/0">Keyword.t</a>, atom) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Formats filters used to constain cases to be run.</p>
+
+<h2>Examples</h2>
+
+<p>iex&gt; format_filters([run: true, slow: false], :include)
+  &quot;Including tags: [run: true, slow: false]&quot;</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/ex_unit/lib/ex_unit/formatter.ex#L93" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="format_test_case_failure/5">
+    <span class="signature"><strong>format_test_case_failure(test_case, arg2, counter, width, formatter)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#format_test_case_failure/5" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Receives a test case and formats its failure.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/ex_unit/lib/ex_unit/formatter.ex#L114" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="format_test_failure/5">
+    <span class="signature"><strong>format_test_failure(test, arg2, counter, width, formatter)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#format_test_failure/5" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Receives a test and formats its failure.</p>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/ex_unit/lib/ex_unit/formatter.ex#L103" target="_blank" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="format_time/2">
+    <span class="signature"><strong>format_time(run_us, load_us)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#format_time/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>format_time(<a href="#t:run_us/0">run_us</a>, <a href="#t:load_us/0">load_us</a>) :: <a href="String.html#t:t/0">String.t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Formats time taken running the test suite.</p>
+
+<p>It receives the time spent running the tests and
+optionally the time spent loading the test suite.</p>
+
+<h2>Examples</h2>
+
+<pre><code>iex&gt; format_time(10000, nil)
+&quot;Finished in 0.01 seconds&quot;
+
+iex&gt; format_time(10000, 20000)
+&quot;Finished in 0.03 seconds (0.02s on load, 0.01s on tests)&quot;
+
+iex&gt; format_time(10000, 200000)
+&quot;Finished in 0.2 seconds (0.2s on load, 0.01s on tests)&quot;
+</code></pre>
+</div>
+  
+    <a href="https://github.com/elixir-lang/elixir/blob/f4b436cbc307252e09bd5ed2889ca8f3af16a380/lib/ex_unit/lib/ex_unit/formatter.ex#L58" target="_blank" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>
