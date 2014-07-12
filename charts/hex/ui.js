@@ -8,19 +8,19 @@ var data = _.chain(json).map(function(list, key) {
         return dict;
     })];
 }).object().value();
+var flatData = _.flatten(_.map(data, function(list) {
+    return list;
+}));
 
 var dates = _.flatten(_.map(data, function(list) {
     return _.map(list, function(dict) { return dict.date; });
-}));
-var counts = _.flatten(_.map(data, function(list) {
-    return _.map(list, function(dict) { return dict.count; });
 }));
 
 var dateExtent = d3.extent(dates);
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 1000 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    height = 200 - margin.top - margin.bottom;
 
 var offsetX = 20;
 
@@ -38,21 +38,21 @@ var colorIndex = 0;
 
 /////////
 
-function newChart(dateExtent, config, invertY) {
+function newChart(dateExtent, data, config, invertY) {
     var fromDate = moment(dateExtent[1]).subtract(1, config.interval).toDate();
 
-    var counts = _.flatten(_.map(json, function(list) {
-        return _.chain(list)
+    var counts = _.chain(data)
                     .filter(function(dict) { return dict.date >= fromDate; })
                     .map(function(dict) { return dict.count; }).value();
-    }));
 
     var x = d3.time.scale.utc()
         .domain([Math.max(dateExtent[0], fromDate), dateExtent[1]])
         .range([0, width]);
     var xAccess = function(dict) { return x(dict.date); };
 
-    var y = d3.scale.linear().domain(d3.extent(counts));
+    var extent = d3.extent(counts);
+    //extent[1] *= 10;
+    var y = d3.scale.linear().domain(extent);
     y.range([height, 0]);
     var yAccess = function(dict) { return y(dict.count); };
 
@@ -72,10 +72,11 @@ function newChart(dateExtent, config, invertY) {
         .tickFormat(d3.format("d"))
         .orient("left");
 
-    var chart = d3.select("body").append("svg")
+    var svg = d3.select("body").append("svg")
+        .attr("class", "tmp")
         .attr("width", width + margin.left + margin.right+offsetX)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
+        .attr("height", height + margin.top + margin.bottom);
+    var chart = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     chart.append("g")
@@ -98,6 +99,7 @@ function newChart(dateExtent, config, invertY) {
       .text("last " + config.interval + "'s downloads");
 
     return {
+        svg: svg,
         chart: chart,
         fromDate: fromDate,
         useLine: invertY,
@@ -110,8 +112,17 @@ function filterData(data, fromDate) {
     return _.filter(data, function(dict) { return dict.date >= fromDate; });
 }
 
+function cummulativeData(data) {
+    var acc = 0;
+    return _.chain(data)
+        .sortBy(function(dict) { return dict.date; })
+        .map(function(dict) { acc += dict.count; var obj = {count: acc, date: dict.date}; return obj; })
+        .value();
+}
+
 function updateChart(chart, data, name) {
-    var data = filterData(data[name], chart.fromDate);
+    var data = filterData(data, chart.fromDate);
+    //var data = cummulativeData(data);
     var color = FLAT_COLORS[colorIndex++ % FLAT_COLORS.length];
     var w = Math.min(40, width / data.length);
     var wp = w * .7;
@@ -119,6 +130,7 @@ function updateChart(chart, data, name) {
         var line = d3.svg.line().x(chart.x).y(function(dict) { return chart.y(dict); });
         chart.chart.append("path")
           .datum(data)
+          .attr("transform", "translate("+offsetX+",0)")
           .attr("class", "line")
           .attr("d", line)
           .attr("stroke", color);
@@ -137,7 +149,7 @@ function updateChart(chart, data, name) {
                     fill: color,
                 });
     }
-    return chart.chart;
+    return chart.svg;
 }
 
 //////////////
@@ -159,16 +171,52 @@ var yearlyConfig = {
 var currentPackage;
 var chartType = "bar";
 var charts = [];
+var totalChart;
+var cummulative = false;
+
+var totalData = _.reduce(data, function(acc, list) {
+    return _.reduce(list, function(acc, dict) {
+        if (!acc[dict.date]) {
+            acc[dict.date] = {date: dict.date, count: 0};
+        }
+        acc[dict.date].count += dict.count;
+        return acc;
+    }, acc);
+}, {});
+totalData = _.sortBy(totalData, function(dict) { return dict.date; });
+
+function accumulateData(data) {
+    var count = 0;
+    return _.chain(data)
+        .sortBy(function(dict) { return dict.date; })
+        .map(function(dict) {
+            count += dict.count;
+            var obj = {};
+            obj.date = dict.date;
+            obj.count = count;
+            return obj;
+        })
+        .value();
+}
 
 function redrawCharts(type, package) {
-    $("svg").remove();
+    $("svg.tmp").remove();
 
     if (!package) return;
 
+    var fdata = flatData;
+    var pdata = data[package];
+    if (cummulative) {
+        var fdata = _.flatten(_.map(data, function(list) {
+            return accumulateData(list);
+        }));
+        pdata = accumulateData(pdata);
+    }
+
     var useLine = type == "line";
     charts = _.map([weeklyConfig, monthlyConfig, yearlyConfig], function(config) {
-        var chart = newChart(dateExtent, config, useLine);
-        return updateChart(chart, data, package);
+        var chart = newChart(dateExtent, fdata, config, useLine);
+        return updateChart(chart, pdata, package);
     });
 }
 
@@ -179,9 +227,23 @@ function populatePackages(data, selector) {
     });
 }
 
+function redrawTotalChart() {
+    if (totalChart) {
+        totalChart.remove();
+    }
+    var data = totalData;
+    if (cummulative) {
+        data = accumulateData(data);
+    }
+    totalChart = newChart(dateExtent, data, yearlyConfig, chartType=="line");
+    totalChart = updateChart(totalChart, data, "total");
+    totalChart.attr("class", "");
+}
+
 $(function() {
     $("#chart-type-sel").change(function() {
         chartType = $(this).val();
+        redrawTotalChart();
         redrawCharts(chartType, currentPackage);
     });
 
@@ -190,5 +252,13 @@ $(function() {
         redrawCharts(chartType, currentPackage);
     });
 
+    $("#cummulative-check").click(function() {
+        cummulative = $(this).prop("checked");
+        redrawTotalChart();
+        redrawCharts(chartType, currentPackage);
+    });
+
     populatePackages(data, $("#package-sel"));
+
+    redrawTotalChart();
 });
