@@ -1,0 +1,19 @@
+body {
+  font: 0.8em sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2.0px;
+}
+
+text.label {
+    font-size: 1.2em;
+}
