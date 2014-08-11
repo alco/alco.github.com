@@ -1,0 +1,38 @@
+input {
+  width: 6em;
+  margin-right: 2em;
+}
+td {
+  padding-top: 0.5em;
+}
+
+@media print {
+  @page {
+    margin: 0.5cm;
+  }
+
+  body {
+    font-size: 10pt;
+  }
+
+  hr {
+    display: none;
+  }
+  #settings {
+    display: none;
+  }
+
+  input {
+    width: 5.4em;
+    height: 10pt;
+    margin-right: 0.4em;
+    border: thin solid #444;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  td {
+    padding-top: 0.3em;
+  }
+}
+

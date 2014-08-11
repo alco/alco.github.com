@@ -1,0 +1,41 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Устный счет (генератор)</title>
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="app.css" type="text/css" charset="utf-8">
+
+  <style>
+    input.no-margin {
+      margin-right: 0
+    }
+  </style>
+
+  <script src="vendor.js"></script>
+  <script src="app.js"></script>
+  <script>require('generator_ui');</script>
+</head>
+<body>
+<div id="settings">
+  <table>
+    <tr><td>Операция</td><td><select id="operation">
+      <option>+</option>
+      <option>-</option>
+      <option>x</option>
+    </select></td></tr>
+    <tr><td>Диапазон слева</td><td><input id="left-range" type="text" value="10 - 99" class="no-margin"></td></tr>
+    <tr><td>Диапазон справа</td><td><input id="right-range" type="text" value="0,1 - 9,9" class="no-margin"></td></tr>
+    <tr><td>Количество заданий</td><td><input id="test-count" type="text" value="10"></td></tr>
+  </table>
+  <p><button id="generate-but">Создать</button><button id="print-but">Печать</button></p>
+</div>
+<div id="test-container">
+</div>
+</body>
+</html>
