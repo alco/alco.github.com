@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=None">
+  <style type="text/css">
+td.linenos { background-color: #f0f0f0; padding-right: 10px; }
+span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
+pre { line-height: 125%; }
+body .hll { background-color: #ffffcc }
+body  { background: #f0f3f3; }
+body .c { color: #0099FF; font-style: italic } /* Comment */
+body .err { color: #AA0000; background-color: #FFAAAA } /* Error */
+body .k { color: #006699; font-weight: bold } /* Keyword */
+body .o { color: #555555 } /* Operator */
+body .cm { color: #0099FF; font-style: italic } /* Comment.Multiline */
+body .cp { color: #009999 } /* Comment.Preproc */
+body .c1 { color: #0099FF; font-style: italic } /* Comment.Single */
+body .cs { color: #0099FF; font-weight: bold; font-style: italic } /* Comment.Special */
+body .gd { background-color: #FFCCCC; border: 1px solid #CC0000 } /* Generic.Deleted */
+body .ge { font-style: italic } /* Generic.Emph */
+body .gr { color: #FF0000 } /* Generic.Error */
+body .gh { color: #003300; font-weight: bold } /* Generic.Heading */
+body .gi { background-color: #CCFFCC; border: 1px solid #00CC00 } /* Generic.Inserted */
+body .go { color: #AAAAAA } /* Generic.Output */
+body .gp { color: #000099; font-weight: bold } /* Generic.Prompt */
+body .gs { font-weight: bold } /* Generic.Strong */
+body .gu { color: #003300; font-weight: bold } /* Generic.Subheading */
+body .gt { color: #99CC66 } /* Generic.Traceback */
+body .kc { color: #006699; font-weight: bold } /* Keyword.Constant */
+body .kd { color: #006699; font-weight: bold } /* Keyword.Declaration */
+body .kn { color: #006699; font-weight: bold } /* Keyword.Namespace */
+body .kp { color: #006699 } /* Keyword.Pseudo */
+body .kr { color: #006699; font-weight: bold } /* Keyword.Reserved */
+body .kt { color: #007788; font-weight: bold } /* Keyword.Type */
+body .m { color: #FF6600 } /* Literal.Number */
+body .s { color: #CC3300 } /* Literal.String */
+body .na { color: #330099 } /* Name.Attribute */
+body .nb { color: #336666 } /* Name.Builtin */
+body .nc { color: #00AA88; font-weight: bold } /* Name.Class */
+body .no { color: #336600 } /* Name.Constant */
+body .nd { color: #9999FF } /* Name.Decorator */
+body .ni { color: #999999; font-weight: bold } /* Name.Entity */
+body .ne { color: #CC0000; font-weight: bold } /* Name.Exception */
+body .nf { color: #CC00FF } /* Name.Function */
+body .nl { color: #9999FF } /* Name.Label */
+body .nn { color: #00CCFF; font-weight: bold } /* Name.Namespace */
+body .nt { color: #330099; font-weight: bold } /* Name.Tag */
+body .nv { color: #003333 } /* Name.Variable */
+body .ow { color: #000000; font-weight: bold } /* Operator.Word */
+body .w { color: #bbbbbb } /* Text.Whitespace */
+body .mb { color: #FF6600 } /* Literal.Number.Bin */
+body .mf { color: #FF6600 } /* Literal.Number.Float */
+body .mh { color: #FF6600 } /* Literal.Number.Hex */
+body .mi { color: #FF6600 } /* Literal.Number.Integer */
+body .mo { color: #FF6600 } /* Literal.Number.Oct */
+body .sb { color: #CC3300 } /* Literal.String.Backtick */
+body .sc { color: #CC3300 } /* Literal.String.Char */
+body .sd { color: #CC3300; font-style: italic } /* Literal.String.Doc */
+body .s2 { color: #CC3300 } /* Literal.String.Double */
+body .se { color: #CC3300; font-weight: bold } /* Literal.String.Escape */
+body .sh { color: #CC3300 } /* Literal.String.Heredoc */
+body .si { color: #AA0000 } /* Literal.String.Interpol */
+body .sx { color: #CC3300 } /* Literal.String.Other */
+body .sr { color: #33AAAA } /* Literal.String.Regex */
+body .s1 { color: #CC3300 } /* Literal.String.Single */
+body .ss { color: #FFCC33 } /* Literal.String.Symbol */
+body .bp { color: #336666 } /* Name.Builtin.Pseudo */
+body .vc { color: #003333 } /* Name.Variable.Class */
+body .vg { color: #003333 } /* Name.Variable.Global */
+body .vi { color: #003333 } /* Name.Variable.Instance */
+body .il { color: #FF6600 } /* Literal.Number.Integer.Long */
+
+  </style>
+</head>
+<body>
+<h2></h2>
+
+<div class="highlight"><pre><span class="c1"># Numbers</span>
+<span class="mb">0b0101011</span>
+<span class="mi">1234</span> <span class="p">;</span> <span class="mh">0x1A</span> <span class="p">;</span> <span class="mh">0xbeef</span> <span class="p">;</span> <span class="mi">0763</span> <span class="p">;</span> <span class="mo">0o123</span>
+<span class="mf">3.14</span> <span class="p">;</span> <span class="mf">5.0e21</span> <span class="p">;</span> <span class="mf">0.5e-12</span>
+<span class="mi">100_000_000</span>
+
+<span class="c1"># these are not valid numbers</span>
+<span class="mb">0b01</span><span class="mi">2</span> <span class="p">;</span> <span class="mh">0xb</span><span class="n">oar</span> <span class="p">;</span> <span class="mi">0</span><span class="n">o888</span>
+<span class="mi">0</span><span class="nc">B01</span> <span class="p">;</span> <span class="mi">0</span><span class="nc">XAF</span> <span class="p">;</span> <span class="mi">0</span><span class="nc">O123</span>
+
+<span class="c1"># Characters</span>
+<span class="sc">?a</span> <span class="p">;</span> <span class="sc">?1</span> <span class="p">;</span> <span class="sc">?</span><span class="se">\n</span> <span class="p">;</span> <span class="sc">?</span><span class="se">\s</span> <span class="p">;</span> <span class="sc">?\c</span> <span class="p">;</span> <span class="sc">? </span><span class="p">;</span> <span class="sc">?,</span>
+<span class="sc">?</span><span class="se">\x{</span><span class="mh">12</span><span class="se">}</span> <span class="p">;</span> <span class="sc">?</span><span class="se">\x{</span><span class="mh">abcd</span><span class="se">}</span>
+<span class="sc">?</span><span class="se">\x34</span> <span class="p">;</span> <span class="sc">?</span><span class="se">\xf</span>
+<span class="sc">?</span><span class="se">\123</span> <span class="p">;</span> <span class="sc">?</span><span class="se">\12</span> <span class="p">;</span> <span class="sc">?</span><span class="se">\7</span>
+
+<span class="c1"># Atoms</span>
+<span class="ss">:this</span> <span class="p">;</span> <span class="ss">:that</span>
+<span class="ss">:&#39;complex atom&#39;</span>
+<span class="ss">:&quot;with&#39; \&quot;\&quot; &#39;quotes&quot;</span>
+<span class="ss">:&quot; multi</span>
+<span class="ss"> line &#39; </span><span class="se">\s</span><span class="ss"> </span><span class="se">\123</span><span class="ss"> </span><span class="se">\xff</span><span class="ss"></span>
+<span class="ss">atom&quot;</span>
+<span class="ss">:...</span> <span class="p">;</span> <span class="ss">:&lt;&lt;&gt;&gt;</span> <span class="p">;</span> <span class="ss">:%{}</span> <span class="p">;</span> <span class="ss">:%</span> <span class="p">;</span> <span class="ss">:{}</span>
+<span class="ss">:++</span><span class="p">;</span> <span class="ss">:--</span><span class="p">;</span> <span class="ss">:*</span><span class="p">;</span> <span class="ss">:~~~</span>
+
+<span class="c1"># Strings</span>
+<span class="s2">&quot;Hello world&quot;</span>
+<span class="s2">&quot;Interspersed </span><span class="se">\x{</span><span class="mh">ff</span><span class="se">}</span><span class="s2"> codes </span><span class="se">\7</span><span class="s2"> \8 </span><span class="se">\65</span><span class="s2"> </span><span class="se">\016</span><span class="s2"> and </span><span class="se">\t\s</span><span class="s2">\z\+ \\ escapes&quot;</span>
+<span class="s2">&quot;Quotes &#39; inside \&quot; </span><span class="se">\123</span><span class="s2"> the \&quot;\&quot; </span><span class="se">\xF</span><span class="s2"> string \\\&quot; end&quot;</span>
+<span class="s2">&quot;Multiline</span>
+<span class="s2">   string&quot;</span>
+
+<span class="c1"># Char lists</span>
+<span class="s1">&#39;this is a list&#39;</span>
+<span class="s1">&#39;escapes \&#39; </span><span class="se">\t</span><span class="s1"> \\\&#39;&#39;</span>
+<span class="s1">&#39;Multiline</span>
+<span class="s1">    char</span>
+<span class="s1">  list</span>
+<span class="s1">&#39;</span>
+
+<span class="c1"># Binaries</span>
+<span class="p">&lt;&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">&gt;&gt;</span>
+<span class="p">&lt;&lt;</span><span class="s2">&quot;hello&quot;</span><span class="p">:</span><span class="ss">:binary</span><span class="p">,</span> <span class="n">c</span> <span class="p">::</span> <span class="n">utf8</span><span class="p">,</span> <span class="n">x</span><span class="p">::[</span><span class="mi">4</span><span class="p">,</span> <span class="n">unit</span><span class="p">(</span><span class="mi">2</span><span class="p">)]&gt;&gt;</span> <span class="p">=</span> <span class="s2">&quot;hello™1&quot;</span>
+
+<span class="c1"># Sigils</span>
+<span class="sx">~r/this + i</span><span class="se">\s</span><span class="sx"> &quot;a&quot; regex/</span>
+<span class="sx">~R&#39;this + i\s &quot;a&quot; regex too&#39;</span>
+<span class="sx">~w(hello </span><span class="si">#{</span> <span class="p">[</span><span class="s2">&quot;has&quot;</span> <span class="o">&lt;&gt;</span> <span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="s1">&#39;\c</span><span class="se">\d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\123</span><span class="s2"> interpol&quot;</span> <span class="p">|</span> <span class="p">[]]</span> <span class="si">}</span><span class="sx"> world)s</span>
+<span class="sx">~W(hello #{no &quot;123&quot; \c\d \123 interpol} world)s</span>
+
+<span class="sx">~s{Escapes terminators \{ and \}, but no {balancing}</span> <span class="c1"># outside of sigil here }</span>
+
+<span class="sx">~S&quot;No escapes \s\t\n and no #{interpolation}&quot;</span>
+
+<span class="ss">:&quot;atoms work </span><span class="si">#{</span><span class="s2">&quot;to&quot;</span> <span class="o">&lt;&gt;</span> <span class="s2">&quot;o&quot;</span><span class="si">}</span><span class="ss">&quot;</span>
+
+<span class="c1"># Operators</span>
+<span class="n">x</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">y</span> <span class="p">=</span> <span class="no">true</span> <span class="ow">and</span> <span class="no">false</span><span class="p">;</span> <span class="n">z</span> <span class="p">=</span> <span class="no">false</span> <span class="n">xor</span> <span class="no">true</span>
+<span class="p">...</span> <span class="p">=</span> <span class="mi">144</span>
+<span class="p">...</span> <span class="o">==</span> <span class="o">!</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">||</span> <span class="n">z</span>
+<span class="s2">&quot;hello&quot;</span> <span class="o">|&gt;</span> <span class="nc">String</span><span class="p">.</span><span class="n">upcase</span> <span class="o">|&gt;</span> <span class="nc">String</span><span class="p">.</span><span class="n">downcase</span><span class="p">()</span>
+<span class="p">{</span><span class="o">^</span><span class="n">z</span><span class="p">,</span> <span class="n">a</span><span class="p">}</span> <span class="p">=</span> <span class="p">{</span><span class="no">true</span><span class="p">,</span> <span class="n">x</span><span class="p">}</span>
+
+<span class="c1"># Lists, tuples, maps, keywords</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:a</span><span class="p">,</span> <span class="s1">&#39;hello&#39;</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">[</span><span class="ss">:head</span> <span class="p">|</span> <span class="p">[</span><span class="sc">?t</span><span class="p">,</span> <span class="sc">?a</span><span class="p">,</span> <span class="sc">?i</span><span class="p">,</span> <span class="sc">?l</span><span class="p">]]</span>
+
+<span class="p">{</span><span class="ss">:one</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span><span class="p">}</span>
+
+<span class="p">[</span><span class="ss">...</span><span class="p">:</span> <span class="s2">&quot;this&quot;</span><span class="p">,</span> <span class="ss">&lt;&lt;&gt;&gt;</span><span class="p">:</span> <span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="ss">%{}</span><span class="p">:</span> <span class="s2">&quot;a keyword&quot;</span><span class="p">,</span> <span class="ss">%</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="ss">{}</span><span class="p">:</span> <span class="s2">&quot;too&quot;</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;this is an atom too&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;so is this&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">[</span><span class="ss">option</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="ss">key</span><span class="p">:</span> <span class="ss">:word</span><span class="p">]</span>
+<span class="p">[</span><span class="ss">++</span><span class="p">:</span> <span class="s2">&quot;operator&quot;</span><span class="p">,</span> <span class="ss">~~~</span><span class="p">:</span> <span class="ss">:&amp;&amp;&amp;</span><span class="p">]</span>
+
+<span class="n">map</span> <span class="p">=</span> <span class="p">%{</span><span class="ss">shortcut</span><span class="p">:</span> <span class="s2">&quot;syntax&quot;</span><span class="p">}</span>
+<span class="p">%{</span><span class="n">map</span> <span class="p">|</span> <span class="s2">&quot;update&quot;</span> <span class="p">=&gt;</span> <span class="s2">&quot;me&quot;</span><span class="p">}</span>
+<span class="p">%{</span> <span class="mi">12</span> <span class="p">=&gt;</span> <span class="mi">13</span><span class="p">,</span> <span class="ss">:weird</span> <span class="p">=&gt;</span> <span class="p">[</span><span class="s1">&#39;thing&#39;</span><span class="p">]</span> <span class="p">}</span>
+
+<span class="c1"># Comprehensions</span>
+<span class="k">for</span> <span class="n">x</span> <span class="p">&lt;-</span> <span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">,</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">,</span> <span class="ss">do</span><span class="p">:</span> <span class="p">{</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">}</span>
+<span class="n">pixels</span> <span class="p">=</span> <span class="s2">&quot;12345678&quot;</span>
+<span class="k">for</span> <span class="p">&lt;&lt;</span> <span class="p">&lt;&lt;</span><span class="n">r</span><span class="p">::</span><span class="mi">4</span><span class="p">,</span> <span class="n">g</span><span class="p">::</span><span class="mi">4</span><span class="p">,</span> <span class="n">b</span><span class="p">::</span><span class="mi">4</span><span class="p">,</span> <span class="n">a</span><span class="p">::</span><span class="mi">4</span><span class="p">&gt;&gt;</span> <span class="p">&lt;-</span> <span class="n">pixels</span> <span class="p">&gt;&gt;</span> <span class="k">do</span>
+  <span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">{</span><span class="n">g</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&quot;b&quot;</span> <span class="p">=&gt;</span> <span class="n">a</span><span class="p">}}]</span>
+<span class="k">end</span>
+
+<span class="c1"># String interpolation</span>
+<span class="s2">&quot;String </span><span class="si">#{</span><span class="n">inspect</span> <span class="s2">&quot;interpolation&quot;</span><span class="si">}</span><span class="s2"> is quite </span><span class="si">#{</span><span class="mi">1</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">7</span><span class="si">}</span><span class="s2"> difficult&quot;</span>
+
+<span class="c1"># Identifiers</span>
+<span class="n">abc_123</span> <span class="p">=</span> <span class="mi">1</span>
+<span class="n">_018OP</span> <span class="p">=</span> <span class="mi">2</span>
+<span class="nc">A__0</span> <span class="p">=</span> <span class="mi">3</span>
+
+<span class="c1"># Modules</span>
+<span class="kd">defmodule</span> <span class="nc">Long.Module.Name</span> <span class="k">do</span>
+  <span class="na">@moduledoc</span> <span class="s2">&quot;Simple module docstring&quot;</span>
+
+  <span class="na">@doc</span> <span class="sh">&quot;&quot;&quot;</span>
+<span class="sh">  Multiline docstring</span>
+<span class="sh">  &quot;with quotes&quot;</span>
+<span class="sh">  and </span><span class="si">#{</span> <span class="p">%{</span><span class="s2">&quot;interpolation&quot;</span> <span class="p">=&gt;</span> <span class="s2">&quot;in&quot;</span> <span class="o">&lt;&gt;</span> <span class="s2">&quot;action&quot;</span><span class="si">}</span><span class="sh"> }</span>
+<span class="sh">  &quot;&quot;&quot;</span>
+  <span class="kd">defstruct</span> <span class="p">[</span><span class="ss">:a</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:height</span><span class="p">]</span>
+
+  <span class="na">@doc</span> <span class="sx">~S</span><span class="sh">&#39;&#39;&#39;</span>
+<span class="sh">  No #{interpolation} of any kind.</span>
+<span class="sh">  \000 \x{ff}</span>
+
+<span class="sh">  \n #{\x{ff}}</span>
+<span class="sh">  &#39;&#39;&#39;</span>
+  <span class="kd">def</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="p">\\</span> <span class="p">[]),</span> <span class="ss">do</span><span class="p">:</span> <span class="ss">:ok</span>
+
+  <span class="na">@doc</span> <span class="no">false</span>
+  <span class="kd">def</span> <span class="n">__before_compile__</span><span class="p">(</span><span class="bp">_</span><span class="p">)</span> <span class="k">do</span>
+    <span class="ss">:ok</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Structs</span>
+<span class="kd">defmodule</span> <span class="nc">Second.Module</span> <span class="k">do</span>
+  <span class="n">s</span> <span class="p">=</span> <span class="p">%</span><span class="nc">Long.Module.Name</span><span class="p">{</span><span class="ss">name</span><span class="p">:</span> <span class="s2">&quot;Silly&quot;</span><span class="p">}</span>
+  <span class="p">%{</span><span class="n">s</span> <span class="p">|</span> <span class="ss">height</span><span class="p">:</span> <span class="p">{</span><span class="mi">192</span><span class="p">,</span> <span class="ss">:cm</span><span class="p">}}</span>
+<span class="k">end</span>
+
+<span class="c1"># Types, pseudo-vars, attributes</span>
+<span class="kd">defmodule</span> <span class="nc">M</span> <span class="k">do</span>
+  <span class="na">@custom_attr</span> <span class="ss">:some_constant</span>
+
+  <span class="na">@before_compile</span> <span class="nc">Long.Module.Name</span>
+
+  <span class="na">@typedoc</span> <span class="s2">&quot;This is a type&quot;</span>
+  <span class="na">@type</span> <span class="n">typ</span> <span class="p">::</span> <span class="n">integer</span>
+
+  <span class="na">@typedoc</span> <span class="sh">&quot;&quot;&quot;</span>
+<span class="sh">  Another type</span>
+<span class="sh">  &quot;&quot;&quot;</span>
+  <span class="na">@opaque</span> <span class="n">typtyp</span> <span class="p">::</span> <span class="mi">1</span><span class="p">..</span><span class="mi">10</span>
+
+  <span class="na">@spec</span> <span class="n">func</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">typtyp</span><span class="p">)</span> <span class="p">::</span> <span class="ss">:ok</span> <span class="p">|</span> <span class="ss">:fail</span>
+  <span class="kd">def</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">a</span> <span class="o">||</span> <span class="n">b</span> <span class="o">||</span> <span class="ss">:ok</span> <span class="o">||</span> <span class="ss">:fail</span>
+    <span class="nc">Path</span><span class="p">.</span><span class="n">expand</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="bp">__DIR__</span><span class="p">)</span>
+    <span class="nc">IO</span><span class="p">.</span><span class="n">inspect</span> <span class="bp">__ENV__</span>
+    <span class="n">__NOTAPSEUDOVAR__</span> <span class="p">=</span> <span class="mi">11</span>
+    <span class="bp">__MODULE__</span><span class="p">.</span><span class="n">func</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="kd">defmacro</span> <span class="n">m</span><span class="p">()</span> <span class="k">do</span>
+    <span class="bp">__CALLER__</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Functions</span>
+<span class="n">anon</span> <span class="p">=</span> <span class="k">fn</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="p">-&gt;</span>
+  <span class="k">fn</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="p">-&gt;</span>
+    <span class="o">&amp;</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">-</span> <span class="n">z</span> <span class="o">*</span> <span class="n">a</span> <span class="o">/</span> <span class="ni">&amp;1</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">div</span><span class="p">(</span><span class="ni">&amp;2</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="o">&amp;</span><span class="nc">Set</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="ni">&amp;1</span><span class="p">,</span> <span class="ni">&amp;2</span><span class="p">)</span> <span class="p">;</span> <span class="o">&amp;</span> <span class="nc">Set</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="ni">&amp;1</span><span class="p">,</span> <span class="ni">&amp;2</span><span class="p">)</span> <span class="p">;</span> <span class="o">&amp;</span><span class="p">(</span> <span class="nc">Set</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="ni">&amp;1</span><span class="p">,</span> <span class="ni">&amp;1</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="c1"># Function calls</span>
+<span class="n">anon</span><span class="p">.(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="n">self</span><span class="p">;</span> <span class="n">hd</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="nc">Kernel</span><span class="p">.</span><span class="n">spawn</span><span class="p">(</span><span class="k">fn</span> <span class="p">-&gt;</span> <span class="ss">:ok</span> <span class="k">end</span><span class="p">)</span>
+<span class="nc">IO.ANSI</span><span class="p">.</span><span class="n">black</span>
+
+<span class="c1"># Control flow</span>
+<span class="k">if</span> <span class="ss">:this</span> <span class="k">do</span>
+  <span class="ss">:that</span>
+<span class="k">else</span>
+  <span class="ss">:otherwise</span>
+<span class="k">end</span>
+
+<span class="n">pid</span> <span class="p">=</span> <span class="n">self</span>
+<span class="k">receive</span> <span class="k">do</span>
+  <span class="p">{</span><span class="ss">:EXIT</span><span class="p">,</span> <span class="bp">_</span><span class="p">}</span> <span class="p">-&gt;</span> <span class="ss">:done</span>
+  <span class="p">{</span><span class="o">^</span><span class="n">pid</span><span class="p">,</span> <span class="ss">:_</span><span class="p">}</span> <span class="p">-&gt;</span> <span class="no">nil</span>
+  <span class="k">after</span> <span class="mi">100</span> <span class="p">-&gt;</span> <span class="ss">:no_luck</span>
+<span class="k">end</span>
+
+<span class="k">case</span> <span class="bp">__ENV__</span><span class="p">.</span><span class="n">line</span> <span class="k">do</span>
+  <span class="n">x</span> <span class="ow">when</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">x</span>
+  <span class="n">x</span> <span class="ow">when</span> <span class="n">x</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">..</span><span class="mi">12</span> <span class="p">-&gt;</span> <span class="o">-</span><span class="n">x</span>
+<span class="k">end</span>
+
+<span class="k">cond</span> <span class="k">do</span>
+  <span class="no">false</span> <span class="p">-&gt;</span> <span class="s2">&quot;too bad&quot;</span>
+  <span class="mi">4</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="p">-&gt;</span> <span class="s2">&quot;oops&quot;</span>
+  <span class="no">true</span> <span class="p">-&gt;</span> <span class="no">nil</span>
+<span class="k">end</span>
+
+<span class="c1"># Lexical scope modifiers</span>
+<span class="kn">import</span> <span class="nc">Kernel</span><span class="p">,</span> <span class="ss">except</span><span class="p">:</span> <span class="p">[</span><span class="ss">spawn</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">+</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">/</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">Unless</span><span class="p">:</span> <span class="mi">2</span><span class="p">]</span>
+<span class="kn">alias</span> <span class="nc">Long.Module.Name</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="nc">N0men123_and4</span>
+<span class="kn">use</span> <span class="nc">Bitwise</span>
+
+<span class="mi">4</span> <span class="o">&amp;&amp;&amp;</span> <span class="mi">5</span>
+<span class="mi">2</span> <span class="o">&lt;&lt;&lt;</span> <span class="mi">3</span>
+
+<span class="c1"># Protocols</span>
+<span class="kd">defprotocol</span> <span class="nc">Useless</span> <span class="k">do</span>
+  <span class="kd">def</span> <span class="n">func1</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+  <span class="kd">def</span> <span class="n">func2</span><span class="p">(</span><span class="n">that</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="kd">defimpl</span> <span class="nc">Useless</span><span class="p">,</span> <span class="ss">for</span><span class="p">:</span> <span class="nc">Atom</span> <span class="k">do</span>
+<span class="k">end</span>
+
+<span class="c1"># Exceptions</span>
+<span class="kd">defmodule</span> <span class="nc">NotAnError</span> <span class="k">do</span>
+  <span class="kd">defexception</span> <span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="k">raise</span> <span class="nc">NotAnError</span><span class="p">,</span> <span class="ss">message</span><span class="p">:</span> <span class="s2">&quot;This is not an error&quot;</span>
+</pre></div>
+</body>
+</html>
