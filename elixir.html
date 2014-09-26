@@ -141,10 +141,18 @@ body .il { color: #FF6600 } /* Literal.Number.Integer.Long */
 <span class="c1"># Operators</span>
 <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="mi">3</span>
 <span class="n">y</span> <span class="o">=</span> <span class="no">true</span> <span class="ow">and</span> <span class="no">false</span><span class="p">;</span> <span class="n">z</span> <span class="o">=</span> <span class="no">false</span> <span class="ow">or</span> <span class="no">true</span>
-<span class="o">...</span> <span class="o">=</span> <span class="mi">144</span>
-<span class="o">...</span> <span class="o">==</span> <span class="o">!</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">||</span> <span class="n">z</span>
+<span class="n">...</span> <span class="o">=</span> <span class="mi">144</span>
+<span class="n">...</span> <span class="o">==</span> <span class="o">!</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">||</span> <span class="n">z</span>
 <span class="s2">&quot;hello&quot;</span> <span class="o">|&gt;</span> <span class="nc">String</span><span class="o">.</span><span class="n">upcase</span> <span class="o">|&gt;</span> <span class="nc">String</span><span class="o">.</span><span class="n">downcase</span><span class="p">()</span>
 <span class="p">{</span><span class="o">^</span><span class="n">z</span><span class="p">,</span> <span class="n">a</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="no">true</span><span class="p">,</span> <span class="n">x</span><span class="p">}</span>
+
+<span class="c1"># Free operators (added in 1.0.0)</span>
+<span class="n">p</span>  <span class="o">~&gt;&gt;</span> <span class="n">f</span>  <span class="o">=</span> <span class="n">bind</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">~&gt;</span>  <span class="n">p2</span> <span class="o">=</span> <span class="n">pair_right</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;~</span>  <span class="n">p2</span> <span class="o">=</span> <span class="n">pair_left</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;~&gt;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">pair_both</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="n">p</span>  <span class="o">|~&gt;</span> <span class="n">f</span>  <span class="o">=</span> <span class="n">map</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;|&gt;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">either</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
 
 <span class="c1"># Lists, tuples, maps, keywords</span>
 <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:a</span><span class="p">,</span> <span class="s1">&#39;hello&#39;</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
