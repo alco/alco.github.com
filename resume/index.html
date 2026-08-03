@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oleksii Sholik — Resume</title>
+<meta name="description" content="Senior software engineer with 15+ years across distributed data systems, Postgres internals, and BEAM/OTP performance engineering. Founding engineer at Electric; early Elixir core contributor.">
+<link rel="canonical" href="https://sholik.dev/resume/">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Oleksii Sholik — Resume">
+<meta property="og:description" content="Senior software engineer with 15+ years across distributed data systems, Postgres internals, and BEAM/OTP performance engineering. Founding engineer at Electric; early Elixir core contributor.">
+<meta property="og:url" content="https://sholik.dev/resume/">
+<meta name="twitter:card" content="summary">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --bg: #fbfbfa;
+  --surface: #fff;
+  --ink: #1c1c1e;
+  --muted: #5f6368;
+  --faint: #8b9096;
+  --rule: #e3e3e0;
+  --accent: #4d6b24;
+  --accent-soft: #eef2e6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181a;
+    --surface: #1d2022;
+    --ink: #e6e7e8;
+    --muted: #a2a8ad;
+    --faint: #7d858c;
+    --rule: #2c3033;
+    --accent: #9dc45c;
+    --accent-soft: #23291b;
+  }
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  font-synthesis-weight: none;
+}
+
+.wrap { max-width: 68ch; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+h1 { font-size: 2.1rem; line-height: 1.15; margin: 0 0 .4rem; letter-spacing: -.02em; }
+
+h2 {
+  font-size: .8rem; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--accent); margin: 3rem 0 1rem; padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
+
+p { margin: 0 0 1rem; }
+ul { margin: .5rem 0 0; padding-left: 1.15rem; }
+li { margin: .5rem 0; }
+li ul { margin: .35rem 0 .6rem; }
+li li { font-size: .95em; color: var(--muted); }
+
+code {
+  font: .85em/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: var(--accent-soft); padding: .15em .35em; border-radius: 3px;
+}
+
+/* header ------------------------------------------------------------- */
+
+.tagline { color: var(--muted); font-size: .95rem; margin: 0 0 1.25rem; }
+.tagline .sep { color: var(--faint); padding: 0 .15rem; }
+
+.summary { font-size: 1.05rem; margin-bottom: 1.75rem; }
+
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+
+.btn {
+  display: inline-block; text-decoration: none;
+  border: 1px solid var(--accent); border-radius: 6px;
+  padding: .45rem .9rem; font-size: .9rem; font-weight: 600;
+  color: var(--accent); background: var(--surface);
+}
+.btn:hover { background: var(--accent-soft); }
+.btn.primary { background: var(--accent); color: var(--bg); }
+.btn.primary:hover { filter: brightness(1.08); }
+
+/* skills -------------------------------------------------------------- */
+
+.skill { margin: .55rem 0; font-size: .97rem; }
+.skill strong { color: var(--ink); }
+
+/* experience ---------------------------------------------------------- */
+
+.role { margin-top: 2rem; }
+.role:first-of-type { margin-top: 0; }
+
+.rolehead {
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  align-items: baseline; gap: .25rem 1rem;
+}
+.co { font-weight: 400; color: var(--muted); }
+.dates { color: var(--faint); font-size: .85rem; white-space: nowrap; }
+
+.tech {
+  margin: .75rem 0 0; font-size: .85rem; color: var(--muted);
+  padding-left: .75rem; border-left: 2px solid var(--rule);
+}
+
+.edu { margin: 0; }
+
+footer {
+  margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid var(--rule);
+  color: var(--faint); font-size: .8rem;
+}
+
+/* Narrow screens: dates drop under the role instead of squeezing it. */
+@media (max-width: 34rem) {
+  body { font-size: 16px; }
+  .wrap { padding: 2rem 1.1rem 3rem; }
+  h1 { font-size: 1.8rem; }
+  .rolehead { flex-direction: column; }
+  .dates { font-size: .8rem; }
+}
+
+/* Ctrl+P on the site should yield a clean sheet, not the dark theme. */
+@media print {
+  :root {
+    --bg: #fff; --surface: #fff; --ink: #000; --muted: #444;
+    --faint: #555; --rule: #bbb; --accent: #3f5a1c; --accent-soft: transparent;
+  }
+  body { font-size: 10.5pt; line-height: 1.4; }
+  .wrap { max-width: none; padding: 0; }
+  .actions, footer { display: none; }
+  h2 { margin: 1.4em 0 .5em; }
+  a { color: inherit; text-decoration: none; }
+  code { background: none; padding: 0; }
+  li, .rolehead, .skill { break-inside: avoid; }
+  h2, .rolehead { break-after: avoid; }
+  .tech { break-before: avoid; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <h1>Oleksii Sholik</h1>
+  <p class="tagline">Lucca, Italy<span class="sep">·</span><a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a><span class="sep">·</span><a href="https://github.com/alco">github.com/alco</a></p>
+  <p class="summary">Senior software engineer with 15+ years across distributed data systems, Postgres internals, and BEAM/OTP performance engineering. Founding engineer at <a href="https://electric.ax/">Electric</a>; early <a href="https://elixir-lang.org/">Elixir</a> core contributor.</p>
+  <div class="actions">
+    <a class="btn primary" href="oleksii-sholik-resume.pdf" download>Download PDF</a>
+    <a class="btn" href="#skills">Skills</a> <a class="btn" href="#experience">Experience</a> <a class="btn" href="#education">Education</a> <a class="btn" href="#projects">Projects & Open Source</a>
+  </div>
+</header>
+
+<section id="skills">
+<h2>Skills</h2>
+<div class="skill"><strong>Domain depth:</strong> BEAM runtime (process scheduling, memory management, OTP architecture) · Postgres internals (replication, MVCC, connection mgmt, storage) · backpressure &amp; load shedding · OpenTelemetry &amp; observability</div>
+<div class="skill"><strong>Languages:</strong> Elixir, Go, TypeScript, Python, C/C++</div>
+<div class="skill"><strong>Infrastructure:</strong> AWS (ECS Fargate/EC2, ALB, VPC, EBS), GCP, Cloudflare (Workers, DO), Terraform, Docker, Kubernetes</div>
+<div class="skill"><strong>Systems &amp; Linux:</strong> containers, cgroups, process &amp; signal semantics, memory accounting, shell scripting</div>
+</section>
+
+<section id="experience">
+<h2>Experience</h2>
+<article class="role">
+  <div class="rolehead">
+    <h3>Founding Engineer <span class="co">@ Electric</span></h3>
+    <span class="dates">Apr 2023 – present</span>
+  </div>
+  <ul>
+    <li>Core contributor to <a href="https://github.com/electric-sql/electric">electric-sql/electric</a>, an open-source Postgres sync engine also offered as a managed, multi-region cloud service: owned the replication path (Postgres logical replication, connection management, snapshot consistency, data type correctness) and supported the service in production through observability, reliability engineering, incident response, and infrastructure work (AWS ECS, Cloudflare edge).</li>
+    <li>Identified and mitigated the thundering-herd pattern behind production reconnect storms (50K+ errors, 15x retry amplification, a 2M-message process mailbox): implemented low-cost admission control and backpressure on overloaded internal processes, and mapped out the remaining mitigations (load-adaptive <code>Retry-After</code>, staged post-restart ramp-up, a stale-caller rendezvous protocol).</li>
+    <li>Designed correctness safeguards between Postgres and the engine's durable logs: enumerated every state-divergence vector with its detection mechanism (point-in-time-recovery detection, LSN/xid divergence checks, idempotent writes for at-least-once redelivery); shipped restart continuity, letting clients resume across server restarts with no missed updates and no local-state loss.</li>
+    <li>Drove observability-led memory optimization of the sync engine: used production BEAM telemetry and per-process heap attribution to locate the dominant memory costs; shipped fixes via structural sharing, process hibernation, explicit GC, and direct writes of fixed-size transaction chunks to storage, bounding memory and making data durable sooner.</li>
+    <li>Built the OpenTelemetry tracing layer: span parent-child propagation across process boundaries, client-side trace-context propagation, export to Honeycomb, integration-test coverage.</li>
+    <li>Shipped BEAM observability into production: <code>observer_cli</code>, <code>etop</code>, rich BEAM metrics including anomaly detection and correlation with ECS CPU/memory metrics.</li>
+    <li>Authored the team's foundational design documents: Client authentication architecture; Definitive PG/SQLite/TS data type mapping; Reliability roadmap targeting 1M concurrent connections; Horizontal-scaling RFC (solving slot-naming conflicts, leader election via a heartbeat table, connection-pool budgeting, and a client-affinity design); Electric's minimum-privilege role model, mapping each PG interaction to its exact required privilege.</li>
+    <li>Owned release and CI engineering for the sync engine: multi-platform Docker image publishing, per-commit canary and prerelease images built once and reused across workflows, and a CI overhaul (workflow cleanup, caching, migration to faster runners) that cut cycle times and cost.</li>
+  </ul>
+  <p class="tech">Technologies: Elixir/OTP, PostgreSQL, SQLite, AWS, Cloudflare, TypeScript, OpenTelemetry, Honeycomb, Docker.</p>
+</article>
+<article class="role">
+  <div class="rolehead">
+    <h3>Tech Lead <span class="co">@ Packlane</span></h3>
+    <span class="dates">Jun 2021 – Oct 2022</span>
+  </div>
+  <ul>
+    <li>Audited the company's infrastructure on my own initiative and found production services spread across more than six platforms. Contracted two ops specialists and directed the consolidation.</li>
+    <li>Cut the monthly AWS bill by ~$1,000 by culling unused services, right-sizing EC2, and a planned migration of the primary database to a smaller preallocated disk.</li>
+    <li>Designed and ran the technical interview loop for Mid/Senior Backend Engineer and Product Manager roles; interviewed 20+ candidates.</li>
+    <li>Drove the team toward a maintainable, well-tested codebase through code review, and made the company's undocumented business logic legible to other engineers.</li>
+  </ul>
+  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+</article>
+<article class="role">
+  <div class="rolehead">
+    <h3>Senior Software Engineer <span class="co">@ Packlane</span></h3>
+    <span class="dates">Jul 2020 – May 2021</span>
+  </div>
+  <ul>
+    <li>Designed and built a REST API integrating Magento with our backend.</li>
+    <li>Built and maintained internal tooling for other departments, working directly with the teams that used it.</li>
+    <li>Reverse-engineered the company's undocumented business rules by working through the code with stakeholders. Corrected mismatches between the rules as stated and as implemented, eliminated large volumes of duplicate logic, and put previously vague rules under test.</li>
+    <li>Refactored the test suite, parallelizing hundreds of unit tests and significantly speeding up test runs.</li>
+  </ul>
+  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+</article>
+<article class="role">
+  <div class="rolehead">
+    <h3>Senior Backend Engineer <span class="co">@ Hammer</span></h3>
+    <span class="dates">2018 – Jul 2020</span>
+  </div>
+  <ul>
+    <li>Designed and built the core Elixir service at the center of the company's platform rewrite, handling import, processing, search, and export of dealership vehicle inventories.</li>
+    <li>Wrote a custom indexing CSV parser to fix ingestion performance on large inventory files, bounding memory use while making subsequent per-dealer imports substantially faster.</li>
+    <li>Built a parallelized image pipeline that fetched vehicle photos from dealer sites, stored them in GCS, and exported them to third-party marketplaces including Facebook Marketplace.</li>
+    <li>Designed the integration layer between the new service and the legacy Ruby system, enabling incremental migration and gradually increasing reliance on the new service for all inventory-related needs.</li>
+  </ul>
+  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, GKE, RabbitMQ, Facebook Marketplace API.</p>
+</article>
+<article class="role">
+  <div class="rolehead">
+    <h3>Senior Backend Engineer <span class="co">@ Contractbook</span></h3>
+    <span class="dates">2017 – 2018</span>
+  </div>
+  <ul>
+    <li>Designed and implemented JWT-based cryptographic signing via Criipto, letting users sign contracts with their national electronic ID (BankID in Sweden, NemID in Denmark).</li>
+    <li>Specified and built the role-based access control system, writing the requirements in a form that brought stakeholders and engineers to agreement.</li>
+    <li>Found that incorrect Service Worker caching left users running stale builds and convinced leadership to disable it.</li>
+  </ul>
+  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, RabbitMQ, React/Redux, JWT, Heroku, GKE.</p>
+</article>
+<article class="role">
+  <div class="rolehead">
+    <h3>Backend Engineer <span class="co">@ PSPDFKit</span></h3>
+    <span class="dates">2014 – 2017</span>
+  </div>
+  <ul>
+    <li>Co-built Instant: multiplayer real-time syncing of PDF annotations across devices, with offline editing support.</li>
+    <li>Built a stateful property-based test suite that surfaced concurrency bugs conventional testing had missed.</li>
+    <li>Wrote <a href="https://pspdfkit.com/blog/2016/testing-http-apis-in-elixir/">Testing HTTP APIs in Elixir</a>, picked up by Elixir Radar and Elixir Weekly, the top Elixir newsletters.</li>
+  </ul>
+  <p class="tech">Technologies: Elixir, PostgreSQL, QuviQ, Docker.</p>
+</article>
+<article class="role">
+  <div class="rolehead">
+    <h3>iOS Developer</h3>
+    <span class="dates">2008 – 2014</span>
+  </div>
+  <ul>
+    <li>Built games and their supporting developer tools from scratch at a small studio.</li>
+    <li>Delivered features and bug fixes across client apps and games as a freelancer.</li>
+  </ul>
+  <p class="tech">Technologies: Objective-C, C, C++, Python, OpenGL ES, Cocos2D, Qt.</p>
+</article>
+</section>
+
+<section id="education">
+<h2>Education</h2>
+<p class="edu"><strong>Bachelor in Applied Mathematics</strong>, National Technical University of Ukraine "Kyiv Polytechnic Institute" · 2006 – 2010</p>
+</section>
+
+<section id="projects">
+<h2>Projects &amp; Open Source</h2>
+<ul>
+<li><strong><a href="https://github.com/alco/porcelain">Porcelain</a></strong> - Elixir library for starting and communicating with external OS processes; 2.3M+ downloads.</li>
+<li><strong><a href="https://github.com/alco/hashids-elixir">Hashids</a></strong> - Elixir library for obfuscating numerical identifiers as short strings; 2.8M+ downloads.</li>
+<li><strong><a href="https://github.com/alco/benchfella">Benchfella</a></strong> - the first micro-benchmarking tool for Elixir; 1.5M+ downloads.</li>
+<li>Contributed to the <strong>Elixir programming language</strong> (2012–2016); credited on <a href="https://elixir-lang.org/development/">elixir-lang.org</a>:
+  <ul>
+    <li>Developed UX improvements for IEx (colors, history, <code>.iex.exs</code>) and built the original test suite for IEx helpers.</li>
+    <li>Implemented core functions in the <code>Enum</code>, <code>List</code>, <code>OptionParser</code>, <code>String</code>, and <code>System</code> modules.</li>
+    <li>Built out a major part of the <code>mix archive.*</code> and <code>mix escript.*</code> tasks.</li>
+  </ul>
+</li>
+<li>Technical reviewer for books on Elixir: <strong>Programming Elixir</strong> (<em>Pragmatic Bookshelf</em>), <strong>Introducing Elixir</strong> (<em>O'Reilly</em>), <strong>Elixir in Action</strong> (<em>Manning</em>), <strong>Elixir Cookbook</strong> (<em>Packt</em>).</li>
+</ul>
+</section>
+
+<footer>
+  Built from a markdown source; the
+  <a href="oleksii-sholik-resume.pdf">PDF</a> is generated from the same file.
+</footer>
+
+</main>
+</body>
+</html>
