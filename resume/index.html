@@ -23,6 +23,8 @@
   --rule: #e3e3e0;
   --accent: #4d6b24;
   --accent-soft: #eef2e6;
+  /* Shared by the TOC links' padding and the rail's compensating offset. */
+  --jump-pad: .3rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -142,11 +144,6 @@ code {
 
 .edu { margin: 0; }
 
-footer {
-  margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid var(--rule);
-  color: var(--faint); font-size: .8rem;
-}
-
 /* Wide screens: pinned sidebar rail ------------------------------------
    The header spans both columns; the rail sits in the left column and is
    position: sticky, so it holds its place for the whole scroll. */
@@ -159,16 +156,21 @@ footer {
     gap: 0 4rem;
     justify-content: center;
     padding-top: 3.5rem;
-    /* Scroll room past the footer. Without it the last section's top edge can
+    /* Trailing scroll room. Without it the last section's top edge can
        never reach the top of the viewport, so its TOC entry would never light
        up — the page simply runs out of scroll first. */
     padding-bottom: 60vh;
   }
 
-  header { grid-column: 1 / -1; max-width: 70ch; }
-  .side  { grid-column: 1; }
-  .doc   { grid-column: 2; }
-  footer { grid-column: 2; }
+  /* The rail owns the left column outright — the name and summary sit in the
+     right column too. Putting the rail in the same grid row as .doc aligns
+     its top with the top of that column's first element, which (with the
+     first heading's margin zeroed below) is the SKILLS rule itself. */
+  header { grid-column: 2; grid-row: 1; margin-bottom: 3rem; }
+  .side  { grid-column: 1; grid-row: 2; }
+  .doc   { grid-column: 2; grid-row: 2; }
+
+  .doc > section:first-child > h2 { margin-top: 0; }
 
   .side {
     position: sticky; top: 2.5rem; align-self: start;
@@ -179,8 +181,14 @@ footer {
 
   .toc { flex-direction: column; flex-wrap: nowrap; gap: 0; }
 
+  /* Pull the rail up by exactly the link's own padding, so the first link's
+     TEXT lines up with the SKILLS heading text rather than its box — without
+     this the row reads as sitting a few pixels low. Its highlight therefore
+     starts marginally above the heading rule, which is not noticeable. */
+  .side { margin-top: calc(-1 * var(--jump-pad)); }
+
   .jump {
-    padding: .3rem .55rem;
+    padding: var(--jump-pad) .55rem;
     border-left: 2px solid var(--rule);
     border-radius: 0 4px 4px 0;
     line-height: 1.3;
@@ -243,7 +251,7 @@ footer {
   }
   body { font-size: 10.5pt; line-height: 1.4; }
   .wrap { max-width: none; padding: 0; display: block; }
-  .side, footer { display: none; }
+  .side { display: none; }
   h2 { margin: 1.4em 0 .5em; }
   a { color: inherit; text-decoration: none; }
   code { background: none; padding: 0; }
@@ -408,11 +416,6 @@ footer {
 </section>
 
 </div>
-
-<footer>
-  Built from a markdown source; the
-  <a href="oleksii-sholik-resume.pdf">PDF</a> is generated from the same file.
-</footer>
 
 </main>
 </body>
