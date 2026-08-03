@@ -120,6 +120,11 @@ code {
 
 .toc { display: flex; flex-wrap: wrap; gap: .5rem .9rem; }
 
+/* Narrow screens scroll the rail away instead of pinning it, so a "Top" link
+   there would only ever be visible when you are already at the top. It is
+   shown only in the pinned wide layout. */
+.jump-top { display: none; }
+
 /* skills -------------------------------------------------------------- */
 
 .skill { margin: .55rem 0; font-size: .97rem; }
@@ -163,11 +168,10 @@ code {
   }
 
   /* The rail owns the left column outright — the name and summary sit in the
-     right column too. Putting the rail in the same grid row as .doc aligns
-     its top with the top of that column's first element, which (with the
-     first heading's margin zeroed below) is the SKILLS rule itself. */
+     right column too. It spans both rows so it starts level with the first
+     heading (the name) at the very top of the page. */
   header { grid-column: 2; grid-row: 1; margin-bottom: 3rem; }
-  .side  { grid-column: 1; grid-row: 2; }
+  .side  { grid-column: 1; grid-row: 1 / -1; }
   .doc   { grid-column: 2; grid-row: 2; }
 
   .doc > section:first-child > h2 { margin-top: 0; }
@@ -182,10 +186,12 @@ code {
   .toc { flex-direction: column; flex-wrap: nowrap; gap: 0; }
 
   /* Pull the rail up by exactly the link's own padding, so the first link's
-     TEXT lines up with the SKILLS heading text rather than its box — without
-     this the row reads as sitting a few pixels low. Its highlight therefore
-     starts marginally above the heading rule, which is not noticeable. */
+     TEXT lines up with the heading text rather than its box — without this the
+     row reads as sitting a few pixels low. */
   .side { margin-top: calc(-1 * var(--jump-pad)); }
+
+  .jump-top { display: block; margin-bottom: .4rem; }
+  .jump-top .arrow { display: inline-block; width: .8em; }
 
   .jump {
     padding: var(--jump-pad) .55rem;
@@ -227,7 +233,9 @@ code {
 
 @supports (animation-timeline: view()) {
   @media (min-width: 62rem) and (prefers-reduced-motion: no-preference) {
-    .jump {
+    /* .spy only — the Top link has no section to track, and without a
+       timeline of its own it would fall back to the document timeline. */
+    .jump.spy {
       animation: spy both step-end;
       animation-timing-function: step-end;
     }
@@ -273,7 +281,7 @@ code {
 </style>
 </head>
 <body>
-<main class="wrap">
+<main class="wrap" id="top">
 
 <header>
   <h1>Oleksii Sholik</h1>
@@ -283,7 +291,11 @@ code {
 
 <aside class="side">
   <nav class="toc" aria-label="Sections">
-    <a class="jump" href="#skills">Skills</a> <a class="jump" href="#experience">Experience</a> <a class="jump" href="#education">Education</a> <a class="jump" href="#projects">Projects & Open Source</a>
+    <a class="jump jump-top" href="#top"><span class="arrow" aria-hidden="true">↑</span> Top</a>
+    <a class="jump spy" href="#skills">Skills</a>
+    <a class="jump spy" href="#experience">Experience</a>
+    <a class="jump spy" href="#education">Education</a>
+    <a class="jump spy" href="#projects">Projects & Open Source</a>
   </nav>
   <a class="btn" href="oleksii-sholik-resume.pdf" download>Download PDF</a>
 </aside>
