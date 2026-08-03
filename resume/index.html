@@ -82,17 +82,21 @@ code {
 
 .summary { font-size: 1.05rem; margin-bottom: 1.75rem; }
 
-.actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.actions {
+  display: flex; flex-wrap: wrap; gap: .5rem .9rem; align-items: center;
+}
 
 .btn {
   display: inline-block; text-decoration: none;
   border: 1px solid var(--accent); border-radius: 6px;
   padding: .45rem .9rem; font-size: .9rem; font-weight: 600;
-  color: var(--accent); background: var(--surface);
+  background: var(--accent); color: var(--bg); margin-right: .4rem;
 }
-.btn:hover { background: var(--accent-soft); }
-.btn.primary { background: var(--accent); color: var(--bg); }
-.btn.primary:hover { filter: brightness(1.08); }
+.btn:hover { filter: brightness(1.08); }
+
+/* Section links stay quiet — the PDF download is the only call to action. */
+.jump { font-size: .88rem; color: var(--muted); text-decoration: none; }
+.jump:hover { color: var(--accent); text-decoration: underline; }
 
 /* skills -------------------------------------------------------------- */
 
@@ -159,7 +163,7 @@ footer {
   <p class="summary">Senior software engineer with 15+ years across distributed data systems, Postgres internals, and BEAM/OTP performance engineering. Founding engineer at <a href="https://electric.ax/">Electric</a>; early <a href="https://elixir-lang.org/">Elixir</a> core contributor.</p>
   <div class="actions">
     <a class="btn primary" href="oleksii-sholik-resume.pdf" download>Download PDF</a>
-    <a class="btn" href="#skills">Skills</a> <a class="btn" href="#experience">Experience</a> <a class="btn" href="#education">Education</a> <a class="btn" href="#projects">Projects & Open Source</a>
+    <a class="jump" href="#skills">Skills</a> <a class="jump" href="#experience">Experience</a> <a class="jump" href="#education">Education</a> <a class="jump" href="#projects">Projects & Open Source</a>
   </div>
 </header>
 
