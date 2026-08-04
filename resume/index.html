@@ -105,11 +105,12 @@ h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: 
 }
 .meta .k { color: var(--faint); }
 
-/* sections -------------------------------------------------------------- */
+/* sections --------------------------------------------------------------
+   Single column: the label sits above its content, full width. */
 
 h2 {
   font-size: .78rem; text-transform: uppercase; letter-spacing: .1em;
-  color: var(--muted); font-weight: 700; margin: 0 0 .75rem; line-height: 1.5;
+  color: var(--muted); font-weight: 700; margin: 0 0 1rem; line-height: 1.5;
 }
 
 .skill { margin: .55rem 0; font-size: .97rem; }
@@ -152,19 +153,9 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
   .pdf { position: fixed; top: 2rem; left: 2rem; margin: 0; z-index: 2; }
 }
 
-/* two columns ----------------------------------------------------------- */
-
 @media (min-width: 46rem) {
   .inner { padding: 2.5rem 2rem; }
   .masthead .inner { padding-top: 4.5rem; padding-bottom: 3rem; }
-
-  section .inner {
-    display: grid;
-    grid-template-columns: 10rem minmax(0, 1fr);
-    gap: 0 2.5rem;
-  }
-  /* The label sits on the first line of the content, not above it. */
-  h2 { margin: .2rem 0 0; }
 }
 
 @media (max-width: 34rem) {
