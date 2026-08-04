@@ -150,14 +150,18 @@ h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: 
 }
 .meta .k { color: var(--faint); }
 
-/* Download button, on its own line below the contact line. */
-.actions { margin: 1.1rem 0 0; }
 
 /* sections --------------------------------------------------------------
    Single column: the label sits above its content, full width. */
 
+/* Section headings are the only mono type on the page besides the tech line
+   and inline code. h2 is used for nothing else, so the selector needs no
+   further qualification. Slightly smaller than the sans equivalent would be:
+   Noto Sans Mono runs wider and taller at the same nominal size. */
 h2 {
-  font-size: 1.35rem; letter-spacing: -.01em;
+  font-family: "Noto Sans Mono", ui-monospace, SFMono-Regular, Menlo,
+               Consolas, monospace;
+  font-size: 1.2rem; letter-spacing: -.01em;
   color: var(--ink); font-weight: 700; margin: 0 0 1.5rem; line-height: 1.25;
 }
 
@@ -165,20 +169,10 @@ h2 {
 .skill:first-child { margin-top: 0; }
 .skill strong { color: var(--ink); }
 
-/* Roles are separated by a short centered rule rather than by space alone —
-   the bullet lists run long enough that spacing on its own reads as a gap in
-   the text rather than as a boundary. */
-/* --role-gap applies twice: once above the separator rule, once below it, so
-   the total space between two roles is double this value. */
-:root { --role-gap: 1.5rem; }
-
-.role { margin-top: var(--role-gap); }
+/* Space alone separates roles — no rule, no other marker. 3rem matches the
+   total the rule-plus-gaps arrangement used to produce. */
+.role { margin-top: 3rem; }
 .role:first-child { margin-top: 0; }
-
-.role + .role::before {
-  content: ""; display: block; width: 4rem; height: 1px;
-  background: var(--rule); margin: 0 auto var(--role-gap);
-}
 
 .rolehead {
   display: flex; flex-wrap: wrap; justify-content: space-between;
@@ -272,10 +266,8 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
     <span><span class="k">Based in:</span> Lucca, Italy</span>
     <span><span class="k">LinkedIn:</span> <a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></span>
     <span><span class="k">GitHub:</span> <a href="https://github.com/alco">github.com/alco</a></span>
+    <span><span class="k">Download:</span> <a class="pdf" href="oleksii-sholik-resume.pdf" download><img class="pdf-icon" src="pdf.png" alt="">Resume</a></span>
   </p>
-    <p class="actions">
-      <a class="pdf" href="oleksii-sholik-resume.pdf" download><img class="pdf-icon" src="pdf.png" alt="">Resume</a>
-    </p>
   </div>
 </header>
 
