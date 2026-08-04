@@ -197,6 +197,17 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
 
 .edu { margin: 0; }
 
+/* footer ---------------------------------------------------------------- */
+
+footer { background: var(--band-1); }
+footer .inner {
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  gap: .35rem 2rem; font-size: .82rem; color: var(--faint);
+  padding-top: 1.5rem; padding-bottom: 1.5rem;
+}
+footer a { color: inherit; }
+footer a:hover { color: var(--accent); }
+
 /* Download button ------------------------------------------------------
    Deliberately quiet: a hairline outline in muted ink, no fill. It should be
    findable, not attention-grabbing. Sits inline on the tagged-value line. */
@@ -411,6 +422,13 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
     </div>
   </div>
 </section>
+
+<footer class="band">
+  <div class="inner">
+    <span>Last updated <time datetime="2026-08-04">4 August 2026</time></span>
+    <span><a href="https://www.flaticon.com/free-icons/pdf" title="pdf icons">Pdf icons created by Laura Reen - Flaticon</a></span>
+  </div>
+</footer>
 
 </body>
 </html>
