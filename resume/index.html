@@ -42,6 +42,16 @@
        url("fonts/noto-sans-var-italic.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "Noto Sans Mono";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local("Noto Sans Mono"), local("NotoSansMono"),
+       url("fonts/noto-sans-mono-var.woff2") format("woff2-variations"),
+       url("fonts/noto-sans-mono-var.woff2") format("woff2");
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
@@ -104,7 +114,8 @@ li ul { margin: .35rem 0 .6rem; }
 li li { font-size: .95em; color: var(--muted); }
 
 code {
-  font: .85em/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: .85em/1 "Noto Sans Mono", ui-monospace, SFMono-Regular, Menlo,
+        Consolas, monospace;
   background: var(--accent-soft); padding: .15em .35em; border-radius: 3px;
 }
 
@@ -173,8 +184,17 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
 .co { font-weight: 400; color: var(--muted); }
 .dates { color: var(--faint); font-size: .85rem; white-space: nowrap; }
 
-/* Same size as the bullets it follows — it is content, not a footnote. */
-.tech { margin: .9rem 0 0; }
+/* Set in mono at a smaller size, so a run of tool names reads as a distinct
+   kind of content from the prose bullets above it.
+   NOT font-family: Mono — no such family exists. Linux fontconfig substitutes
+   an unknown name to the default mono face, which makes it appear to work,
+   but Windows and macOS fall through to the browser default (a serif). */
+.tech {
+  margin: .9rem 0 0;
+  font-family: "Noto Sans Mono", ui-monospace, SFMono-Regular, Menlo,
+               Consolas, monospace;
+  font-size: .85rem;
+}
 .tech .k { font-weight: 700; }
 
 .edu { margin: 0; }
@@ -286,7 +306,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Authored the team's foundational design documents: Client authentication architecture; Definitive PG/SQLite/TS data type mapping; Reliability roadmap targeting 1M concurrent connections; Horizontal-scaling RFC (solving slot-naming conflicts, leader election via a heartbeat table, connection-pool budgeting, and a client-affinity design); Electric's minimum-privilege role model, mapping each PG interaction to its exact required privilege.</li>
           <li>Owned release and CI engineering for the sync engine: multi-platform Docker image publishing, per-commit canary and prerelease images built once and reused across workflows, and a CI overhaul (workflow cleanup, caching, migration to faster runners) that cut cycle times and cost.</li>
         </ul>
-        <p class="tech"><span class="k">Technologies:</span> Elixir/OTP, PostgreSQL, SQLite, AWS, Cloudflare, TypeScript, OpenTelemetry, Honeycomb, Docker.</p>
+        <p class="tech"><span class="k">Tech:</span> Elixir/OTP, PostgreSQL, SQLite, AWS, Cloudflare, TypeScript, OpenTelemetry, Honeycomb, Docker.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -299,7 +319,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Designed and ran the technical interview loop for Mid/Senior Backend Engineer and Product Manager roles; interviewed 20+ candidates.</li>
           <li>Drove the team toward a maintainable, well-tested codebase through code review, and made the company's undocumented business logic legible to other engineers.</li>
         </ul>
-        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+        <p class="tech"><span class="k">Tech:</span> Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -312,7 +332,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Reverse-engineered the company's undocumented business rules by working through the code with stakeholders. Corrected mismatches between the rules as stated and as implemented, eliminated large volumes of duplicate logic, and put previously vague rules under test.</li>
           <li>Refactored the test suite, parallelizing hundreds of unit tests and significantly speeding up test runs.</li>
         </ul>
-        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+        <p class="tech"><span class="k">Tech:</span> Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -325,7 +345,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Built a parallelized image pipeline that fetched vehicle photos from dealer sites, stored them in GCS, and exported them to third-party marketplaces including Facebook Marketplace.</li>
           <li>Designed the integration layer between the new service and the legacy Ruby system, enabling incremental migration and gradually increasing reliance on the new service for all inventory-related needs.</li>
         </ul>
-        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, GKE, RabbitMQ, Facebook Marketplace API.</p>
+        <p class="tech"><span class="k">Tech:</span> Elixir, Phoenix, PostgreSQL, GKE, RabbitMQ, Facebook Marketplace API.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -337,7 +357,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Specified and built the role-based access control system, writing the requirements in a form that brought stakeholders and engineers to agreement.</li>
           <li>Found that incorrect Service Worker caching left users running stale builds and convinced leadership to disable it.</li>
         </ul>
-        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, RabbitMQ, React/Redux, JWT, Heroku, GKE.</p>
+        <p class="tech"><span class="k">Tech:</span> Elixir, Phoenix, PostgreSQL, RabbitMQ, React/Redux, JWT, Heroku, GKE.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -349,7 +369,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Built a stateful property-based test suite that surfaced concurrency bugs conventional testing had missed.</li>
           <li>Wrote <a href="https://pspdfkit.com/blog/2016/testing-http-apis-in-elixir/">Testing HTTP APIs in Elixir</a>, picked up by Elixir Radar and Elixir Weekly, the top Elixir newsletters.</li>
         </ul>
-        <p class="tech"><span class="k">Technologies:</span> Elixir, PostgreSQL, QuviQ, Docker.</p>
+        <p class="tech"><span class="k">Tech:</span> Elixir, PostgreSQL, QuviQ, Docker.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -360,7 +380,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Built games and their supporting developer tools from scratch at a small studio.</li>
           <li>Delivered features and bug fixes across client apps and games as a freelancer.</li>
         </ul>
-        <p class="tech"><span class="k">Technologies:</span> Objective-C, C, C++, Python, OpenGL ES, Cocos2D, Qt.</p>
+        <p class="tech"><span class="k">Tech:</span> Objective-C, C, C++, Python, OpenGL ES, Cocos2D, Qt.</p>
       </article>
     </div>
   </div>
