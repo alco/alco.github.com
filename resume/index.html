@@ -168,12 +168,16 @@ h2 {
 /* Roles are separated by a short centered rule rather than by space alone —
    the bullet lists run long enough that spacing on its own reads as a gap in
    the text rather than as a boundary. */
-.role { margin-top: 3.5rem; }
+/* --role-gap applies twice: once above the separator rule, once below it, so
+   the total space between two roles is double this value. */
+:root { --role-gap: 1.5rem; }
+
+.role { margin-top: var(--role-gap); }
 .role:first-child { margin-top: 0; }
 
 .role + .role::before {
   content: ""; display: block; width: 4rem; height: 1px;
-  background: var(--rule); margin: 0 auto 3.5rem;
+  background: var(--rule); margin: 0 auto var(--role-gap);
 }
 
 .rolehead {
