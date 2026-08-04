@@ -16,27 +16,35 @@
 
 :root {
   --bg: #fbfbfa;
-  --surface: #fff;
   --ink: #1c1c1e;
   --muted: #5f6368;
   --faint: #8b9096;
-  --rule: #e3e3e0;
+  --rule: #e5e5e1;
   --accent: #4d6b24;
   --accent-soft: #eef2e6;
-  /* Shared by the TOC links' padding and the rail's compensating offset. */
-  --jump-pad: .3rem;
+  /* Band tints: deliberately close together — the sections should read as
+     distinct without the page looking striped. */
+  --band-1: #ffffff;
+  --band-2: #f5f6f2;
+  --band-3: #fafaf7;
+  --band-4: #f2f4ef;
+  --band-5: #f8f8f5;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #16181a;
-    --surface: #1d2022;
     --ink: #e6e7e8;
     --muted: #a2a8ad;
     --faint: #7d858c;
     --rule: #2c3033;
     --accent: #9dc45c;
     --accent-soft: #23291b;
+    --band-1: #1a1d1f;
+    --band-2: #141618;
+    --band-3: #1c1f21;
+    --band-4: #131517;
+    --band-5: #191c1e;
   }
 }
 
@@ -51,28 +59,11 @@ body {
   font-synthesis-weight: none;
 }
 
-/* Layout --------------------------------------------------------------
-   Single column by default; the sidebar becomes a pinned rail once there is
-   room for it (see the wide-screen block at the bottom of this stylesheet). */
-
-.wrap { max-width: 68ch; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
-
-.doc { min-width: 0; }
-
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:hover { text-decoration-thickness: 2px; }
 
-h1 { font-size: 2.1rem; line-height: 1.15; margin: 0 0 .4rem; letter-spacing: -.02em; }
-
-h2 {
-  font-size: .8rem; text-transform: uppercase; letter-spacing: .1em;
-  color: var(--accent); margin: 3rem 0 1rem; padding-bottom: .4rem;
-  border-bottom: 1px solid var(--rule);
-}
-
-h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
-
 p { margin: 0 0 1rem; }
+p:last-child { margin-bottom: 0; }
 ul { margin: .5rem 0 0; padding-left: 1.15rem; }
 li { margin: .5rem 0; }
 li ul { margin: .35rem 0 .6rem; }
@@ -83,62 +74,52 @@ code {
   background: var(--accent-soft); padding: .15em .35em; border-radius: 3px;
 }
 
-/* header ------------------------------------------------------------- */
+/* bands ----------------------------------------------------------------
+   Each section is full-bleed so its tint runs edge to edge; .inner holds the
+   content to a readable measure. */
 
-.tagline { color: var(--muted); font-size: .95rem; margin: 0 0 1.25rem; }
-.tagline .sep { color: var(--faint); padding: 0 .15rem; }
+/* Every band is separated from the one above it; only the masthead, which has
+   nothing above it, is exempt. Not :first-of-type — that matches the first
+   <header> AND the first <section>, which would drop the masthead's own
+   bottom edge. */
+.band { border-top: 1px solid var(--rule); }
+.masthead { border-top: 0; }
 
-.summary { font-size: 1.05rem; margin-bottom: 1.75rem; }
+.inner { max-width: 64rem; margin: 0 auto; padding: 2.25rem 1.5rem; }
 
-.actions {
-  display: flex; flex-wrap: wrap; gap: .5rem .9rem; align-items: center;
+/* header --------------------------------------------------------------- */
+
+.masthead { background: var(--band-1); }
+.masthead .inner { padding-top: 3.5rem; padding-bottom: 2.5rem; }
+
+h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 .35rem; letter-spacing: -.02em; }
+.location { color: var(--muted); font-size: .95rem; margin: 0 0 1.5rem; }
+.about { max-width: 66ch; font-size: 1.05rem; margin: 0; }
+
+/* sections -------------------------------------------------------------- */
+
+h2 {
+  font-size: .78rem; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--muted); font-weight: 700; margin: 0 0 .75rem; line-height: 1.5;
 }
 
-.btn {
-  display: inline-block; text-decoration: none;
-  border: 1px solid var(--accent); border-radius: 6px;
-  padding: .38rem .75rem; font-size: .82rem; font-weight: 600;
-  background: var(--accent); color: var(--bg); margin-right: .4rem;
+.social {
+  display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; margin: 0; padding: 0;
 }
-.btn:hover { filter: brightness(1.08); }
-
-/* Section links stay quiet — the PDF download is the only call to action. */
-.jump {
-  font-size: .88rem; color: var(--muted); text-decoration: none;
-  border-radius: 4px;
-}
-.jump:hover { color: var(--accent); text-decoration: underline; }
-
-/* sidebar rail --------------------------------------------------------
-   Narrow screens: a plain wrapped row under the header, download first. */
-
-.side {
-  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem;
-  margin-bottom: 2.25rem;
-}
-.side .btn { margin: 0; order: -1; }
-
-.toc { display: flex; flex-wrap: wrap; gap: .5rem .9rem; }
-
-/* Narrow screens scroll the rail away instead of pinning it, so a "Top" link
-   there would only ever be visible when you are already at the top. It is
-   shown only in the pinned wide layout. */
-.jump-top { display: none; }
-
-/* skills -------------------------------------------------------------- */
+.social li { list-style: none; margin: 0; }
 
 .skill { margin: .55rem 0; font-size: .97rem; }
+.skill:first-child { margin-top: 0; }
 .skill strong { color: var(--ink); }
 
-/* experience ---------------------------------------------------------- */
-
 .role { margin-top: 2rem; }
-.role:first-of-type { margin-top: 0; }
+.role:first-child { margin-top: 0; }
 
 .rolehead {
   display: flex; flex-wrap: wrap; justify-content: space-between;
   align-items: baseline; gap: .25rem 1rem;
 }
+h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
 .co { font-weight: 400; color: var(--muted); }
 .dates { color: var(--faint); font-size: .85rem; white-space: nowrap; }
 
@@ -149,118 +130,60 @@ code {
 
 .edu { margin: 0; }
 
-/* Wide screens: pinned sidebar rail ------------------------------------
-   The header spans both columns; the rail sits in the left column and is
-   position: sticky, so it holds its place for the whole scroll. */
+/* Download button ------------------------------------------------------
+   Deliberately quiet: a hairline outline in muted ink, no fill. It should be
+   findable, not attention-grabbing. In the flow under the About paragraph on
+   narrow screens; pinned to the left margin once there is room beside the
+   content. */
 
-@media (min-width: 62rem) {
-  .wrap {
-    max-width: 76rem;
+.pdf {
+  display: inline-block; margin-top: 1.75rem;
+  border: 1px solid var(--rule); border-radius: 5px;
+  padding: .35rem .7rem; font-size: .8rem; font-weight: 500;
+  color: var(--muted); background: transparent; text-decoration: none;
+}
+.pdf:hover { color: var(--accent); border-color: var(--accent); }
+
+@media (min-width: 78rem) {
+  .pdf { position: fixed; top: 2rem; left: 2rem; margin: 0; z-index: 2; }
+}
+
+/* two columns ----------------------------------------------------------- */
+
+@media (min-width: 46rem) {
+  .inner { padding: 2.5rem 2rem; }
+  .masthead .inner { padding-top: 4.5rem; padding-bottom: 3rem; }
+
+  section .inner {
     display: grid;
-    grid-template-columns: 12rem minmax(0, 70ch);
-    gap: 0 4rem;
-    justify-content: center;
-    padding-top: 3.5rem;
-    /* Trailing scroll room. Without it the last section's top edge can
-       never reach the top of the viewport, so its TOC entry would never light
-       up — the page simply runs out of scroll first. */
-    padding-bottom: 60vh;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 0 2.5rem;
   }
-
-  /* The rail owns the left column outright — the name and summary sit in the
-     right column too. It spans both rows so it starts level with the first
-     heading (the name) at the very top of the page. */
-  header { grid-column: 2; grid-row: 1; margin-bottom: 3rem; }
-  .side  { grid-column: 1; grid-row: 1 / -1; }
-  .doc   { grid-column: 2; grid-row: 2; }
-
-  .doc > section:first-child > h2 { margin-top: 0; }
-
-  .side {
-    position: sticky; top: 2.5rem; align-self: start;
-    flex-direction: column; align-items: stretch;
-    gap: 1.5rem; margin-bottom: 0;
-  }
-  .side .btn { order: 0; text-align: center; }
-
-  .toc { flex-direction: column; flex-wrap: nowrap; gap: 0; }
-
-  /* Pull the rail up by exactly the link's own padding, so the first link's
-     TEXT lines up with the heading text rather than its box — without this the
-     row reads as sitting a few pixels low. */
-  .side { margin-top: calc(-1 * var(--jump-pad)); }
-
-  .jump-top { display: block; margin-bottom: .4rem; }
-  .jump-top .arrow { display: inline-block; width: .8em; }
-
-  .jump {
-    padding: var(--jump-pad) .55rem;
-    border-left: 2px solid var(--rule);
-    border-radius: 0 4px 4px 0;
-    line-height: 1.3;
-  }
-  .jump:hover { text-decoration: none; background: var(--accent-soft); }
+  /* The label sits on the first line of the content, not above it. */
+  h2 { margin: .2rem 0 0; }
 }
 
-/* Scroll spy, without JavaScript ---------------------------------------
-   Each section exposes a view-timeline; timeline-scope lifts those names up
-   to .wrap so the sidebar links — which are not descendants of the sections —
-   can be driven by them.
-
-   A link is highlighted exactly while its section straddles the top of the
-   viewport: from its top edge crossing that line to its bottom edge crossing
-   it. That is the 'exit-crossing' range — NOT 'exit'. For a section taller
-   than the viewport (Experience is several screens long) 'exit' does not begin
-   until you are near its end, so it would stay unlit for the whole section;
-   'exit-crossing' is defined by the edges alone and so is height-independent.
-
-   The keyframes are held flat by step-end, so the highlight snaps on and off
-   rather than fading, and because the sections are contiguous exactly one link
-   is lit at a time.
-
-   Browsers without scroll-driven animations (or with reduced motion) simply
-   never run the animation: the links keep their resting style and still work
-   as ordinary anchors. Nothing here is required to read or navigate the page. */
-
-@keyframes spy {
-  0%                 { color: var(--muted); border-left-color: var(--rule);
-                       background: transparent; font-weight: 400; }
-  exit-crossing 0%   { color: var(--accent); border-left-color: var(--accent);
-                       background: var(--accent-soft); font-weight: 600; }
-  exit-crossing 100% { color: var(--muted); border-left-color: var(--rule);
-                       background: transparent; font-weight: 400; }
-}
-
-@supports (animation-timeline: view()) {
-  @media (min-width: 62rem) and (prefers-reduced-motion: no-preference) {
-    /* .spy only — the Top link has no section to track, and without a
-       timeline of its own it would fall back to the document timeline. */
-    .jump.spy {
-      animation: spy both step-end;
-      animation-timing-function: step-end;
-    }
-  }
-}
-
-/* Narrow screens: dates drop under the role instead of squeezing it. */
 @media (max-width: 34rem) {
   body { font-size: 16px; }
-  .wrap { padding: 2rem 1.1rem 3rem; }
-  h1 { font-size: 1.8rem; }
+  .inner { padding: 1.75rem 1.1rem; }
+  .masthead .inner { padding-top: 2.5rem; }
+  h1 { font-size: 1.9rem; }
   .rolehead { flex-direction: column; }
   .dates { font-size: .8rem; }
 }
 
-/* Ctrl+P on the site should yield a clean sheet, not the dark theme. */
+/* Ctrl+P on the site should yield a clean sheet. */
 @media print {
   :root {
-    --bg: #fff; --surface: #fff; --ink: #000; --muted: #444;
-    --faint: #555; --rule: #bbb; --accent: #3f5a1c; --accent-soft: transparent;
+    --bg: #fff; --ink: #000; --muted: #444; --faint: #555; --rule: #bbb;
+    --accent: #3f5a1c; --accent-soft: transparent;
+    --band-1: #fff; --band-2: #fff; --band-3: #fff;
+    --band-4: #fff; --band-5: #fff;
   }
   body { font-size: 10.5pt; line-height: 1.4; }
-  .wrap { max-width: none; padding: 0; display: block; }
-  .side { display: none; }
-  h2 { margin: 1.4em 0 .5em; }
+  .inner { max-width: none; padding: .6em 0; }
+  .pdf { display: none; }
+  .band { border-top: 1px solid #ccc; }
   a { color: inherit; text-decoration: none; }
   code { background: none; padding: 0; }
   li, .rolehead, .skill { break-inside: avoid; }
@@ -268,167 +191,177 @@ code {
   .tech { break-before: avoid; }
 }
 
-/* GENERATED from SECTIONS — see spy_css() in md2web.py */
-.wrap { timeline-scope: --sec-skills, --sec-experience, --sec-education, --sec-projects; }
-#skills { view-timeline-name: --sec-skills; }
-.jump[href="#skills"] { animation-timeline: --sec-skills; }
-#experience { view-timeline-name: --sec-experience; }
-.jump[href="#experience"] { animation-timeline: --sec-experience; }
-#education { view-timeline-name: --sec-education; }
-.jump[href="#education"] { animation-timeline: --sec-education; }
-#projects { view-timeline-name: --sec-projects; }
-.jump[href="#projects"] { animation-timeline: --sec-projects; }
+/* GENERATED from SECTIONS — see band_css() in md2web.py */
+#social { background: var(--band-2); }
+#skills { background: var(--band-3); }
+#experience { background: var(--band-4); }
+#education { background: var(--band-5); }
+#projects { background: var(--band-1); }
 </style>
 </head>
 <body>
-<main class="wrap" id="top">
 
-<header>
-  <h1>Oleksii Sholik</h1>
-  <p class="tagline">Lucca, Italy<span class="sep">·</span><a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a><span class="sep">·</span><a href="https://github.com/alco">github.com/alco</a></p>
-  <p class="summary">Senior software engineer with 15+ years across distributed data systems, Postgres internals, and BEAM/OTP performance engineering. Founding engineer at <a href="https://electric.ax/">Electric</a>; early <a href="https://elixir-lang.org/">Elixir</a> core contributor.</p>
+<header class="masthead band">
+  <div class="inner">
+    <h1>Oleksii Sholik</h1>
+    <p class="location">Lucca, Italy</p>
+    <p class="about">Senior software engineer with 15+ years across distributed data systems, Postgres internals, and BEAM/OTP performance engineering. Founding engineer at <a href="https://electric.ax/">Electric</a>; early <a href="https://elixir-lang.org/">Elixir</a> core contributor.</p>
+    <a class="pdf" href="oleksii-sholik-resume.pdf" download>↓ Download PDF</a>
+  </div>
 </header>
 
-<aside class="side">
-  <nav class="toc" aria-label="Sections">
-    <a class="jump jump-top" href="#top"><span class="arrow" aria-hidden="true">↑</span> Top</a>
-    <a class="jump spy" href="#skills">Skills</a>
-    <a class="jump spy" href="#experience">Experience</a>
-    <a class="jump spy" href="#education">Education</a>
-    <a class="jump spy" href="#projects">Projects & Open Source</a>
-  </nav>
-  <a class="btn" href="oleksii-sholik-resume.pdf" download>Download PDF</a>
-</aside>
-
-<div class="doc">
-
-<section id="skills">
-<h2>Skills</h2>
-<div class="skill"><strong>Domain depth:</strong> BEAM runtime (process scheduling, memory management, OTP architecture) · Postgres internals (replication, MVCC, connection mgmt, storage) · backpressure &amp; load shedding · OpenTelemetry &amp; observability</div>
-<div class="skill"><strong>Languages:</strong> Elixir, Go, TypeScript, Python, C/C++</div>
-<div class="skill"><strong>Infrastructure:</strong> AWS (ECS Fargate/EC2, ALB, VPC, EBS), GCP, Cloudflare (Workers, DO), Terraform, Docker, Kubernetes</div>
-<div class="skill"><strong>Systems &amp; Linux:</strong> containers, cgroups, process &amp; signal semantics, memory accounting, shell scripting</div>
+<section id="social" class="band">
+  <div class="inner">
+    <h2>Social</h2>
+    <div class="body">
+      <ul class="social">
+        <li><a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></li>
+        <li><a href="https://github.com/alco">github.com/alco</a></li>
+      </ul>
+    </div>
+  </div>
 </section>
 
-<section id="experience">
-<h2>Experience</h2>
-<article class="role">
-  <div class="rolehead">
-    <h3>Founding Engineer <span class="co">@ Electric</span></h3>
-    <span class="dates">Apr 2023 – present</span>
+<section id="skills" class="band">
+  <div class="inner">
+    <h2>Skills</h2>
+    <div class="body">
+      <div class="skill"><strong>Domain depth:</strong> BEAM runtime (process scheduling, memory management, OTP architecture) · Postgres internals (replication, MVCC, connection mgmt, storage) · backpressure &amp; load shedding · OpenTelemetry &amp; observability</div>
+      <div class="skill"><strong>Languages:</strong> Elixir, Go, TypeScript, Python, C/C++</div>
+      <div class="skill"><strong>Infrastructure:</strong> AWS (ECS Fargate/EC2, ALB, VPC, EBS), GCP, Cloudflare (Workers, DO), Terraform, Docker, Kubernetes</div>
+      <div class="skill"><strong>Systems &amp; Linux:</strong> containers, cgroups, process &amp; signal semantics, memory accounting, shell scripting</div>
+    </div>
   </div>
-  <ul>
-    <li>Core contributor to <a href="https://github.com/electric-sql/electric">electric-sql/electric</a>, an open-source Postgres sync engine also offered as a managed, multi-region cloud service: owned the replication path (Postgres logical replication, connection management, snapshot consistency, data type correctness) and supported the service in production through observability, reliability engineering, incident response, and infrastructure work (AWS ECS, Cloudflare edge).</li>
-    <li>Identified and mitigated the thundering-herd pattern behind production reconnect storms (50K+ errors, 15x retry amplification, a 2M-message process mailbox): implemented low-cost admission control and backpressure on overloaded internal processes, and mapped out the remaining mitigations (load-adaptive <code>Retry-After</code>, staged post-restart ramp-up, a stale-caller rendezvous protocol).</li>
-    <li>Designed correctness safeguards between Postgres and the engine's durable logs: enumerated every state-divergence vector with its detection mechanism (point-in-time-recovery detection, LSN/xid divergence checks, idempotent writes for at-least-once redelivery); shipped restart continuity, letting clients resume across server restarts with no missed updates and no local-state loss.</li>
-    <li>Drove observability-led memory optimization of the sync engine: used production BEAM telemetry and per-process heap attribution to locate the dominant memory costs; shipped fixes via structural sharing, process hibernation, explicit GC, and direct writes of fixed-size transaction chunks to storage, bounding memory and making data durable sooner.</li>
-    <li>Built the OpenTelemetry tracing layer: span parent-child propagation across process boundaries, client-side trace-context propagation, export to Honeycomb, integration-test coverage.</li>
-    <li>Shipped BEAM observability into production: <code>observer_cli</code>, <code>etop</code>, rich BEAM metrics including anomaly detection and correlation with ECS CPU/memory metrics.</li>
-    <li>Authored the team's foundational design documents: Client authentication architecture; Definitive PG/SQLite/TS data type mapping; Reliability roadmap targeting 1M concurrent connections; Horizontal-scaling RFC (solving slot-naming conflicts, leader election via a heartbeat table, connection-pool budgeting, and a client-affinity design); Electric's minimum-privilege role model, mapping each PG interaction to its exact required privilege.</li>
-    <li>Owned release and CI engineering for the sync engine: multi-platform Docker image publishing, per-commit canary and prerelease images built once and reused across workflows, and a CI overhaul (workflow cleanup, caching, migration to faster runners) that cut cycle times and cost.</li>
-  </ul>
-  <p class="tech">Technologies: Elixir/OTP, PostgreSQL, SQLite, AWS, Cloudflare, TypeScript, OpenTelemetry, Honeycomb, Docker.</p>
-</article>
-<article class="role">
-  <div class="rolehead">
-    <h3>Tech Lead <span class="co">@ Packlane</span></h3>
-    <span class="dates">Jun 2021 – Oct 2022</span>
-  </div>
-  <ul>
-    <li>Audited the company's infrastructure on my own initiative and found production services spread across more than six platforms. Contracted two ops specialists and directed the consolidation.</li>
-    <li>Cut the monthly AWS bill by ~$1,000 by culling unused services, right-sizing EC2, and a planned migration of the primary database to a smaller preallocated disk.</li>
-    <li>Designed and ran the technical interview loop for Mid/Senior Backend Engineer and Product Manager roles; interviewed 20+ candidates.</li>
-    <li>Drove the team toward a maintainable, well-tested codebase through code review, and made the company's undocumented business logic legible to other engineers.</li>
-  </ul>
-  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
-</article>
-<article class="role">
-  <div class="rolehead">
-    <h3>Senior Software Engineer <span class="co">@ Packlane</span></h3>
-    <span class="dates">Jul 2020 – May 2021</span>
-  </div>
-  <ul>
-    <li>Designed and built a REST API integrating Magento with our backend.</li>
-    <li>Built and maintained internal tooling for other departments, working directly with the teams that used it.</li>
-    <li>Reverse-engineered the company's undocumented business rules by working through the code with stakeholders. Corrected mismatches between the rules as stated and as implemented, eliminated large volumes of duplicate logic, and put previously vague rules under test.</li>
-    <li>Refactored the test suite, parallelizing hundreds of unit tests and significantly speeding up test runs.</li>
-  </ul>
-  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
-</article>
-<article class="role">
-  <div class="rolehead">
-    <h3>Senior Backend Engineer <span class="co">@ Hammer</span></h3>
-    <span class="dates">2018 – Jul 2020</span>
-  </div>
-  <ul>
-    <li>Designed and built the core Elixir service at the center of the company's platform rewrite, handling import, processing, search, and export of dealership vehicle inventories.</li>
-    <li>Wrote a custom indexing CSV parser to fix ingestion performance on large inventory files, bounding memory use while making subsequent per-dealer imports substantially faster.</li>
-    <li>Built a parallelized image pipeline that fetched vehicle photos from dealer sites, stored them in GCS, and exported them to third-party marketplaces including Facebook Marketplace.</li>
-    <li>Designed the integration layer between the new service and the legacy Ruby system, enabling incremental migration and gradually increasing reliance on the new service for all inventory-related needs.</li>
-  </ul>
-  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, GKE, RabbitMQ, Facebook Marketplace API.</p>
-</article>
-<article class="role">
-  <div class="rolehead">
-    <h3>Senior Backend Engineer <span class="co">@ Contractbook</span></h3>
-    <span class="dates">2017 – 2018</span>
-  </div>
-  <ul>
-    <li>Designed and implemented JWT-based cryptographic signing via Criipto, letting users sign contracts with their national electronic ID (BankID in Sweden, NemID in Denmark).</li>
-    <li>Specified and built the role-based access control system, writing the requirements in a form that brought stakeholders and engineers to agreement.</li>
-    <li>Found that incorrect Service Worker caching left users running stale builds and convinced leadership to disable it.</li>
-  </ul>
-  <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, RabbitMQ, React/Redux, JWT, Heroku, GKE.</p>
-</article>
-<article class="role">
-  <div class="rolehead">
-    <h3>Backend Engineer <span class="co">@ PSPDFKit</span></h3>
-    <span class="dates">2014 – 2017</span>
-  </div>
-  <ul>
-    <li>Co-built Instant: multiplayer real-time syncing of PDF annotations across devices, with offline editing support.</li>
-    <li>Built a stateful property-based test suite that surfaced concurrency bugs conventional testing had missed.</li>
-    <li>Wrote <a href="https://pspdfkit.com/blog/2016/testing-http-apis-in-elixir/">Testing HTTP APIs in Elixir</a>, picked up by Elixir Radar and Elixir Weekly, the top Elixir newsletters.</li>
-  </ul>
-  <p class="tech">Technologies: Elixir, PostgreSQL, QuviQ, Docker.</p>
-</article>
-<article class="role">
-  <div class="rolehead">
-    <h3>iOS Developer</h3>
-    <span class="dates">2008 – 2014</span>
-  </div>
-  <ul>
-    <li>Built games and their supporting developer tools from scratch at a small studio.</li>
-    <li>Delivered features and bug fixes across client apps and games as a freelancer.</li>
-  </ul>
-  <p class="tech">Technologies: Objective-C, C, C++, Python, OpenGL ES, Cocos2D, Qt.</p>
-</article>
 </section>
 
-<section id="education">
-<h2>Education</h2>
-<p class="edu"><strong>Bachelor in Applied Mathematics</strong>, National Technical University of Ukraine "Kyiv Polytechnic Institute" · 2006 – 2010</p>
+<section id="experience" class="band">
+  <div class="inner">
+    <h2>Experience</h2>
+    <div class="body">
+      <article class="role">
+        <div class="rolehead">
+          <h3>Founding Engineer <span class="co">@ Electric</span></h3>
+          <span class="dates">Apr 2023 – present</span>
+        </div>
+        <ul>
+          <li>Core contributor to <a href="https://github.com/electric-sql/electric">electric-sql/electric</a>, an open-source Postgres sync engine also offered as a managed, multi-region cloud service: owned the replication path (Postgres logical replication, connection management, snapshot consistency, data type correctness) and supported the service in production through observability, reliability engineering, incident response, and infrastructure work (AWS ECS, Cloudflare edge).</li>
+          <li>Identified and mitigated the thundering-herd pattern behind production reconnect storms (50K+ errors, 15x retry amplification, a 2M-message process mailbox): implemented low-cost admission control and backpressure on overloaded internal processes, and mapped out the remaining mitigations (load-adaptive <code>Retry-After</code>, staged post-restart ramp-up, a stale-caller rendezvous protocol).</li>
+          <li>Designed correctness safeguards between Postgres and the engine's durable logs: enumerated every state-divergence vector with its detection mechanism (point-in-time-recovery detection, LSN/xid divergence checks, idempotent writes for at-least-once redelivery); shipped restart continuity, letting clients resume across server restarts with no missed updates and no local-state loss.</li>
+          <li>Drove observability-led memory optimization of the sync engine: used production BEAM telemetry and per-process heap attribution to locate the dominant memory costs; shipped fixes via structural sharing, process hibernation, explicit GC, and direct writes of fixed-size transaction chunks to storage, bounding memory and making data durable sooner.</li>
+          <li>Built the OpenTelemetry tracing layer: span parent-child propagation across process boundaries, client-side trace-context propagation, export to Honeycomb, integration-test coverage.</li>
+          <li>Shipped BEAM observability into production: <code>observer_cli</code>, <code>etop</code>, rich BEAM metrics including anomaly detection and correlation with ECS CPU/memory metrics.</li>
+          <li>Authored the team's foundational design documents: Client authentication architecture; Definitive PG/SQLite/TS data type mapping; Reliability roadmap targeting 1M concurrent connections; Horizontal-scaling RFC (solving slot-naming conflicts, leader election via a heartbeat table, connection-pool budgeting, and a client-affinity design); Electric's minimum-privilege role model, mapping each PG interaction to its exact required privilege.</li>
+          <li>Owned release and CI engineering for the sync engine: multi-platform Docker image publishing, per-commit canary and prerelease images built once and reused across workflows, and a CI overhaul (workflow cleanup, caching, migration to faster runners) that cut cycle times and cost.</li>
+        </ul>
+        <p class="tech">Technologies: Elixir/OTP, PostgreSQL, SQLite, AWS, Cloudflare, TypeScript, OpenTelemetry, Honeycomb, Docker.</p>
+      </article>
+      <article class="role">
+        <div class="rolehead">
+          <h3>Tech Lead <span class="co">@ Packlane</span></h3>
+          <span class="dates">Jun 2021 – Oct 2022</span>
+        </div>
+        <ul>
+          <li>Audited the company's infrastructure on my own initiative and found production services spread across more than six platforms. Contracted two ops specialists and directed the consolidation.</li>
+          <li>Cut the monthly AWS bill by ~$1,000 by culling unused services, right-sizing EC2, and a planned migration of the primary database to a smaller preallocated disk.</li>
+          <li>Designed and ran the technical interview loop for Mid/Senior Backend Engineer and Product Manager roles; interviewed 20+ candidates.</li>
+          <li>Drove the team toward a maintainable, well-tested codebase through code review, and made the company's undocumented business logic legible to other engineers.</li>
+        </ul>
+        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+      </article>
+      <article class="role">
+        <div class="rolehead">
+          <h3>Senior Software Engineer <span class="co">@ Packlane</span></h3>
+          <span class="dates">Jul 2020 – May 2021</span>
+        </div>
+        <ul>
+          <li>Designed and built a REST API integrating Magento with our backend.</li>
+          <li>Built and maintained internal tooling for other departments, working directly with the teams that used it.</li>
+          <li>Reverse-engineered the company's undocumented business rules by working through the code with stakeholders. Corrected mismatches between the rules as stated and as implemented, eliminated large volumes of duplicate logic, and put previously vague rules under test.</li>
+          <li>Refactored the test suite, parallelizing hundreds of unit tests and significantly speeding up test runs.</li>
+        </ul>
+        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+      </article>
+      <article class="role">
+        <div class="rolehead">
+          <h3>Senior Backend Engineer <span class="co">@ Hammer</span></h3>
+          <span class="dates">2018 – Jul 2020</span>
+        </div>
+        <ul>
+          <li>Designed and built the core Elixir service at the center of the company's platform rewrite, handling import, processing, search, and export of dealership vehicle inventories.</li>
+          <li>Wrote a custom indexing CSV parser to fix ingestion performance on large inventory files, bounding memory use while making subsequent per-dealer imports substantially faster.</li>
+          <li>Built a parallelized image pipeline that fetched vehicle photos from dealer sites, stored them in GCS, and exported them to third-party marketplaces including Facebook Marketplace.</li>
+          <li>Designed the integration layer between the new service and the legacy Ruby system, enabling incremental migration and gradually increasing reliance on the new service for all inventory-related needs.</li>
+        </ul>
+        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, GKE, RabbitMQ, Facebook Marketplace API.</p>
+      </article>
+      <article class="role">
+        <div class="rolehead">
+          <h3>Senior Backend Engineer <span class="co">@ Contractbook</span></h3>
+          <span class="dates">2017 – 2018</span>
+        </div>
+        <ul>
+          <li>Designed and implemented JWT-based cryptographic signing via Criipto, letting users sign contracts with their national electronic ID (BankID in Sweden, NemID in Denmark).</li>
+          <li>Specified and built the role-based access control system, writing the requirements in a form that brought stakeholders and engineers to agreement.</li>
+          <li>Found that incorrect Service Worker caching left users running stale builds and convinced leadership to disable it.</li>
+        </ul>
+        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, RabbitMQ, React/Redux, JWT, Heroku, GKE.</p>
+      </article>
+      <article class="role">
+        <div class="rolehead">
+          <h3>Backend Engineer <span class="co">@ PSPDFKit</span></h3>
+          <span class="dates">2014 – 2017</span>
+        </div>
+        <ul>
+          <li>Co-built Instant: multiplayer real-time syncing of PDF annotations across devices, with offline editing support.</li>
+          <li>Built a stateful property-based test suite that surfaced concurrency bugs conventional testing had missed.</li>
+          <li>Wrote <a href="https://pspdfkit.com/blog/2016/testing-http-apis-in-elixir/">Testing HTTP APIs in Elixir</a>, picked up by Elixir Radar and Elixir Weekly, the top Elixir newsletters.</li>
+        </ul>
+        <p class="tech">Technologies: Elixir, PostgreSQL, QuviQ, Docker.</p>
+      </article>
+      <article class="role">
+        <div class="rolehead">
+          <h3>iOS Developer</h3>
+          <span class="dates">2008 – 2014</span>
+        </div>
+        <ul>
+          <li>Built games and their supporting developer tools from scratch at a small studio.</li>
+          <li>Delivered features and bug fixes across client apps and games as a freelancer.</li>
+        </ul>
+        <p class="tech">Technologies: Objective-C, C, C++, Python, OpenGL ES, Cocos2D, Qt.</p>
+      </article>
+    </div>
+  </div>
 </section>
 
-<section id="projects">
-<h2>Projects &amp; Open Source</h2>
-<ul>
-<li><strong><a href="https://github.com/alco/porcelain">Porcelain</a></strong> - Elixir library for starting and communicating with external OS processes; 2.3M+ downloads.</li>
-<li><strong><a href="https://github.com/alco/hashids-elixir">Hashids</a></strong> - Elixir library for obfuscating numerical identifiers as short strings; 2.8M+ downloads.</li>
-<li><strong><a href="https://github.com/alco/benchfella">Benchfella</a></strong> - the first micro-benchmarking tool for Elixir; 1.5M+ downloads.</li>
-<li>Contributed to the <strong>Elixir programming language</strong> (2012–2016); credited on <a href="https://elixir-lang.org/development/">elixir-lang.org</a>:
-  <ul>
-    <li>Developed UX improvements for IEx (colors, history, <code>.iex.exs</code>) and built the original test suite for IEx helpers.</li>
-    <li>Implemented core functions in the <code>Enum</code>, <code>List</code>, <code>OptionParser</code>, <code>String</code>, and <code>System</code> modules.</li>
-    <li>Built out a major part of the <code>mix archive.*</code> and <code>mix escript.*</code> tasks.</li>
-  </ul>
-</li>
-<li>Technical reviewer for books on Elixir: <strong>Programming Elixir</strong> (<em>Pragmatic Bookshelf</em>), <strong>Introducing Elixir</strong> (<em>O'Reilly</em>), <strong>Elixir in Action</strong> (<em>Manning</em>), <strong>Elixir Cookbook</strong> (<em>Packt</em>).</li>
-</ul>
+<section id="education" class="band">
+  <div class="inner">
+    <h2>Education</h2>
+    <div class="body">
+      <p class="edu"><strong>Bachelor in Applied Mathematics</strong>, National Technical University of Ukraine "Kyiv Polytechnic Institute" · 2006 – 2010</p>
+    </div>
+  </div>
 </section>
 
-</div>
+<section id="projects" class="band">
+  <div class="inner">
+    <h2>Projects</h2>
+    <div class="body">
+      <ul>
+        <li><strong><a href="https://github.com/alco/porcelain">Porcelain</a></strong> - Elixir library for starting and communicating with external OS processes; 2.3M+ downloads.</li>
+        <li><strong><a href="https://github.com/alco/hashids-elixir">Hashids</a></strong> - Elixir library for obfuscating numerical identifiers as short strings; 2.8M+ downloads.</li>
+        <li><strong><a href="https://github.com/alco/benchfella">Benchfella</a></strong> - the first micro-benchmarking tool for Elixir; 1.5M+ downloads.</li>
+        <li>Contributed to the <strong>Elixir programming language</strong> (2012–2016); credited on <a href="https://elixir-lang.org/development/">elixir-lang.org</a>:
+        <ul>
+          <li>Developed UX improvements for IEx (colors, history, <code>.iex.exs</code>) and built the original test suite for IEx helpers.</li>
+          <li>Implemented core functions in the <code>Enum</code>, <code>List</code>, <code>OptionParser</code>, <code>String</code>, and <code>System</code> modules.</li>
+          <li>Built out a major part of the <code>mix archive.*</code> and <code>mix escript.*</code> tasks.</li>
+        </ul>
+      </li>
+        <li>Technical reviewer for books on Elixir: <strong>Programming Elixir</strong> (<em>Pragmatic Bookshelf</em>), <strong>Introducing Elixir</strong> (<em>O'Reilly</em>), <strong>Elixir in Action</strong> (<em>Manning</em>), <strong>Elixir Cookbook</strong> (<em>Packt</em>).</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-</main>
 </body>
 </html>
