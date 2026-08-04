@@ -132,13 +132,15 @@ h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: 
    label and content columns of the sections below it. */
 .about { font-size: 1.05rem; margin: 0; }
 
-/* Tagged values on one line: "Based in: … LinkedIn: … GitHub: …", with the
-   download button sharing the line. */
+/* Tagged values on one line: "Based in: … LinkedIn: … GitHub: …" */
 .meta {
   display: flex; flex-wrap: wrap; align-items: center; gap: .35rem 2rem;
   margin: 1.5rem 0 0; font-size: .92rem;
 }
 .meta .k { color: var(--faint); }
+
+/* Download button, on its own line below the contact line. */
+.actions { margin: 1.1rem 0 0; }
 
 /* sections --------------------------------------------------------------
    Single column: the label sits above its content, full width. */
@@ -189,9 +191,9 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
   white-space: nowrap;
 }
 .pdf:hover { color: var(--accent); border-color: var(--accent); }
-/* The icon is black-on-transparent, so it would all but vanish on the dark
-   background; inverting turns it white while preserving its alpha edges. */
-.pdf-icon { width: 1em; height: 1em; flex: none; opacity: .75; }
+/* The icon is dark-on-transparent, so it would all but vanish on the dark
+   background; inverting turns it light while preserving its alpha edges. */
+.pdf-icon { width: 1.15em; height: 1.15em; flex: none; opacity: .8; }
 @media (prefers-color-scheme: dark) {
   .pdf-icon { filter: invert(1); opacity: .85; }
 }
@@ -246,8 +248,10 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
     <span><span class="k">Based in:</span> Lucca, Italy</span>
     <span><span class="k">LinkedIn:</span> <a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></span>
     <span><span class="k">GitHub:</span> <a href="https://github.com/alco">github.com/alco</a></span>
-    <a class="pdf" href="oleksii-sholik-resume.pdf" download><img class="pdf-icon" src="pdf.png" alt="" width="16" height="16">Download resume</a>
   </p>
+    <p class="actions">
+      <a class="pdf" href="oleksii-sholik-resume.pdf" download><img class="pdf-icon" src="pdf.png" alt="">Resume</a>
+    </p>
   </div>
 </header>
 
