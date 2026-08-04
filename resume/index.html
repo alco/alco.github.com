@@ -12,13 +12,47 @@
 <meta property="og:url" content="https://sholik.dev/resume/">
 <meta name="twitter:card" content="summary">
 <style>
+/* Self-hosted Noto Sans -------------------------------------------------
+   local() comes first: anyone who already has Noto Sans installed (most Linux
+   desktops) uses it and downloads nothing. Windows and macOS ship neither, so
+   they fetch the woff2. Both files are variable fonts covering weights
+   400-700, which is the whole range this page uses — one file per style
+   instead of four static weights.
+
+   font-display: swap renders in the fallback immediately and swaps when the
+   font arrives, so the text is never invisible. */
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local("Noto Sans"), local("NotoSans"),
+       url("fonts/noto-sans-var.woff2") format("woff2-variations"),
+       url("fonts/noto-sans-var.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local("Noto Sans Italic"), local("NotoSans-Italic"),
+       url("fonts/noto-sans-var-italic.woff2") format("woff2-variations"),
+       url("fonts/noto-sans-var-italic.woff2") format("woff2");
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
+  /* Ink is lifted off true black and faint is pulled up toward it: the old
+     pair spanned 5.3x in contrast, which read as harsh headings over
+     near-invisible dates. Now ~2.5x, and every tier clears 4.5:1 on the
+     darkest band. */
   --bg: #fbfbfa;
-  --ink: #1c1c1e;
-  --muted: #5f6368;
-  --faint: #8b9096;
+  --ink: #31343a;
+  --muted: #585c62;
+  --faint: #6b7077;
   --rule: #e5e5e1;
   --accent: #4d6b24;
   --accent-soft: #eef2e6;
@@ -34,9 +68,9 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #16181a;
-    --ink: #e6e7e8;
-    --muted: #a2a8ad;
-    --faint: #7d858c;
+    --ink: #dcdee1;
+    --muted: #a9afb5;
+    --faint: #8f959c;
     --rule: #2c3033;
     --accent: #9dc45c;
     --accent-soft: #23291b;
@@ -54,8 +88,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial, sans-serif;
+  font: 17px/1.6 "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
   font-synthesis-weight: none;
 }
 
@@ -155,8 +189,12 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
   white-space: nowrap;
 }
 .pdf:hover { color: var(--accent); border-color: var(--accent); }
-/* currentColor keeps the icon monochrome and theme-correct on hover too. */
-.pdf svg { width: .95em; height: .95em; flex: none; fill: currentColor; }
+/* The icon is black-on-transparent, so it would all but vanish on the dark
+   background; inverting turns it white while preserving its alpha edges. */
+.pdf-icon { width: 1em; height: 1em; flex: none; opacity: .75; }
+@media (prefers-color-scheme: dark) {
+  .pdf-icon { filter: invert(1); opacity: .85; }
+}
 
 @media (min-width: 46rem) {
   .inner { padding: 2.5rem 2rem; }
@@ -208,7 +246,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
     <span><span class="k">Based in:</span> Lucca, Italy</span>
     <span><span class="k">LinkedIn:</span> <a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></span>
     <span><span class="k">GitHub:</span> <a href="https://github.com/alco">github.com/alco</a></span>
-    <a class="pdf" href="oleksii-sholik-resume.pdf" download><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L17.5 8H14V4.5zM8 13h8v1.5H8V13zm0 3h8v1.5H8V16z"/></svg>Download resume</a>
+    <a class="pdf" href="oleksii-sholik-resume.pdf" download><img class="pdf-icon" src="pdf.png" alt="" width="16" height="16">Download resume</a>
   </p>
   </div>
 </header>
