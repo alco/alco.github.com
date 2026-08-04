@@ -110,16 +110,24 @@ h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: 
    Single column: the label sits above its content, full width. */
 
 h2 {
-  font-size: .78rem; text-transform: uppercase; letter-spacing: .1em;
-  color: var(--muted); font-weight: 700; margin: 0 0 1rem; line-height: 1.5;
+  font-size: 1.35rem; letter-spacing: -.01em;
+  color: var(--ink); font-weight: 700; margin: 0 0 1.5rem; line-height: 1.25;
 }
 
 .skill { margin: .55rem 0; font-size: .97rem; }
 .skill:first-child { margin-top: 0; }
 .skill strong { color: var(--ink); }
 
-.role { margin-top: 2rem; }
+/* Roles are separated by a short centered rule rather than by space alone —
+   the bullet lists run long enough that spacing on its own reads as a gap in
+   the text rather than as a boundary. */
+.role { margin-top: 3.5rem; }
 .role:first-child { margin-top: 0; }
+
+.role + .role::before {
+  content: ""; display: block; width: 4rem; height: 1px;
+  background: var(--rule); margin: 0 auto 3.5rem;
+}
 
 .rolehead {
   display: flex; flex-wrap: wrap; justify-content: space-between;
@@ -129,10 +137,9 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
 .co { font-weight: 400; color: var(--muted); }
 .dates { color: var(--faint); font-size: .85rem; white-space: nowrap; }
 
-.tech {
-  margin: .75rem 0 0; font-size: .85rem; color: var(--muted);
-  padding-left: .75rem; border-left: 2px solid var(--rule);
-}
+/* Same size as the bullets it follows — it is content, not a footnote. */
+.tech { margin: .9rem 0 0; }
+.tech .k { font-weight: 700; }
 
 .edu { margin: 0; }
 
@@ -141,13 +148,15 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
    findable, not attention-grabbing. Sits inline on the tagged-value line. */
 
 .pdf {
-  display: inline-block; margin: 0;
+  display: inline-flex; align-items: center; gap: .4rem; margin: 0;
   border: 1px solid var(--rule); border-radius: 5px;
   padding: .2rem .6rem; font-size: .82rem; font-weight: 500;
   color: var(--muted); background: transparent; text-decoration: none;
   white-space: nowrap;
 }
 .pdf:hover { color: var(--accent); border-color: var(--accent); }
+/* currentColor keeps the icon monochrome and theme-correct on hover too. */
+.pdf svg { width: .95em; height: .95em; flex: none; fill: currentColor; }
 
 @media (min-width: 46rem) {
   .inner { padding: 2.5rem 2rem; }
@@ -199,7 +208,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
     <span><span class="k">Based in:</span> Lucca, Italy</span>
     <span><span class="k">LinkedIn:</span> <a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></span>
     <span><span class="k">GitHub:</span> <a href="https://github.com/alco">github.com/alco</a></span>
-    <a class="pdf" href="oleksii-sholik-resume.pdf" download>↓ Download PDF</a>
+    <a class="pdf" href="oleksii-sholik-resume.pdf" download><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L17.5 8H14V4.5zM8 13h8v1.5H8V13zm0 3h8v1.5H8V16z"/></svg>Download resume</a>
   </p>
   </div>
 </header>
@@ -235,7 +244,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Authored the team's foundational design documents: Client authentication architecture; Definitive PG/SQLite/TS data type mapping; Reliability roadmap targeting 1M concurrent connections; Horizontal-scaling RFC (solving slot-naming conflicts, leader election via a heartbeat table, connection-pool budgeting, and a client-affinity design); Electric's minimum-privilege role model, mapping each PG interaction to its exact required privilege.</li>
           <li>Owned release and CI engineering for the sync engine: multi-platform Docker image publishing, per-commit canary and prerelease images built once and reused across workflows, and a CI overhaul (workflow cleanup, caching, migration to faster runners) that cut cycle times and cost.</li>
         </ul>
-        <p class="tech">Technologies: Elixir/OTP, PostgreSQL, SQLite, AWS, Cloudflare, TypeScript, OpenTelemetry, Honeycomb, Docker.</p>
+        <p class="tech"><span class="k">Technologies:</span> Elixir/OTP, PostgreSQL, SQLite, AWS, Cloudflare, TypeScript, OpenTelemetry, Honeycomb, Docker.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -248,7 +257,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Designed and ran the technical interview loop for Mid/Senior Backend Engineer and Product Manager roles; interviewed 20+ candidates.</li>
           <li>Drove the team toward a maintainable, well-tested codebase through code review, and made the company's undocumented business logic legible to other engineers.</li>
         </ul>
-        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -261,7 +270,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Reverse-engineered the company's undocumented business rules by working through the code with stakeholders. Corrected mismatches between the rules as stated and as implemented, eliminated large volumes of duplicate logic, and put previously vague rules under test.</li>
           <li>Refactored the test suite, parallelizing hundreds of unit tests and significantly speeding up test runs.</li>
         </ul>
-        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
+        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, TypeScript, React, Magento, AWS, GCP, Heroku, Datadog.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -274,7 +283,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Built a parallelized image pipeline that fetched vehicle photos from dealer sites, stored them in GCS, and exported them to third-party marketplaces including Facebook Marketplace.</li>
           <li>Designed the integration layer between the new service and the legacy Ruby system, enabling incremental migration and gradually increasing reliance on the new service for all inventory-related needs.</li>
         </ul>
-        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, GKE, RabbitMQ, Facebook Marketplace API.</p>
+        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, GKE, RabbitMQ, Facebook Marketplace API.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -286,7 +295,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Specified and built the role-based access control system, writing the requirements in a form that brought stakeholders and engineers to agreement.</li>
           <li>Found that incorrect Service Worker caching left users running stale builds and convinced leadership to disable it.</li>
         </ul>
-        <p class="tech">Technologies: Elixir, Phoenix, PostgreSQL, RabbitMQ, React/Redux, JWT, Heroku, GKE.</p>
+        <p class="tech"><span class="k">Technologies:</span> Elixir, Phoenix, PostgreSQL, RabbitMQ, React/Redux, JWT, Heroku, GKE.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -298,7 +307,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Built a stateful property-based test suite that surfaced concurrency bugs conventional testing had missed.</li>
           <li>Wrote <a href="https://pspdfkit.com/blog/2016/testing-http-apis-in-elixir/">Testing HTTP APIs in Elixir</a>, picked up by Elixir Radar and Elixir Weekly, the top Elixir newsletters.</li>
         </ul>
-        <p class="tech">Technologies: Elixir, PostgreSQL, QuviQ, Docker.</p>
+        <p class="tech"><span class="k">Technologies:</span> Elixir, PostgreSQL, QuviQ, Docker.</p>
       </article>
       <article class="role">
         <div class="rolehead">
@@ -309,7 +318,7 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
           <li>Built games and their supporting developer tools from scratch at a small studio.</li>
           <li>Delivered features and bug fixes across client apps and games as a freelancer.</li>
         </ul>
-        <p class="tech">Technologies: Objective-C, C, C++, Python, OpenGL ES, Cocos2D, Qt.</p>
+        <p class="tech"><span class="k">Technologies:</span> Objective-C, C, C++, Python, OpenGL ES, Cocos2D, Qt.</p>
       </article>
     </div>
   </div>
