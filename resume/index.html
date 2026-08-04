@@ -92,9 +92,18 @@ code {
 .masthead { background: var(--band-1); }
 .masthead .inner { padding-top: 3.5rem; padding-bottom: 2.5rem; }
 
-h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 .35rem; letter-spacing: -.02em; }
-.location { color: var(--muted); font-size: .95rem; margin: 0 0 1.5rem; }
-.about { max-width: 66ch; font-size: 1.05rem; margin: 0; }
+h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: -.02em; }
+
+/* No max-width: the About paragraph spans the full measure, i.e. both the
+   label and content columns of the sections below it. */
+.about { font-size: 1.05rem; margin: 0; }
+
+/* Tagged values on one line: "Based in: … LinkedIn: … GitHub: …" */
+.meta {
+  display: flex; flex-wrap: wrap; gap: .35rem 2rem;
+  margin: 1.5rem 0 0; font-size: .92rem;
+}
+.meta .k { color: var(--faint); }
 
 /* sections -------------------------------------------------------------- */
 
@@ -102,11 +111,6 @@ h2 {
   font-size: .78rem; text-transform: uppercase; letter-spacing: .1em;
   color: var(--muted); font-weight: 700; margin: 0 0 .75rem; line-height: 1.5;
 }
-
-.social {
-  display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; margin: 0; padding: 0;
-}
-.social li { list-style: none; margin: 0; }
 
 .skill { margin: .55rem 0; font-size: .97rem; }
 .skill:first-child { margin-top: 0; }
@@ -192,11 +196,10 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
 }
 
 /* GENERATED from SECTIONS — see band_css() in md2web.py */
-#social { background: var(--band-2); }
-#skills { background: var(--band-3); }
-#experience { background: var(--band-4); }
-#education { background: var(--band-5); }
-#projects { background: var(--band-1); }
+#skills { background: var(--band-2); }
+#experience { background: var(--band-3); }
+#education { background: var(--band-4); }
+#projects { background: var(--band-5); }
 </style>
 </head>
 <body>
@@ -204,23 +207,15 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
 <header class="masthead band">
   <div class="inner">
     <h1>Oleksii Sholik</h1>
-    <p class="location">Lucca, Italy</p>
     <p class="about">Senior software engineer with 15+ years across distributed data systems, Postgres internals, and BEAM/OTP performance engineering. Founding engineer at <a href="https://electric.ax/">Electric</a>; early <a href="https://elixir-lang.org/">Elixir</a> core contributor.</p>
+  <p class="meta">
+    <span><span class="k">Based in:</span> Lucca, Italy</span>
+    <span><span class="k">LinkedIn:</span> <a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></span>
+    <span><span class="k">GitHub:</span> <a href="https://github.com/alco">github.com/alco</a></span>
+  </p>
     <a class="pdf" href="oleksii-sholik-resume.pdf" download>↓ Download PDF</a>
   </div>
 </header>
-
-<section id="social" class="band">
-  <div class="inner">
-    <h2>Social</h2>
-    <div class="body">
-      <ul class="social">
-        <li><a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></li>
-        <li><a href="https://github.com/alco">github.com/alco</a></li>
-      </ul>
-    </div>
-  </div>
-</section>
 
 <section id="skills" class="band">
   <div class="inner">
