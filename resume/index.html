@@ -98,9 +98,10 @@ h1 { font-size: 2.3rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: 
    label and content columns of the sections below it. */
 .about { font-size: 1.05rem; margin: 0; }
 
-/* Tagged values on one line: "Based in: … LinkedIn: … GitHub: …" */
+/* Tagged values on one line: "Based in: … LinkedIn: … GitHub: …", with the
+   download button sharing the line. */
 .meta {
-  display: flex; flex-wrap: wrap; gap: .35rem 2rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .35rem 2rem;
   margin: 1.5rem 0 0; font-size: .92rem;
 }
 .meta .k { color: var(--faint); }
@@ -137,21 +138,16 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
 
 /* Download button ------------------------------------------------------
    Deliberately quiet: a hairline outline in muted ink, no fill. It should be
-   findable, not attention-grabbing. In the flow under the About paragraph on
-   narrow screens; pinned to the left margin once there is room beside the
-   content. */
+   findable, not attention-grabbing. Sits inline on the tagged-value line. */
 
 .pdf {
-  display: inline-block; margin-top: 1.75rem;
+  display: inline-block; margin: 0;
   border: 1px solid var(--rule); border-radius: 5px;
-  padding: .35rem .7rem; font-size: .8rem; font-weight: 500;
+  padding: .2rem .6rem; font-size: .82rem; font-weight: 500;
   color: var(--muted); background: transparent; text-decoration: none;
+  white-space: nowrap;
 }
 .pdf:hover { color: var(--accent); border-color: var(--accent); }
-
-@media (min-width: 78rem) {
-  .pdf { position: fixed; top: 2rem; left: 2rem; margin: 0; z-index: 2; }
-}
 
 @media (min-width: 46rem) {
   .inner { padding: 2.5rem 2rem; }
@@ -203,8 +199,8 @@ h3 { font-size: 1.05rem; margin: 0; line-height: 1.35; }
     <span><span class="k">Based in:</span> Lucca, Italy</span>
     <span><span class="k">LinkedIn:</span> <a href="https://www.linkedin.com/in/oleksii-sholik/">linkedin.com/in/oleksii-sholik</a></span>
     <span><span class="k">GitHub:</span> <a href="https://github.com/alco">github.com/alco</a></span>
-  </p>
     <a class="pdf" href="oleksii-sholik-resume.pdf" download>↓ Download PDF</a>
+  </p>
   </div>
 </header>
 
